@@ -39,9 +39,7 @@ const PlayerNameIconRowLink = (player) => {
 
 
 
-
 //Get ledger info to see what is owed
-
 const get_hero = () => {
 	let gal = NeptunesPride.universe.galaxy
 	let player = gal['player_uid']
@@ -79,7 +77,6 @@ const get_ledger = (messages) => {
 Ledger Display
 */
 //Handler for new message ajax request
-
 const display_tech_trading = () => {
 	let npui = NeptunesPride.npui
 	var tech_trade_screen = npui.Screen("tech_trading")
@@ -1082,18 +1079,15 @@ function NeptunesPrideAgent() {
 		NeptunesPride.np.on("paste_research", reportResearchHook);
 
 		NeptunesPride.np.on("paste_report", reportPasteHook);
+
 		npui.NewMessageCommentBox = function () {
 			let widget = superNewMessageCommentBox();
 			let reportButton = Crux.Button("npa_paste", "paste_report", "intel")
-				.grid(10, 12, 10, 3)
+				.grid(10, 12, 4, 3)
 			reportButton.roost(widget);
-			return widget;
-		}
-		npui.NewMessageCommentBox = function () {
-			let widget = superNewMessageCommentBox();
-			let reportButton = Crux.Button("npa_research", "paste_research", "research")
-				.grid(10, 12, 10, 3)
-			reportButton.roost(widget);
+			let research_button = Crux.Button("npa_research", "paste_research", "research")
+				.grid(14, 12, 6, 3)
+			research_button.roost(widget);
 			return widget;
 		}
 		npaReports = function (screenConfig) {
