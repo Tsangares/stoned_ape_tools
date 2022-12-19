@@ -309,7 +309,7 @@ const get_tech_trade_cost = (from, to, tech_name = null) => {
 const apply_hooks = () => {
 	NeptunesPride.np.on("share_all_tech", (event, player) => {
 		let total_cost = get_tech_trade_cost(get_hero(), player);
-		NeptunesPride.templates[`confirm_tech_share_${player.uid}`] = `Are you sure you want to spend $${total_cost} to give ${player.rawAlias} all of your tech?`
+		NeptunesPride.templates[`confirm_tech_share_${player.uid}`] =  `Are you sure you want to spend $${total_cost} to give ${player.rawAlias} all of your tech?`
 		NeptunesPride.np.trigger("show_screen", ["confirm", {
 			message: `confirm_tech_share_${player.uid}`,
 			eventKind: 'confirm_trade_tech',
@@ -1042,9 +1042,7 @@ function NeptunesPrideAgent() {
 					let apiLink = "<a onClick='Crux.crux.trigger(\"switch_user_api\", \"" + sub + "\")'> View as " + sub + "</a>";
 					apiLink += " or <a onClick='Crux.crux.trigger(\"merge_user_api\", \"" + sub + "\")'> Merge " + sub + "</a>";
 					s = s.replace(pattern, apiLink);
-				} /* else if (sub.startsWith("data:")) {
-					s = s.replace(pattern, '<div width="100%" class="screenshot"><img class="screenshot" src="' + sub + '"/></div>');
-				}*/ else if (image_url(sub)) {
+				} else if (image_url(sub)) {
 					let safe_url = stripHtml(sub)
 					s = s.replace(pattern, `<img width="100%" src='${safe_url}' />`)
 				} else {
