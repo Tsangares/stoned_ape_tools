@@ -1,8 +1,11 @@
 const sat_version = "2.21"
 
+<<<<<<< HEAD
 /*! js-cookie v3.0.1 | MIT */
 !function (e, t) { "object" == typeof exports && "undefined" != typeof module ? module.exports = t() : "function" == typeof define && define.amd ? define(t) : (e = e || self, function () { var n = e.Cookies, o = e.Cookies = t(); o.noConflict = function () { return e.Cookies = n, o } }()) }(this, (function () { "use strict"; function e(e) { for (var t = 1; t < arguments.length; t++) { var n = arguments[t]; for (var o in n) e[o] = n[o] } return e } return function t(n, o) { function r(t, r, i) { if ("undefined" != typeof document) { "number" == typeof (i = e({}, o, i)).expires && (i.expires = new Date(Date.now() + 864e5 * i.expires)), i.expires && (i.expires = i.expires.toUTCString()), t = encodeURIComponent(t).replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent).replace(/[()]/g, escape); var c = ""; for (var u in i) i[u] && (c += "; " + u, !0 !== i[u] && (c += "=" + i[u].split(";")[0])); return document.cookie = t + "=" + n.write(r, t) + c } } return Object.create({ set: r, get: function (e) { if ("undefined" != typeof document && (!arguments.length || e)) { for (var t = document.cookie ? document.cookie.split("; ") : [], o = {}, r = 0; r < t.length; r++) { var i = t[r].split("="), c = i.slice(1).join("="); try { var u = decodeURIComponent(i[0]); if (o[u] = n.read(c, u), e === u) break } catch (e) { } } return e ? o[e] : o } }, remove: function (t, n) { r(t, "", e({}, n, { expires: -1 })) }, withAttributes: function (n) { return t(this.converter, e({}, this.attributes, n)) }, withConverter: function (n) { return t(e({}, this.converter, n), this.attributes) } }, { attributes: { value: Object.freeze(o) }, converter: { value: Object.freeze(n) } }) }({ read: function (e) { return '"' === e[0] && (e = e.slice(1, -1)), e.replace(/(%[\dA-F]{2})+/gi, decodeURIComponent) }, write: function (e) { return encodeURIComponent(e).replace(/%(2[346BF]|3[AC-F]|40|5[BDE]|60|7[BCD])/g, decodeURIComponent) } }, { path: "/" }) }));
 
+=======
+>>>>>>> eaa9c233ce42c85dcf4ff08710e50d37886657a1
 const stripHtml = (html) => {
 	let tmp = document.createElement("DIV");
 	tmp.innerHTML = html;
@@ -309,7 +312,11 @@ const get_tech_trade_cost = (from, to, tech_name = null) => {
 const apply_hooks = () => {
 	NeptunesPride.np.on("share_all_tech", (event, player) => {
 		let total_cost = get_tech_trade_cost(get_hero(), player);
+<<<<<<< HEAD
 		NeptunesPride.templates[`confirm_tech_share_${player.uid}`] =  `Are you sure you want to spend $${total_cost} to give ${player.rawAlias} all of your tech?`
+=======
+		NeptunesPride.templates[`confirm_tech_share_${player.uid}`] = `Are you sure you want to spend $${total_cost} to give ${player.rawAlias} all of your tech?`
+>>>>>>> eaa9c233ce42c85dcf4ff08710e50d37886657a1
 		NeptunesPride.np.trigger("show_screen", ["confirm", {
 			message: `confirm_tech_share_${player.uid}`,
 			eventKind: 'confirm_trade_tech',
@@ -374,6 +381,7 @@ const apply_hooks = () => {
 	})
 }
 
+<<<<<<< HEAD
 const save_friend = (key) => {
 	key = 'api:' + key
 	const game = NeptunesPride.gameNumber;
@@ -402,11 +410,14 @@ const get_friends = () => {
 	return friends
 }
 
+=======
+>>>>>>> eaa9c233ce42c85dcf4ff08710e50d37886657a1
 const wide_view = () => {
 	NeptunesPride.np.trigger("map_center_slide", { x: 0, y: 0 });
 	NeptunesPride.np.trigger("zoom_minimap");
 }
 
+<<<<<<< HEAD
 //Reload friend API from cookies
 setTimeout(() => {
 	/*
@@ -421,6 +432,8 @@ setTimeout(() => {
 }, 1000);
 
 
+=======
+>>>>>>> eaa9c233ce42c85dcf4ff08710e50d37886657a1
 function NeptunesPrideAgent() {
 	let title = (document && document.currentScript && document.currentScript.title) || `SAT ${sat_version}`;
 	let version = title.replace(/^.*v/, 'v');
@@ -1242,7 +1255,10 @@ function NeptunesPrideAgent() {
 		let code = (data && data.split(":")[1]) || otherUserCode;
 		otherUserCode = code;
 		if (otherUserCode) {
+<<<<<<< HEAD
 			//save_friend(otherUserCode)
+=======
+>>>>>>> eaa9c233ce42c85dcf4ff08710e50d37886657a1
 			let params = { game_number: game, api_version: "0.1", code: otherUserCode };
 			let eggers = jQuery.ajax({ type: 'POST', url: "https://np.ironhelmet.com/api", async: false, data: params, dataType: "json" })
 			let universe = NeptunesPride.universe;
@@ -1719,4 +1735,8 @@ setTimeout(apply_hooks, 2000)
 //Test to see if PlayerPanel is there
 //If it is overwrites custom one
 //Otherwise while loop & set timeout until its there
+<<<<<<< HEAD
 force_add_custom_player_panel()
+=======
+force_add_custom_player_panel()
+>>>>>>> eaa9c233ce42c85dcf4ff08710e50d37886657a1

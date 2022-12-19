@@ -16,7 +16,6 @@
     "web_accessible_resources": [
       {
         "resources": [
-          "cookie.js",
           "intel.js"
         ],
         "matches": [
@@ -40,4 +39,8 @@
       "128": "favicon.png"
     }
   }
+<<<<<<< HEAD
   
+=======
+  
+>>>>>>> eaa9c233ce42c85dcf4ff08710e50d37886657a1
