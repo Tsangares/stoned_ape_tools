@@ -1042,7 +1042,9 @@ function NeptunesPrideAgent() {
 					let apiLink = "<a onClick='Crux.crux.trigger(\"switch_user_api\", \"" + sub + "\")'> View as " + sub + "</a>";
 					apiLink += " or <a onClick='Crux.crux.trigger(\"merge_user_api\", \"" + sub + "\")'> Merge " + sub + "</a>";
 					s = s.replace(pattern, apiLink);
-				} else if (image_url(sub)) {
+				} /* else if (sub.startsWith("data:")) {
+					s = s.replace(pattern, '<div width="100%" class="screenshot"><img class="screenshot" src="' + sub + '"/></div>');
+				}*/ else if (image_url(sub)) {
 					let safe_url = stripHtml(sub)
 					s = s.replace(pattern, `<img width="100%" src='${safe_url}' />`)
 				} else {
