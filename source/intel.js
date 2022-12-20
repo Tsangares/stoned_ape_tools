@@ -37,7 +37,6 @@ const PlayerNameIconRowLink = (player) => {
 
 
 //Get ledger info to see what is owed
-
 const get_hero = () => {
 	let gal = NeptunesPride.universe.galaxy
 	let player = gal['player_uid']
@@ -75,8 +74,6 @@ const get_ledger = (messages) => {
 Ledger Display
 */
 //Handler for new message ajax request
-
-
 const display_tech_trading = () => {
 	let npui = NeptunesPride.npui
 	var tech_trade_screen = npui.Screen("tech_trading")
@@ -376,7 +373,7 @@ const apply_hooks = () => {
 			eventData: data,
 		}]);
 	})
-	NeptunesPride.np.on("confirm_trade_tech", (even, player) => {
+	NeptunesPride.np.on("confirm_trade_tech", (event, player) => {
 		let hero = get_hero()
 		let display = display_tech_trading()
 		const close = () => {
@@ -528,9 +525,17 @@ function NeptunesPrideAgent() {
 		let now = new Date();
 		let arrival = new Date(now.getTime() + msplus);
 		let p = prefix !== undefined ? prefix : "ETA ";
-		let ttt = p + ampm(arrival.getHours(), arrival.getMinutes());
-		if (arrival.getDay() != now.getDay())
-			ttt = p + days[arrival.getDay()] + " @ " + ampm(arrival.getHours(), arrival.getMinutes());
+		let ttt = '';
+		let totalETA;
+		if (!NeptunesPride.gameConfig.turnBased) {
+			ttt = p + ampm(arrival.getHours(), arrival.getMinutes());
+			if (arrival.getDay() != now.getDay())
+				ttt = p + days[arrival.getDay()] + " @ " + ampm(arrival.getHours(), arrival.getMinutes());
+		}
+		else {
+			totalETA = (arrival - now);
+			ttt = p + Crux.formatTime(totalETA);
+		}
 		return ttt;
 	}
 	let tickToEtaString = function (tick, prefix) {
@@ -1055,7 +1060,6 @@ function NeptunesPrideAgent() {
 		NeptunesPride.templates["npa_research"] = "Research";
 
 		let superNewMessageCommentBox = npui.NewMessageCommentBox;
-
 		let reportPasteHook = function (e, d) {
 			let inbox = NeptunesPride.inbox;
 			inbox.commentDrafts[inbox.selectedMessage.key] += "\n" + lastClip;
@@ -1154,7 +1158,12 @@ function NeptunesPrideAgent() {
 			if (relativeTimes) {
 				return superFormatTime(ms, mins, secs);
 			} else {
-				return msToEtaString(ms, "");
+				if (!NeptunesPride.gameConfig.turnBased) {
+					return msToEtaString(ms, "");
+				}
+				else {
+					return superFormatTime(ms, mins, secs) + " - " + (ms / 3600000 * 10 / NeptunesPride.universe.galaxy.tick_rate).toFixed(2) + " turn(s)"
+				}
 			}
 		}
 		let toggleRelative = function () { relativeTimes = !relativeTimes; }
@@ -1706,6 +1715,238 @@ NeptunesPride.npui.StarInspector = function () {
 };
 
 
+//research screen replacement
+//
+const overhaul_research_panel = () => {
+	let universe = NeptunesPride.universe
+	NeptunesPride.npui.TechNowSelection = function () {
+		var p;
+		var techNow = Crux.Widget("rel  col_accent")
+			.size(480, 96);
+
+		Crux.Text("research_now", "pad12")
+			.roost(techNow);
+
+		var selections = {};
+		for (p in universe.player.tech) {
+			if (universe.player.tech[p].brr > 0) {
+				selections[p] = Crux.localise("tech_" + p);
+			}
+		}
+
+		Crux.DropDown(universe.player.researching, selections, "change_research")
+			.grid(15, 0, 15, 3)
+			.roost(techNow);
+
+		// TODO: This logic should be in Universe.
+
+		techNow.eta = Crux.BlockValue("current_research_eta", universe.timeToTick(universe.player.researching_eta), "col_base")
+			.grid(0, 3, 30, 3)
+			.roost(techNow);
+
+		techNow.onTick = function () {
+			techNow.eta.value.rawHTML(universe.timeToTick(universe.player.researching_eta));
+		};
+
+		techNow.on("one_second_tick", techNow.onTick);
+		NeptunesPride.npui.TechNextSelection();
+		return techNow;
+	};
+
+	NeptunesPride.npui.TechNextSelection = function () {
+		NeptunesPride.templates["next_research_eta"] = "Research Next ETA";
+		var p;
+		var techNext = Crux.Widget("rel  col_accent")
+			.size(480, 96);
+
+		Crux.Text("research_next", "pad12")
+			.roost(techNext);
+
+		var selections = {};
+		for (p in universe.player.tech) {
+			if (universe.player.tech[p].brr > 0) {
+				selections[p] = Crux.localise("tech_" + p);
+			}
+		}
+
+		Crux.DropDown(universe.player.researching_next, selections, "change_research_next")
+			.grid(15, 0, 15, 3)
+			.roost(techNext);
+
+		var tech = universe.player.tech[universe.player.researching_next];
+		var nextLevel;
+		var pointsRequired;
+		//if same tech, get next level points
+		if (tech === universe.player.tech[universe.player.researching]) {
+			nextLevel = Number(tech.level + 1) * Number(tech.brr);
+			pointsRequired = nextLevel - universe.player.researching_next_cr
+		}
+		else {
+			nextLevel = Number(tech.level) * Number(tech.brr);
+			pointsRequired = nextLevel - Number(tech.research);
+		}
+
+		if (universe.player.total_science === 0) {
+			techNext.ticks = 0;
+		} else {
+			techNext.ticks = pointsRequired / universe.player.total_science;
+			techNext.ticks = Math.ceil(techNext.ticks) + universe.player.researching_eta;
+		}
+		universe.player.researching_next_eta = techNext.ticks
+		techNext.eta = Crux.BlockValue("next_research_eta", universe.timeToTick(universe.player.researching_next_eta), "col_base")
+			.grid(0, 3, 30, 3)
+			.roost(techNext);
+
+		techNext.onTick = function () {
+			techNext.eta.value.rawHTML(universe.timeToTick(universe.player.researching_next_eta));
+		};
+
+		techNext.on("one_second_tick", techNext.onTick);
+
+		return techNext;
+	};
+
+	NeptunesPride.npui.TechSummary = function () {
+		var p, html;
+		var techNow = Crux.Widget("rel  col_base")
+			.size(480);
+
+		Crux.Text("tech_summary", "section_title col_black rel")
+			.grid(0, 0, 30, 3)
+			.roost(techNow);
+
+		var bg = Crux.Widget("rel")
+			.roost(techNow);
+
+		var yPos = 0;
+		for (p in universe.player.tech) {
+			var tech = universe.player.tech[p];
+			var techTime
+			if (universe.player.tech[p].brr > 0) {
+				if (universe.player.total_science === 0) {
+					techTime = 0;
+				} else {
+					techTime = (Number(tech.level) * Number(tech.brr) - tech.research) / universe.player.total_science;
+					techTime = Math.ceil(techTime);
+				}
+				var eta = universe.timeToTick(techTime);
+
+
+				Crux.Text("tech_" + p, "pad12")
+					.grid(0, yPos, 30, 2)
+					.roost(bg);
+
+				Crux.Text("level_x", "pad12")
+					.format({ x: tech.level })
+					.grid(10, yPos, 6, 2)
+					.roost(bg);
+
+				universe.player.tech[p].eta = eta;
+				universe.player.tech[p].eta_row = Crux.Text("", "pad12")
+					.rawHTML(universe.player.tech[p].eta)
+					.grid(14, yPos, 10, 2)
+					.roost(bg);
+
+				html = tech.research + " of " + (Number(tech.level) * Number(tech.brr));
+				Crux.Text("", "txt_right pad12")
+					.rawHTML(html)
+					.grid(20, yPos, 10, 2)
+					.roost(bg);
+				yPos += 2;
+			}
+		}
+		bg.size(480, yPos * 16);
+
+		techNow.onTick = function () {
+			var techTime;
+			var tech;
+			for (p in universe.player.tech) {
+				var tech = universe.player.tech[p];
+				if (universe.player.tech[p].brr > 0) {
+					if (universe.player.total_science === 0) {
+						techTime = 0;
+					} else {
+						techTime = (Number(tech.level) * Number(tech.brr) - tech.research) / universe.player.total_science;
+						techTime = Math.ceil(techTime);
+					}
+					universe.player.tech[p].eta_row.rawHTML(universe.timeToTick(techTime));
+				}
+			};
+		}
+		techNow.on("one_second_tick", techNow.onTick);
+
+		Crux.Widget("rel")
+			.size(480, 16)
+			.roost(techNow);
+
+		return techNow;
+	};
+
+	NeptunesPride.npui.TechScreen = function () {
+		var npui = NeptunesPride.npui
+		var techScreen = npui.Screen("research");
+		var p;
+		var scienceNeeded;
+		var newTime;
+		var scienceNeededMsg;
+		var tech = universe.player.tech[universe.player.researching];
+		universe.player.researching_next_level = Number(tech.level) * Number(tech.brr);
+		universe.player.researching_points_req = universe.player.researching_next_level - Number(tech.research);
+
+		if (universe.player.total_science === 0) {
+			universe.player.researching_eta = 0;
+		} else {
+			universe.player.researching_eta = universe.player.researching_points_req / universe.player.total_science;
+			universe.player.researching_next_cr = universe.player.researching_eta % universe.player.total_science;
+			for (scienceNeeded = 1; 1 >= Math.ceil(universe.player.researching_eta) - (universe.player.researching_points_req / (universe.player.total_science + scienceNeeded)); scienceNeeded++);
+			universe.player.researching_eta = Math.ceil(universe.player.researching_eta);
+			newTime = Math.ceil(universe.player.researching_points_req / (universe.player.total_science + scienceNeeded));
+		}
+
+		Crux.IconButton("icon-help", "show_help", "tech")
+			.grid(24.5, 0, 3, 3)
+			.roost(techScreen);
+
+		Crux.Text("tech_intro", "col_black rel pad12 txt_center")
+			.format({ tr: universe.describeTickRate() })
+			.roost(techScreen);
+
+
+		techScreen.f1 = Crux.Widget("rel")
+			.size(480, 48)
+			.roost(techScreen);
+
+
+		techScreen.f1.scienceNeeded = Crux.BlockValue("total_science", scienceNeededMsg)
+			.grid(0, 0, 30, 3)
+			.roost(techScreen.f1);
+
+		techScreen.f1.scienceNeeded.onTick = function () {
+			scienceNeededMsg = universe.player.total_science + " - " + scienceNeeded + " more for ETA " + universe.timeToTick(newTime)
+			techScreen.f1.scienceNeeded.value.rawHTML(scienceNeededMsg);
+		};
+
+		techScreen.on("one_second_tick", techScreen.f1.scienceNeeded.onTick);
+		NeptunesPride.npui.TechNextSelection();
+
+		npui.TechNowSelection()
+			.roost(techScreen);
+
+		npui.TechNextSelection()
+			.roost(techScreen);
+
+		npui.TechSummary()
+			.roost(techScreen);
+
+		for (p in universe.player.tech) {
+			npui.TechRow(universe.player.tech[p], p)
+				.roost(techScreen);
+		}
+
+		return techScreen;
+	};
+}
+
 setTimeout(NeptunesPrideAgent, 1000)
 setTimeout(renderLedger, 2000)
 setTimeout(apply_hooks, 2000)
@@ -1715,3 +1956,4 @@ setTimeout(apply_hooks, 2000)
 //If it is overwrites custom one
 //Otherwise while loop & set timeout until its there
 force_add_custom_player_panel()
+overhaul_research_panel()
