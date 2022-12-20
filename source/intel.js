@@ -97,8 +97,12 @@ const display_tech_trading = () => {
 	}
 	return tech_trade_screen
 }
+
+//Global cache for the game events (used in the ledger)
 let cached_events = [];
 
+// Async Request to NP Servers requesting all messages
+// TODO: Update callbacks to promise?
 const update_event_cache = (fetchSize, success, error) => {
 		jQuery.ajax({
 			type: 'POST',
@@ -117,45 +121,65 @@ const update_event_cache = (fetchSize, success, error) => {
 			dataType: "json"
 		});
 }
+
+const validate_cache = (response)=>{
+
+}
+
+//Handler for the callback on the async ledger request for all messages
 const recieve_new_messages = (response) => {
+	// Helper elements to quickly refer to the NPUI and Universe
 	const npui = NeptunesPride.npui
 	const universe = NeptunesPride.universe
+
+	//incomeing is a list of new messages
 	let incoming = response.report.messages;
+
+	// If there are no cached events skip
 	if (cached_events.length > 0) {
-		let overlapOffset = -1;
+		
+		let overlapOffset = -1; //Index that cached_events ovelap with incoming messages
+
 		for (let i = 0; i < incoming.length; ++i) {
+			//Stop when the new message's key matches the last cached key.
 			const message = incoming[i];
 			if (message.key === cached_events[0].key) {
 				overlapOffset = i;
 				break;
 			}
 		}
+		//
 		if (overlapOffset >= 0) {
 			incoming = incoming.slice(0, overlapOffset);
 		} else if (overlapOffset < 0) {
-			const size = incoming.length * 2;
 			console.log("Missing some events, double fetch to " + size);
-			update_event_cache(size, recieve_new_messages, console.error);
+			//Recursivley call function with 200% the requested message load. 
+			update_event_cache(incoming.length*2, recieve_new_messages, console.error);
 			return;
 		}
 
-		// we had cached events, but want to be extra paranoid about
-		// correctness. So if the response contained the entire event
-		// log, validate that it exactly matches the cached events.
+		// TEMPORARY CACHE VALIDATION
+		// REMOVE After 01/01/23 if no issues
 		if (response.report.messages.length === cached_events.length) {
 			console.log("*** Validating cached_events ***");
 			const valid = response.report.messages;
 			let invalidEntries = cached_events.filter((e, i) => e.key !== valid[i].key);
 			if (invalidEntries.length) {
+				//If there are more than one invalid entry
+				alert("INVALID CACHE STATE!")
 				console.error("!! Invalid entries found: ", invalidEntries);
 			}
 			console.log("*** Validation Completed ***");
 		} else {
 			// the response didn't contain the entire event log. Go fetch
 			// a version that _does_.
+			// TODO: Remove the callback to refresh the panel when recieved messages. 
+			//Recursivley call this function after requesting 100k events
 			update_event_cache(100000, recieve_new_messages, console.error);
 		}
 	}
+
+	// Go get events and cache them.
 	cached_events = incoming.concat(cached_events);
 	const players = get_ledger(cached_events);
 
@@ -169,6 +193,7 @@ const recieve_new_messages = (response) => {
 	ledgerScreen.roost(npui.screenContainer);
 	npui.layoutElement(ledgerScreen)
 
+	//Load the ledger?
 	players.forEach(p => {
 		let player = PlayerNameIconRowLink(universe.galaxy.players[p.uid]).roost(npui.activeScreen);
 		player.addStyle("player_cell")
