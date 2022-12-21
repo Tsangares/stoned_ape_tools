@@ -1977,12 +1977,59 @@ NeptunesPride.npui.StarInspector = function () {
 
   return starInspector;
 };
+//Enable arrows keys to interact with editing a ship's instructions on stay.
+const fleet_order_keyboard_integeration = () => {
+  const event_name = "show_screen";
 
+  const selector_right_button =
+    "#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div.widget.rel.col_black > div:nth-child(3)";
+  const selector_left_button =
+    "#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div.widget.rel.col_black > div:nth-child(2)";
+  const selector_menu =
+    "#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div.widget.rel.col_accent > div.widget.drop_down > select";
+
+  const apply_arrow_click = (selector, key) => {
+    console.log("Event added");
+    const NP_click = (event) => {
+      if (event.keyCode == key) {
+        $(selector).mousedown().mouseup(); //NP does not respond to click
+        console.log(`${key} has been clicked!`);
+      }
+    };
+    $(document).keyup(NP_click);
+  };
+  apply_arrow_click(selector_left_button, 37); //Left key
+  apply_arrow_click(selector_right_button, 39); //Right key
+
+  const seek_menu = (selector, up = True) => {
+    const NP_menu_seek = (event) => {
+      let menu = $(selector)[0];
+
+      if (menu == undefined) return;
+      let index = parseInt(menu.selectedIndex);
+      //TODO Seeking way to change the index of the menu
+      if (up && event.keyCode == 38) {
+        //$(menu).val(`${index-1}`)
+      } else if (event.keyCode == 40) {
+        //Down
+        //$(menu).val(`${index+1}`)
+      }
+    };
+    $(document).keyup(NP_menu_seek);
+  };
+  seek_menu(selector_menu, true);
+  seek_menu(selector_menu, false);
+};
+
+//Delay added for reasons I can't remember
+//Slow computers: I think there may be a race conditi
 setTimeout(NeptunesPrideAgent, 1000);
-setTimeout(renderLedger, 2000);
-setTimeout(apply_hooks, 2000);
 
-//Test to see if PlayerPanel is there
-//If it is overwrites custom one
-//Otherwise while loop & set timeout until its there
-force_add_custom_player_panel();
+const stoned_ape_tools = () => {
+  fleet_order_keyboard_integeration();
+  renderLedger();
+  force_add_custom_player_panel();
+  apply_hooks();
+};
+
+setTimeout(stoned_ape_tools, 2000);
