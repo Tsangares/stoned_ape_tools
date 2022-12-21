@@ -2,11 +2,7 @@
 
 const sat_version = "2.21";
 
-const stripHtml = (html) => {
-  let tmp = document.createElement("DIV");
-  tmp.innerHTML = html;
-  return tmp.textContent || tmp.innerText || "";
-};
+import { stripHtml } from "./strip.js";
 
 const image_url = (str) => {
   let safe_str = stripHtml(str);
