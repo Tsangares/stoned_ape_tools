@@ -1991,7 +1991,7 @@ const fleet_order_keyboard_integeration = () => {
   const apply_arrow_click = (selector, key) => {
     console.log("Event added");
     const NP_click = (event) => {
-      if (event.keyCode == key) {
+      if (event.keyCode === key) {
         $(selector).mousedown().mouseup(); //NP does not respond to click
         console.log(`${key} has been clicked!`);
       }
@@ -2005,12 +2005,12 @@ const fleet_order_keyboard_integeration = () => {
     const NP_menu_seek = (event) => {
       let menu = $(selector)[0];
 
-      if (menu == undefined) return;
+      if (menu === undefined) return;
       let index = parseInt(menu.selectedIndex);
       //TODO Seeking way to change the index of the menu
-      if (up && event.keyCode == 38) {
+      if (up && event.keyCode === 38) {
         //$(menu).val(`${index-1}`)
-      } else if (event.keyCode == 40) {
+      } else if (event.keyCode === 40) {
         //Down
         //$(menu).val(`${index+1}`)
       }
