@@ -1977,37 +1977,32 @@ const fleet_order_keyboard_integeration = () => {
   const selector_menu =
     "#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div.widget.rel.col_accent > div.widget.drop_down > select";
 
-  const apply_arrow_click = (selector, key) => {
+  const apply_arrow_click = (element, selector, key) => {
     console.log("Event added");
     const NP_click = (event) => {
-      if (event.keyCode === key) {
+      if (event.key === key) {
         $(selector).mousedown().mouseup(); //NP does not respond to click
         console.log(`${key} has been clicked!`);
       }
     };
-    $(document).keyup(NP_click);
+    element.keyup(NP_click);
   };
-  apply_arrow_click(selector_left_button, 37); //Left key
-  apply_arrow_click(selector_right_button, 39); //Right key
 
-  const seek_menu = (selector, up = True) => {
-    const NP_menu_seek = (event) => {
-      let menu = $(selector)[0];
-
-      if (menu === undefined) return;
-      let index = parseInt(menu.selectedIndex);
-      //TODO Seeking way to change the index of the menu
-      if (up && event.keyCode === 38) {
-        //$(menu).val(`${index-1}`)
-      } else if (event.keyCode === 40) {
-        //Down
-        //$(menu).val(`${index+1}`)
-      }
-    };
-    $(document).keyup(NP_menu_seek);
-  };
-  seek_menu(selector_menu, true);
-  seek_menu(selector_menu, false);
+  const orig = { EditFleetOrder: NeptunesPride.npui.EditFleetOrder };
+  NeptunesPride.npui.EditFleetOrder = (config) => {
+  	const efo = orig.EditFleetOrder(config);
+		efo.postRoost = () => {
+			// giving keyboard focus to the dropdown enables the following
+			// keyboard controls: up/down changes the selection, 'g' sets
+			// it to 'garrison', 'c' cycles through 'collect' options, and
+			// 'd' cycles through 'drop' options.
+			const menu = $(selector_menu);
+			menu.focus();
+			apply_arrow_click(menu, selector_left_button, "ArrowLeft");
+			apply_arrow_click(menu, selector_right_button, "ArrowRight");
+		}
+  	return efo;
+	};
 };
 
 //Delay added for reasons I can't remember
