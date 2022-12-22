@@ -1990,19 +1990,19 @@ const fleet_order_keyboard_integeration = () => {
 
   const orig = { EditFleetOrder: NeptunesPride.npui.EditFleetOrder };
   NeptunesPride.npui.EditFleetOrder = (config) => {
-  	const efo = orig.EditFleetOrder(config);
-		efo.postRoost = () => {
-			// giving keyboard focus to the dropdown enables the following
-			// keyboard controls: up/down changes the selection, 'g' sets
-			// it to 'garrison', 'c' cycles through 'collect' options, and
-			// 'd' cycles through 'drop' options.
-			const menu = $(selector_menu);
-			menu.focus();
-			apply_arrow_click(menu, selector_left_button, "ArrowLeft");
-			apply_arrow_click(menu, selector_right_button, "ArrowRight");
-		}
-  	return efo;
-	};
+    const efo = orig.EditFleetOrder(config);
+    efo.postRoost = () => {
+      // giving keyboard focus to the dropdown enables the following
+      // keyboard controls: up/down changes the selection, 'g' sets
+      // it to 'garrison', 'c' cycles through 'collect' options, and
+      // 'd' cycles through 'drop' options.
+      const menu = $(selector_menu);
+      menu.focus();
+      apply_arrow_click(menu, selector_left_button, "ArrowLeft");
+      apply_arrow_click(menu, selector_right_button, "ArrowRight");
+    };
+    return efo;
+  };
 };
 
 //Delay added for reasons I can't remember
