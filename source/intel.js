@@ -2001,24 +2001,30 @@ const fleet_order_keyboard_integeration = () => {
   apply_arrow_click(selector_left_button, 37); //Left key
   apply_arrow_click(selector_right_button, 39); //Right key
 
-  const seek_menu = (selector, up = True) => {
+  const seek_menu = (selector) => {
     const NP_menu_seek = (event) => {
       let menu = $(selector)[0];
 
       if (menu === undefined) return;
       let index = parseInt(menu.selectedIndex);
       //TODO Seeking way to change the index of the menu
-      if (up && event.keyCode === 38) {
-        //$(menu).val(`${index-1}`)
+      if (event.keyCode === 38) {
+        console.log(`UP ${index - 1}`);
+        $(menu).val(`${index - 1}`);
+        //up
       } else if (event.keyCode === 40) {
         //Down
-        //$(menu).val(`${index+1}`)
+        console.log(`DOWN ${index + 1}`);
+        $(menu).val(`${index + 1}`);
       }
+
+      $(menu).children()[
+        parseInt($($(selector)[index]).prop("selected", "selected"))
+      ];
     };
     $(document).keyup(NP_menu_seek);
   };
-  seek_menu(selector_menu, true);
-  seek_menu(selector_menu, false);
+  seek_menu(selector_menu);
 };
 
 //Delay added for reasons I can't remember
@@ -2032,4 +2038,10 @@ const stoned_ape_tools = () => {
   apply_hooks();
 };
 
+const refresh_menu_select = () => {
+  const selector =
+    "#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div.widget.rel.col_accent > div.widget.drop_down > select";
+
+  $($(selector)[0]).children()[parseInt($($(selector)[0]).val())];
+};
 setTimeout(stoned_ape_tools, 2000);
