@@ -125,3 +125,8 @@ autocomplete code. The screen should look something like this:
 
 You can step along or hit the continue button to see autocomplete in
 action.
+
+# Next steps
+
+Review the [developer workflow](WORKFLOW.md) and get working on your
+first feature or bug fix!
