@@ -1979,12 +1979,14 @@ const fleet_order_keyboard_integeration = () => {
   const apply_arrow_click = (element, selector, key) => {
     console.log("Event added");
     const NP_click = (event) => {
+      console.log(`${event.key} has been clicked!`);
       if (event.key === key) {
         $(selector).mousedown().mouseup(); //NP does not respond to click
-        console.log(`${key} has been clicked!`);
       }
     };
-    element.keyup(NP_click);
+    //Assign keyup event to NP_Click instance
+    $(document).keyup(NP_click);
+
   };
 
   const orig = { EditFleetOrder: NeptunesPride.npui.EditFleetOrder };
@@ -1997,9 +1999,16 @@ const fleet_order_keyboard_integeration = () => {
       // 'd' cycles through 'drop' options.
       const menu = $(selector_menu);
       menu.focus();
+
     };
+    $(selector_menu).keyup(()=>{
+      //Change focus depending on key press. 
+    });
     return efo;
+
   };
+
+  const menu = $(selector_menu);
   apply_arrow_click(menu, selector_left_button, "ArrowLeft");
   apply_arrow_click(menu, selector_right_button, "ArrowRight");
 };
