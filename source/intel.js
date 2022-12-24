@@ -1991,13 +1991,13 @@ const fleet_order_keyboard_integeration = () => {
   NeptunesPride.npui.EditFleetOrder = (config) => {
     const efo = orig.EditFleetOrder(config);
     efo.postRoost = () => {
-      console.log(efo)
+      console.log(efo);
       let menu = efo.action;
-      menu.onkeyup = ((event)=>{
-        if (event.key in ["ArrowDown","ArrowUp"]){
-          menu.focus()
+      menu.onkeyup = (event) => {
+        if (event.key in ["ArrowDown", "ArrowUp"]) {
+          menu.focus();
         }
-      })
+      };
     };
     return efo;
   };
