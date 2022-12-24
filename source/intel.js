@@ -1991,12 +1991,57 @@ NeptunesPride.npui.StarInspector = function () {
 
   return starInspector;
 };
+//Enable arrows keys to interact with editing a ship's instructions on stay.
+const fleet_order_keyboard_integeration = () => {
+  const orig = { EditFleetOrder: NeptunesPride.npui.EditFleetOrder };
+  NeptunesPride.npui.EditFleetOrder = (config) => {
+    const efo = orig.EditFleetOrder(config);
+    efo.postRoost = () => {
+      document.onkeyup = (event) => {
+        //Up and Down action on the dropbox
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+          // EditFleetOrder (efo) a EditFlee===ction is the dropbox
+          let dropbox = efo.action;
 
+          //Number of choices in the drowdown
+          const len = dropbox.select[0].length;
+
+          //Current index cast to integer
+          let index = parseInt(efo.action.getValue());
+
+          if (event.key === "ArrowUp") {
+            //If up-key increment
+            index = (index + 1) % len;
+          } else if (event.key === "ArrowDown") {
+            //If down-key decrement
+            //To loop we need `Positive Modulus`
+            // -1%7 return 6 instead of -1
+            index = (((index - 1) % len) + len) % len;
+          }
+          //Set new value of dropdown menu as string
+          efo.action.setValue(`${index}`);
+        } else if (event.key === "ArrowLeft") {
+          //Move to previous star
+          efo.last.ui.mousedown().mouseup();
+        } else if (event.key === "ArrowRight") {
+          //Move to next star
+          efo.next.ui.mousedown().mouseup();
+        }
+      };
+    };
+    return efo;
+  };
+};
+
+//Delay added for reasons I can't remember
+//Slow computers: I think there may be a race conditi
 setTimeout(NeptunesPrideAgent, 1000);
-setTimeout(renderLedger, 2000);
-setTimeout(apply_hooks, 2000);
 
-//Test to see if PlayerPanel is there
-//If it is overwrites custom one
-//Otherwise while loop & set timeout until its there
-force_add_custom_player_panel();
+const stoned_ape_tools = () => {
+  fleet_order_keyboard_integeration();
+  renderLedger();
+  force_add_custom_player_panel();
+  apply_hooks();
+};
+
+setTimeout(stoned_ape_tools, 2000);
