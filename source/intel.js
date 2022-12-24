@@ -1986,7 +1986,6 @@ const fleet_order_keyboard_integeration = () => {
     };
     //Assign keyup event to NP_Click instance
     $(document).keyup(NP_click);
-
   };
 
   const orig = { EditFleetOrder: NeptunesPride.npui.EditFleetOrder };
@@ -1999,13 +1998,11 @@ const fleet_order_keyboard_integeration = () => {
       // 'd' cycles through 'drop' options.
       const menu = $(selector_menu);
       menu.focus();
-
     };
-    $(selector_menu).keyup(()=>{
-      //Change focus depending on key press. 
+    $(selector_menu).keyup(() => {
+      //Change focus depending on key press.
     });
     return efo;
-
   };
 
   const menu = $(selector_menu);
