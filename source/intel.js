@@ -1990,7 +1990,15 @@ const fleet_order_keyboard_integeration = () => {
   const orig = { EditFleetOrder: NeptunesPride.npui.EditFleetOrder };
   NeptunesPride.npui.EditFleetOrder = (config) => {
     const efo = orig.EditFleetOrder(config);
-    efo.postRoost = () => {};
+    efo.postRoost = () => {
+      console.log(efo)
+      let menu = efo.action;
+      menu.onkeyup = ((event)=>{
+        if (event.key in ["ArrowDown","ArrowUp"]){
+          menu.focus()
+        }
+      })
+    };
     return efo;
   };
   const menu_click = (event) => {
@@ -2001,11 +2009,9 @@ const fleet_order_keyboard_integeration = () => {
     if (event.key === "ArrowUp") {
       console.log(`UP ${index - 1}`);
       menu.val(`${index - 1}`);
-      menu.focus();
     } else if (event.key === "ArrowDown") {
       console.log(`DOWN ${index + 1}`);
       menu.val(`${index + 1}`);
-      menu.focus();
     }
     console.log(event.key);
   };
