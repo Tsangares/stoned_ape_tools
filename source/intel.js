@@ -1967,58 +1967,45 @@ NeptunesPride.npui.StarInspector = function () {
 };
 //Enable arrows keys to interact with editing a ship's instructions on stay.
 const fleet_order_keyboard_integeration = () => {
-  const event_name = "show_screen";
-
-  const selector_right_button =
-    "#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div.widget.rel.col_black > div:nth-child(3)";
-  const selector_left_button =
-    "#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div.widget.rel.col_black > div:nth-child(2)";
-  const selector_menu =
-    "#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div.widget.rel.col_accent > div.widget.drop_down > select";
-
-  const apply_arrow_click = (selector, key) => {
-    console.log("Event added");
-    const NP_click = (event) => {
-      if (event.key === key) {
-        $(selector).mousedown().mouseup(); //NP does not respond to click
-        console.log(`${key} has been clicked!`);
-      }
-    };
-    $(document).keyup(NP_click);
-  };
-
   const orig = { EditFleetOrder: NeptunesPride.npui.EditFleetOrder };
   NeptunesPride.npui.EditFleetOrder = (config) => {
     const efo = orig.EditFleetOrder(config);
     efo.postRoost = () => {
-      console.log(efo);
-      let menu = efo.action;
-      menu.onkeyup = (event) => {
-        if (event.key in ["ArrowDown", "ArrowUp"]) {
-          menu.focus();
-        }
-      };
-    };
-    return efo;
-  };
-  const menu_click = (event) => {
-    const menu = $($(selector_menu)[0]);
-    console.log(menu);
-    let index = parseInt(menu.val());
+      document.onkeyup = (event) => {
+        //Up and Down action on the dropbox
+        if (event.key==="ArrowUp"||event.key==="ArrowDown") {
+          // EditFleetOrder (efo) a EditFlee===ction is the dropbox
+          let dropbox = efo.action
 
-    if (event.key === "ArrowUp") {
-      console.log(`UP ${index - 1}`);
-      menu.val(`${index - 1}`);
-    } else if (event.key === "ArrowDown") {
-      console.log(`DOWN ${index + 1}`);
-      menu.val(`${index + 1}`);
+          //Number of choices in the drowdown
+          const len = dropbox.select[0].length
+
+          //Current index cast to integer
+          let index = parseInt(efo.action.getValue())
+
+          if (event.key === "ArrowUp") {
+            //If up-key increment
+            index = (index + 1) % len
+          } else if (event.key === "ArrowDown") {
+            //If down-key decrement
+            //To loop we need `Positive Modulus`
+            // -1%7 return 6 instead of -1
+            index = ((index - 1) % len + len) % len
+          }
+          //Set new value of dropdown menu as string
+          efo.action.setValue(`${index}`)
+        }else if(event.key === "ArrowLeft"){
+          //Move to previous star
+          efo.last.ui.mousedown().mouseup()
+        }else if(event.key === "ArrowRight"){
+          //Move to next star
+          efo.next.ui.mousedown().mouseup()
+        }
+      }
     }
-    console.log(event.key);
-  };
-  $(document).keyup(menu_click);
-  apply_arrow_click(selector_left_button, "ArrowLeft");
-  apply_arrow_click(selector_right_button, "ArrowRight");
-};
+    return efo;
+  }
+}
 
 //Delay added for reasons I can't remember
 //Slow computers: I think there may be a race conditi
