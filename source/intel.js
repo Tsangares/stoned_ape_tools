@@ -1967,7 +1967,6 @@ NeptunesPride.npui.StarInspector = function () {
 };
 //Enable arrows keys to interact with editing a ship's instructions on stay.
 const fleet_order_keyboard_integeration = () => {
-  const orig = { EditFleetOrder: NeptunesPride.npui.EditFleetOrder };
   NeptunesPride.npui.EditFleetOrder = (config) => {
     const efo = orig.EditFleetOrder(config);
     efo.postRoost = () => {
@@ -2003,9 +2002,6 @@ const fleet_order_keyboard_integeration = () => {
         }
       };
     };
-    $(selector_menu).keyup(() => {
-      //Change focus depending on key press.
-    });
     return efo;
   };
 };
