@@ -1973,39 +1973,39 @@ const fleet_order_keyboard_integeration = () => {
     efo.postRoost = () => {
       document.onkeyup = (event) => {
         //Up and Down action on the dropbox
-        if (event.key==="ArrowUp"||event.key==="ArrowDown") {
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
           // EditFleetOrder (efo) a EditFlee===ction is the dropbox
-          let dropbox = efo.action
+          let dropbox = efo.action;
 
           //Number of choices in the drowdown
-          const len = dropbox.select[0].length
+          const len = dropbox.select[0].length;
 
           //Current index cast to integer
-          let index = parseInt(efo.action.getValue())
+          let index = parseInt(efo.action.getValue());
 
           if (event.key === "ArrowUp") {
             //If up-key increment
-            index = (index + 1) % len
+            index = (index + 1) % len;
           } else if (event.key === "ArrowDown") {
             //If down-key decrement
             //To loop we need `Positive Modulus`
             // -1%7 return 6 instead of -1
-            index = ((index - 1) % len + len) % len
+            index = (((index - 1) % len) + len) % len;
           }
           //Set new value of dropdown menu as string
-          efo.action.setValue(`${index}`)
-        }else if(event.key === "ArrowLeft"){
+          efo.action.setValue(`${index}`);
+        } else if (event.key === "ArrowLeft") {
           //Move to previous star
-          efo.last.ui.mousedown().mouseup()
-        }else if(event.key === "ArrowRight"){
+          efo.last.ui.mousedown().mouseup();
+        } else if (event.key === "ArrowRight") {
           //Move to next star
-          efo.next.ui.mousedown().mouseup()
+          efo.next.ui.mousedown().mouseup();
         }
-      }
-    }
+      };
+    };
     return efo;
-  }
-}
+  };
+};
 
 //Delay added for reasons I can't remember
 //Slow computers: I think there may be a race conditi
