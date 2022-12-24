@@ -1975,7 +1975,6 @@ const fleet_order_keyboard_integeration = () => {
     "#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div.widget.rel.col_black > div:nth-child(2)";
   const selector_menu =
     "#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div.widget.rel.col_accent > div.widget.drop_down > select";
-    
 
   const apply_arrow_click = (selector, key) => {
     console.log("Event added");
@@ -1984,35 +1983,32 @@ const fleet_order_keyboard_integeration = () => {
         $(selector).mousedown().mouseup(); //NP does not respond to click
         console.log(`${key} has been clicked!`);
       }
-    }
+    };
     $(document).keyup(NP_click);
   };
 
   const orig = { EditFleetOrder: NeptunesPride.npui.EditFleetOrder };
   NeptunesPride.npui.EditFleetOrder = (config) => {
     const efo = orig.EditFleetOrder(config);
-    efo.postRoost = () => {
-      
-    };
+    efo.postRoost = () => {};
     return efo;
   };
   const menu_click = (event) => {
-    const menu = $($(selector_menu)[0])
-    console.log(menu)
-    let index = parseInt(menu.val())
-    
+    const menu = $($(selector_menu)[0]);
+    console.log(menu);
+    let index = parseInt(menu.val());
+
     if (event.key === "ArrowUp") {
       console.log(`UP ${index - 1}`);
-      menu.val(`${index - 1}`)
-      menu.focus()
+      menu.val(`${index - 1}`);
+      menu.focus();
     } else if (event.key === "ArrowDown") {
       console.log(`DOWN ${index + 1}`);
       menu.val(`${index + 1}`);
-      menu.focus()
+      menu.focus();
     }
-    console.log(event.key)
-
-  }
+    console.log(event.key);
+  };
   $(document).keyup(menu_click);
   apply_arrow_click(selector_left_button, "ArrowLeft");
   apply_arrow_click(selector_right_button, "ArrowRight");
