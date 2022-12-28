@@ -23,14 +23,17 @@ So the goals of the development tooling are:
 
 We use npm to configure the development environment, which enables
 easy access to the best in class typescript and javascript development
-tools. You'll need to have installed a recent version of npm for 
-these instructions to work. Check that you have it by running
+tools. You'll need to have installed a 
+[recent version of npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+for these instructions to work. Check that you have it by running
 
 ```
 npm --version
 ```
 
-You'll also need to have a recent version of git. Check for it with
+You'll also need to have a recent 
+[version of git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). 
+Check for it with
 
 ```
 git --version
@@ -122,3 +125,49 @@ autocomplete code. The screen should look something like this:
 
 You can step along or hit the continue button to see autocomplete in
 action.
+
+## Unit tests
+
+Unit tests can be added in `tests/<filename>.spec.ts` and will be
+automatically executed as part of precommit checks. It's good
+practice to set up so that tests are executed as you type and you
+can also run them from the command line any time with:
+```
+npm run test
+```
+### Unit tests in vscode
+
+In `vscode` there are two ways to run unit tests for the project,
+the fast way and the slow way.
+
+The slow way is to leverage the CLI's `vitest` approach by installing
+a `vitest` plugin. Once installed, in the experiment beaker view in
+`vscode` you should see the tree of tests and be able to hover to
+reveal buttons and run tests:
+
+![vitest](pictures/vscode_vitest.png?raw=true)
+
+The fast way is to install the`Wallaby.js` extension and set it up
+with an OSS license. Then, in `vscode` when you start wallaby there
+will be live display of coverage and testing status on every line.
+
+A working state shows green boxes in the gutter like this:
+
+![wallabytest](pictures/vscode_wallabyspec.png?raw=true)
+
+and in the source itself:
+
+![wallabytest](pictures/vscode_wallabyhotkey.png?raw=true)
+
+As you type these boxes will update live. A pink box means that
+line of code is on the path of a failing test, and you can use
+wallaby to immediately jump to the line of the failing `expect`.
+
+
+## Documentation
+
+Markdown is the preferred format for documents (like this one, for
+example) and if you're working at the command line a tool like `glow`
+makes for easy checking that your documentation looks correct when
+formatted. Or, use an editor like `vscode` so that you can live
+preview your markdown in Chromium.
