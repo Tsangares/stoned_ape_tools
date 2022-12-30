@@ -74,7 +74,7 @@ No, I am open to pull requests though. Just make sure it works on both chrome an
 Clone this repository somewhere on your system. Either by unzipping it, using terminal `git` or github desktop. Once you have a copy on your system use the following to enable this git version:
 
  1. Enter `chrome://extensions/` into your URL on CHROME. 
- 2. Remove or disable `Neptunes Pride Agent` or `Stoned Ape Tools` plugins. 
+ 2. Remove or disable Chrome Store versions of `Stoned Ape Tools` plugins. 
  3. Click `Load Unpacked` on the extentions page at the top.
  4. Navigate to the stones ape repository and click `OK`
  5. Make sure the plugin is enabled in the `chrome://extensions/` interface.
@@ -83,15 +83,17 @@ Completed! Welcome to the development cycle. Please send any issues you have!
 
 # Features:
 ## Neptunes Pride Agent
-This plugin is a fork of Neptunes Pride Agent which originally contained the previous features:
 
- - Battle Calculator: When you select a carrier, if the carrier is headed for an enemy star, displays a battle calculator. Accounts for you and your opponent’s current weapons tech, manufacturing tech, and industry.
- - Scanning Range Timer: Displays scanning range time in green when you select an enemy star if that enemy cannot yet see your carrier, and in grey if that enemy can already see your carrier.
- - Carrier Linking in Chat:  [[Carrier Name]] text in messages now links to the fleet, so that when the message recipient clicks on the fleet you’re referring to their map view is navigated to show it, the same way that [[Star Name]] or [[Player Number]] works in the base game.
- - API Sharing:  When you type [[api:APIKEY]] into a message it will convert it into a button that allows you (or other users of this extension in your message) to either see their scans or merge both scans.
- - Hotkeys:  Check out @Osric’s original post 2 to learn more.
+This plugin was originally a fork of Neptune's Pride Agent (NPA),
+which Osric did not appear to be developing over the last few months.
+As such, it created conflicts to install this extension and the
+Neptune's Pride Agent extension at once.
 
-New features only available on Stoned Ape Tools 3:
+Now that Osric is back and actively developing NPA again, you can
+install NPA for its features. Osric can be found on 
+[https://forum.ironhelmet.com/t/chrome-extension-neptunes-pride-agent/7842](Neptune's Pride Forums).
+
+Features available on Stoned Ape Tools 3:
 
  - Ledger (hotkey ‘m’):  Adds a row to the menu titled ‘Ledger’. When clicked tabulates then displays a ledger of debt owed between you and anyone you’ve traded tech or cash with so far in the game. Accurately shows you who you owe money to, who owes you money, and how much money is owed. If you owe someone else money, displays a button to repay the debt owed.
  - Quick Tech Trading: Adds 2 buttons to other players’ Empire pages:

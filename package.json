@@ -1,7 +1,7 @@
 {
-  "name": "neptunes-pride-agent",
+  "name": "stoned-ape-tools",
   "version": "3.0.0",
-  "description": "Chrome extension for Neptune's Pride players.",
+  "description": "Tools that only a stoned ape could use.  For stoned ape use.",
   "scripts": {
     "start": "webpack --watch --config webpack.dev.js",
     "sat": "webpack --config webpack.sat.js",
