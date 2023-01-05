@@ -1412,10 +1412,11 @@ function NeptunesPrideAgent() {
           if (!NeptunesPride.gameConfig.turnBased) {
             return msToEtaString(ms, "");
           } else {
-            const tick_rate = NeptunesPride.universe.galaxy.tick_rate
-            return (  
-              `${superFormatTime(ms, mins, secs)} - ${(((ms / 3600000) * 10) / tick_rate).toFixed(2)} turn(s)`
-           );
+            const tick_rate = NeptunesPride.universe.galaxy.tick_rate;
+            return `${superFormatTime(ms, mins, secs)} - ${(
+              ((ms / 3600000) * 10) /
+              tick_rate
+            ).toFixed(2)} turn(s)`;
           }
         case 2: //cycles + ticks format
           return msToCycleString(ms, "");
