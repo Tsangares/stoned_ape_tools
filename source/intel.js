@@ -574,18 +574,37 @@ function NeptunesPrideAgent() {
     let arrival = new Date(now.getTime() + msplus);
     let p = prefix !== undefined ? prefix : "ETA ";
     let ttt = p + ampm(arrival.getHours(), arrival.getMinutes());
-    if (arrival.getDay() != now.getDay())
-      ttt = `${p}${days[arrival.getDay()]} @ ${ampm(
-        arrival.getHours(),
-        arrival.getMinutes(),
-      )}`;
+    if (!NeptunesPride.gameConfig.turnBased) {
+      ttt = p + ampm(arrival.getHours(), arrival.getMinutes());
+      if (arrival.getDay() != now.getDay())
+        ttt =
+          p +
+          days[arrival.getDay()] +
+          " @ " +
+          ampm(arrival.getHours(), arrival.getMinutes());
+    } else {
+      totalETA = arrival - now;
+      ttt = p + Crux.formatTime(totalETA);
+    }
     return ttt;
   };
   let tickToEtaString = function (tick, prefix) {
     let msplus = msToTick(tick);
     return msToEtaString(msplus, prefix);
   };
-
+  let msToCycleString = function (msplus, prefix) {
+    let p = prefix !== undefined ? prefix : "ETA";
+    let cycleLength = NeptunesPride.universe.galaxy.production_rate;
+    let tickLength = NeptunesPride.universe.galaxy.tick_rate;
+    let ticksToComplete = Math.ceil(msplus / 60000 / tickLength);
+    let ttt =
+      p +
+      ticksToComplete +
+      " ticks - " +
+      (ticksToComplete / cycleLength).toFixed(2) +
+      "C";
+    return ttt;
+  };
   let fleetOutcomes = {};
   let combatHandicap = 0;
   let combatOutcomes = function () {
@@ -1350,9 +1369,10 @@ function NeptunesPrideAgent() {
         .grid(15, 0, 15, 3)
         .roost(report);
 
-      let text = Crux.Text("", "pad12 rel txt_selectable").size(432).pos(48)
-
-      .rawHTML("Choose a report from the dropdown.");
+      let text = Crux.Text("", "pad12 rel txt_selectable")
+        .size(432)
+        .pos(48)
+        .rawHTML("Choose a report from the dropdown.");
       text.roost(output);
 
       report.roost(reportScreen);
@@ -1384,20 +1404,36 @@ function NeptunesPrideAgent() {
     npui.SideMenuItem("icon-eye", "n_p_a", "trigger_npa").roost(npui.sideMenu);
 
     let superFormatTime = Crux.formatTime;
-    let relativeTimes = true;
+    let relativeTimes = 0;
     Crux.formatTime = function (ms, mins, secs) {
-      if (relativeTimes) {
-        return superFormatTime(ms, mins, secs);
-      } else {
-        return msToEtaString(ms, "");
+      switch (relativeTimes) {
+        case 0: //standard
+          return superFormatTime(ms, mins, secs);
+        case 1: //ETA, - turn(s) for turnbased
+          if (!NeptunesPride.gameConfig.turnBased) {
+            return msToEtaString(ms, "");
+          } else {
+            return (
+              superFormatTime(ms, mins, secs) +
+              " - " +
+              (
+                ((ms / 3600000) * 10) /
+                NeptunesPride.universe.galaxy.tick_rate
+              ).toFixed(2) +
+              " turn(s)"
+            );
+          }
+        case 2: //cycles + ticks format
+          return msToCycleString(ms, "");
       }
     };
-    let toggleRelative = function () {
-      relativeTimes = !relativeTimes;
+    let switchTimes = function () {
+      //0 = standard, 1 = ETA, - turn(s) for turnbased, 2 = cycles + ticks format
+      relativeTimes = (relativeTimes + 1) % 3;
     };
-    hotkey("%", toggleRelative);
-    toggleRelative.help =
-      "Change the display of ETAs from relative times to absolute clock times. Makes predicting " +
+    hotkey("%", switchTimes);
+    switchTimes.help =
+      "Change the display of ETAs between relative times, absolute clock times, and cycle times. Makes predicting " +
       "important times of day to sign in and check much easier especially for multi-leg fleet movements. Sometimes you " +
       "will need to refresh the display to see the different times.";
 
