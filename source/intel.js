@@ -573,15 +573,16 @@ function NeptunesPrideAgent() {
     let now = new Date();
     let arrival = new Date(now.getTime() + msplus);
     let p = prefix !== undefined ? prefix : "ETA ";
+    //What is ttt?
     let ttt = p + ampm(arrival.getHours(), arrival.getMinutes());
     if (!NeptunesPride.gameConfig.turnBased) {
       ttt = p + ampm(arrival.getHours(), arrival.getMinutes());
       if (arrival.getDay() != now.getDay())
-        ttt =
-          p +
-          days[arrival.getDay()] +
-          " @ " +
-          ampm(arrival.getHours(), arrival.getMinutes());
+        // Generate time string
+        ttt = `${p}${days[arrival.getDay()]} @ ${ampm(
+          arrival.getHours(),
+          arrival.getMinutes(),
+        )}`;
     } else {
       totalETA = arrival - now;
       ttt = p + Crux.formatTime(totalETA);
@@ -597,12 +598,10 @@ function NeptunesPrideAgent() {
     let cycleLength = NeptunesPride.universe.galaxy.production_rate;
     let tickLength = NeptunesPride.universe.galaxy.tick_rate;
     let ticksToComplete = Math.ceil(msplus / 60000 / tickLength);
-    let ttt =
-      p +
-      ticksToComplete +
-      " ticks - " +
-      (ticksToComplete / cycleLength).toFixed(2) +
-      "C";
+    //Generate time text string
+    let ttt = `${p}${ticksToComplete} ticks - ${(
+      ticksToComplete / cycleLength
+    ).toFixed(2)}C`;
     return ttt;
   };
   let fleetOutcomes = {};
@@ -1413,15 +1412,10 @@ function NeptunesPrideAgent() {
           if (!NeptunesPride.gameConfig.turnBased) {
             return msToEtaString(ms, "");
           } else {
-            return (
-              superFormatTime(ms, mins, secs) +
-              " - " +
-              (
-                ((ms / 3600000) * 10) /
-                NeptunesPride.universe.galaxy.tick_rate
-              ).toFixed(2) +
-              " turn(s)"
-            );
+            const tick_rate = NeptunesPride.universe.galaxy.tick_rate
+            return (  
+              `${superFormatTime(ms, mins, secs)} - ${(((ms / 3600000) * 10) / tick_rate).toFixed(2)} turn(s)`
+           );
           }
         case 2: //cycles + ticks format
           return msToCycleString(ms, "");
