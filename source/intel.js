@@ -3,7 +3,7 @@ import { clip, lastClip } from "./hotkey";
 
 /* global define, Crux, NeptunesPride, Mousetrap, jQuery, Cookies, $ */
 
-const sat_version = "2.21";
+const sat_version = "2.22";
 
 //Custom UI ComponentsNe
 const PlayerNameIconRowLink = (player) => {
@@ -464,7 +464,7 @@ const _wide_view = () => {
   NeptunesPride.np.trigger("zoom_minimap");
 };
 
-function NeptunesPrideAgent() {
+function Legacy_NeptunesPrideAgent() {
   let title = document?.currentScript?.title || `SAT ${sat_version}`;
   let version = title.replace(/^.*v/, "v");
   console.log(title);
@@ -1551,6 +1551,7 @@ function NeptunesPrideAgent() {
       universe.galaxy.stars = { ...scan.stars, ...universe.galaxy.stars };
       for (let s in scan.stars) {
         const star = scan.stars[s];
+        //Add here a statement to skip if it is hero's star. 
         if (star.v !== "0") {
           universe.galaxy.stars[s] = { ...universe.galaxy.stars[s], ...star };
         }
@@ -2013,7 +2014,7 @@ NeptunesPride.npui.StarInspector = function () {
   return starInspector;
 };
 
-setTimeout(NeptunesPrideAgent, 1000);
+setTimeout(Legacy_NeptunesPrideAgent, 1000);
 setTimeout(renderLedger, 2000);
 setTimeout(apply_hooks, 2000);
 
