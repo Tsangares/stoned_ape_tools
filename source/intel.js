@@ -1108,8 +1108,9 @@ function Legacy_NeptunesPrideAgent() {
 
       if (universe.selectedFleet && universe.selectedFleet.path.length > 0) {
         //console.log("Selected fleet", universe.selectedFleet);
-        map.context.font = `${14 * map.pixelRatio
-          }px OpenSansRegular, sans-serif`;
+        map.context.font = `${
+          14 * map.pixelRatio
+        }px OpenSansRegular, sans-serif`;
         map.context.fillStyle = "#FF0000";
         map.context.textAlign = "left";
         map.context.textBaseline = "middle";
@@ -1150,8 +1151,9 @@ function Legacy_NeptunesPrideAgent() {
         universe.timeToTick(1).length < 3
       ) {
         let lineHeight = 16 * map.pixelRatio;
-        map.context.font = `${14 * map.pixelRatio
-          }px OpenSansRegular, sans-serif`;
+        map.context.font = `${
+          14 * map.pixelRatio
+        }px OpenSansRegular, sans-serif`;
         map.context.fillStyle = "#FF0000";
         map.context.textAlign = "left";
         map.context.textBaseline = "middle";
@@ -1229,8 +1231,8 @@ function Legacy_NeptunesPrideAgent() {
                     ticks += 1;
                   } while (
                     distance >
-                    universe.galaxy.players[universe.selectedStar.puid].tech
-                      .scanning.value &&
+                      universe.galaxy.players[universe.selectedStar.puid].tech
+                        .scanning.value &&
                     ticks <= fleet.etaFirst + 1
                   );
                   ticks -= 1;
@@ -1549,7 +1551,7 @@ function Legacy_NeptunesPrideAgent() {
       universe.galaxy.stars = { ...scan.stars, ...universe.galaxy.stars };
       for (let s in scan.stars) {
         const star = scan.stars[s];
-        //Add here a statement to skip if it is hero's star. 
+        //Add here a statement to skip if it is hero's star.
         if (star.v !== "0") {
           universe.galaxy.stars[s] = { ...universe.galaxy.stars[s], ...star };
         }
