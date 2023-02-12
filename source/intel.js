@@ -584,7 +584,7 @@ function Legacy_NeptunesPrideAgent() {
           arrival.getMinutes(),
         )}`;
     } else {
-      totalETA = arrival - now;
+      var totalETA = arrival - now;
       ttt = p + Crux.formatTime(totalETA);
     }
     return ttt;
@@ -1108,9 +1108,8 @@ function Legacy_NeptunesPrideAgent() {
 
       if (universe.selectedFleet && universe.selectedFleet.path.length > 0) {
         //console.log("Selected fleet", universe.selectedFleet);
-        map.context.font = `${
-          14 * map.pixelRatio
-        }px OpenSansRegular, sans-serif`;
+        map.context.font = `${14 * map.pixelRatio
+          }px OpenSansRegular, sans-serif`;
         map.context.fillStyle = "#FF0000";
         map.context.textAlign = "left";
         map.context.textBaseline = "middle";
@@ -1151,9 +1150,8 @@ function Legacy_NeptunesPrideAgent() {
         universe.timeToTick(1).length < 3
       ) {
         let lineHeight = 16 * map.pixelRatio;
-        map.context.font = `${
-          14 * map.pixelRatio
-        }px OpenSansRegular, sans-serif`;
+        map.context.font = `${14 * map.pixelRatio
+          }px OpenSansRegular, sans-serif`;
         map.context.fillStyle = "#FF0000";
         map.context.textAlign = "left";
         map.context.textBaseline = "middle";
@@ -1231,8 +1229,8 @@ function Legacy_NeptunesPrideAgent() {
                     ticks += 1;
                   } while (
                     distance >
-                      universe.galaxy.players[universe.selectedStar.puid].tech
-                        .scanning.value &&
+                    universe.galaxy.players[universe.selectedStar.puid].tech
+                      .scanning.value &&
                     ticks <= fleet.etaFirst + 1
                   );
                   ticks -= 1;
