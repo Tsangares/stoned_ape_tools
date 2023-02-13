@@ -1551,7 +1551,7 @@ function Legacy_NeptunesPrideAgent() {
       universe.galaxy.stars = { ...scan.stars, ...universe.galaxy.stars };
       for (let s in scan.stars) {
         const star = scan.stars[s];
-        //Add here a statement to skip if it is hero's star. 
+        //Add here a statement to skip if it is hero's star.
         if (star.v !== "0") {
           universe.galaxy.stars[s] = { ...universe.galaxy.stars[s], ...star };
         }
