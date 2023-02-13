@@ -26,9 +26,3 @@ jobs:
       run: |
         npm install
         npx webpack
-
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          ./dist/intel.js
