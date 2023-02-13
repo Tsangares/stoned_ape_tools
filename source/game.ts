@@ -12,12 +12,12 @@ export function renderLedger(
   players: Player[],
 ) {*/
 
-export interface Game{
-  config: Config
-  np:NP
-  npui: Crux.NPUI
-  universe: Universe,
-  templates: Crux.Templates
+export interface Game {
+  config: Config;
+  np: NP;
+  npui: Crux.NPUI;
+  universe: Universe;
+  templates: Crux.Templates;
 }
 
 export interface NP extends EventListener {
@@ -27,9 +27,9 @@ export interface NP extends EventListener {
     icon: Crux.Icon,
     label: Crux.Template,
     event: string,
-    data: any,
+    data: unknown,
   ): Crux.Widget;
-  onForgiveDebt(event?: string, data?: any): unknown;
+  onForgiveDebt(event?: string, data?: unknown): unknown;
 }
 
 export interface Galaxy {

@@ -1,4 +1,4 @@
-import {get_ledger} from './ledger'
+import { get_ledger } from "./ledger";
 
 //Global cached event system.
 export let cached_events = [];
@@ -90,7 +90,7 @@ export const recieve_new_messages = (response) => {
     }
   }
   cached_events = incoming.concat(cached_events);
-  const players = get_ledger(NeptunesPride,Crux,cached_events);
+  const players = get_ledger(NeptunesPride, Crux, cached_events);
 
   const ledgerScreen = npui.ledgerScreen();
 
@@ -116,8 +116,8 @@ export const recieve_new_messages = (response) => {
         .rawHTML(`${prompt}: ${p.debt}`)
         .grid(20, 0, 10, 3)
         .roost(player);
-        
-      if (true || p.debt * -1 <= get_hero(NeptunesPride.universe).cash) {
+
+      if (p.debt * -1 <= get_hero(NeptunesPride.universe).cash) {
         Crux.Button("forgive", "forgive_debt", { targetPlayer: p.uid })
           .grid(17, 0, 6, 3)
           .roost(player);

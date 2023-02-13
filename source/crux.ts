@@ -43,7 +43,7 @@ export interface Text extends Widget {
   (id: Template, styles: css): Widget;
 }
 export interface SideMenuItem extends Widget {
-  (icon: Icon, label: Template, event: string, data: any): Widget;
+  (icon: Icon, label: Template, event: string, data: unknown): Widget;
 }
 
 export interface Screen extends Widget {
@@ -54,7 +54,12 @@ export interface Screen extends Widget {
 //Object definitions of npui
 export interface NPUI {
   Widget(styles: string): Widget;
-  SideMenuItem(icon: Icon, label: Template, event: string, data?: any): Widget;
+  SideMenuItem(
+    icon: Icon,
+    label: Template,
+    event: string,
+    data?: unknown,
+  ): Widget;
   Screen(title: string, subtitle?: string): Screen;
   ledgerScreen(): Screen;
 }
@@ -65,7 +70,7 @@ export interface NPUI extends EventListener {
   hasmenuitem: boolean;
   sideMenu: Widget;
   NagScreen(): void;
-  onHideSelectionMenu(event?: string, data?: any): void;
+  onHideSelectionMenu(event?: string, data?: unknown): void;
   onShowScreen(event: string, screenName: string, screenConfig: unknown): void;
   onHideScreen(event: string, quiet: boolean): void;
   onRefreshInterface(): void;

@@ -1402,7 +1402,7 @@ const add_custom_player_panel = () => {
         .grid(10, 31, 14, 3);
       //Disable if in a game with FA & Scan (BUG)
       let config = NeptunesPride.gameConfig;
-      if (!config.tradeScanned || !config.alliances) {
+      if (!(config.tradeScanned && config.alliances)) {
         if (get_hero(NeptunesPride.universe).cash >= total_sell_cost) {
           btn.roost(playerPanel);
         } else {
@@ -1591,11 +1591,11 @@ const add_custom_player_panel = () => {
 };
 let superStarInspector = NeptunesPride.npui.StarInspector;
 NeptunesPride.npui.StarInspector = function () {
-  let universe = NeptunesPride.universe
-  let config = NeptunesPride.gameConfig
+  let universe = NeptunesPride.universe;
+  let config = NeptunesPride.gameConfig;
 
   //Call super (Previous StarInspector from gamecode)
-  let starInspector = superStarInspector()
+  let starInspector = superStarInspector();
 
   //Append extra function
   async function apply_fractional_ships() {
@@ -1624,8 +1624,8 @@ NeptunesPride.npui.StarInspector = function () {
 };
 
 setTimeout(Legacy_NeptunesPrideAgent, 1000);
-setTimeout(()=>{
-  renderLedger(NeptunesPride,Crux,Mousetrap)
+setTimeout(() => {
+  renderLedger(NeptunesPride, Crux, Mousetrap);
 }, 1500);
 setTimeout(apply_hooks, 1500);
 

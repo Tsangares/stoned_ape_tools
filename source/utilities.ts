@@ -11,9 +11,9 @@ export interface Bindable {
 }
 
 export interface EventListener {
-  on(key: string, callback: (event?: string, payload?: any) => void): void;
-  off(key: string, callback: (event?: string, payload?: any) => void): void;
-  trigger(event: string, payload?: any): void;
+  on(key: string, callback: (event?: string, payload?: unknown) => void): void;
+  off(key: string, callback: (event?: string, payload?: unknown) => void): void;
+  trigger(event: string, payload?: unknown): void;
 }
 
 export default { get_hero };
