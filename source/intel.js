@@ -584,7 +584,7 @@ function Legacy_NeptunesPrideAgent() {
           arrival.getMinutes(),
         )}`;
     } else {
-      var totalETA = arrival - now;
+      let totalETA = arrival - now;
       ttt = p + Crux.formatTime(totalETA);
     }
     return ttt;
