@@ -1,10 +1,13 @@
 /* global chrome, browser */
 
+const SAT_VERSION = chrome.runtime.getManifest().version;
+
 const add_intel_plugin = () => {
   var s = document.createElement("script");
   s.src = chrome.runtime.getURL("intel.js");
   s.id = "intel";
   s.title = `Stoned Ape Tools v${chrome.runtime.getManifest().version}`;
+
   s.onload = function () {
     this.remove();
   };
