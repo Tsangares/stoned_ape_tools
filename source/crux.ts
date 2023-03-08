@@ -1,3 +1,4 @@
+import { Player } from "./game";
 import { EventListener } from "./utilities";
 
 //Weird legacy part of Jay's UI system.
@@ -69,6 +70,7 @@ export interface NPUI extends EventListener {
   screenContainer: Widget;
   hasmenuitem: boolean;
   sideMenu: Widget;
+  PlayerIcon(playre:Player, horizontal:boolean): Widget;
   NagScreen(): void;
   onHideSelectionMenu(event?: string, data?: unknown): void;
   onShowScreen(event: string, screenName: string, screenConfig: unknown): void;
@@ -83,4 +85,5 @@ export interface NPUI extends EventListener {
 export interface Crux {
   Widget(styles: string): Widget;
   Text(id: Template, styles: css): Widget;
+  Button(id: Template, event:string, response: {[key: string|number]: string|number} ): Widget
 }

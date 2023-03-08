@@ -3,6 +3,7 @@ import { clip, lastClip } from "./hotkey";
 import { get_hero } from "./utilities";
 import { renderLedger } from "./ledger";
 import { mergeUser } from "./merge";
+import { get_research_text } from "./chat";
 
 //TODO: WRAP NEW FUCNTIONS WITH PROPER PARAMETERS & REDUCE THE PARAMETERS.
 
@@ -1026,7 +1027,7 @@ function Legacy_NeptunesPrideAgent() {
       inbox.trigger("show_screen", "diplomacy_detail");
     };
     let reportResearchHook = function (_e, _d) {
-      let text = get_research_text();
+      let text = get_research_text(NeptunesPride);
       console.log(text);
       let inbox = NeptunesPride.inbox;
       inbox.commentDrafts[inbox.selectedMessage.key] += text;

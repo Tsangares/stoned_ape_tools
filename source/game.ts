@@ -1,16 +1,7 @@
 import * as Crux from "./crux";
 import { EventListener } from "./utilities";
 
-/*
-export function renderLedger(
-  config: Config,
-  MouseTrap: Bindable,
-  np: NP,
-  npui: Crux.NPUI,
-  universe: Universe,
-  templates: Crux.Templates,
-  players: Player[],
-) {*/
+// Reference: https://forum.ironhelmet.com/t/api-documentation-player-written/7533
 
 export interface Game {
   config: Config;
@@ -18,6 +9,8 @@ export interface Game {
   npui: Crux.NPUI;
   universe: Universe;
   templates: Crux.Templates;
+  version: string;
+  gameNumber: string;
 }
 
 export interface NP extends EventListener {
@@ -80,7 +73,7 @@ export interface Player {
   missed_turns: number;
   huid: number; //I don't know what this is
   home: Home;
-  tech: Technologies | Research;
+  tech: {[name: string]: Research|Technology};
   debt: number; //TODO: Set to zero!
   //war[index: number]: number
 }
@@ -89,42 +82,23 @@ export interface Hero extends Player {
   cash: number;
   researching: string;
   researching_next: string;
-  tech: Research;
+  tech: {[name: string]: Research}
   scannedPlayers: number[];
   war: number[];
   stars_abandoned: number;
   ledger?: Ledger;
 }
 
-export interface Research {
-  scanning: Researchable;
-  propulsion: Researchable;
-  terraforming: Researchable;
-  research: Researchable;
-  weapons: Researchable;
-  banking: Researchable;
-  manufacturing: Researchable;
-}
-export interface Technologies {
-  scanning: Technology;
-  propulsion: Technology;
-  terraforming: Technology;
-  research: Technology;
-  weapons: Technology;
-  banking: Technology;
-  manufacturing: Technology;
-}
-
 export interface Technology {
   level: number; //Actual tech level
-  value: number; //???
+  value: number; //value = level * bv + sv 
 }
 
-export interface Researchable extends Technology {
+export interface Research extends Technology {
   research: number; //Current points in research
-  sv: number; //???
-  bv: number; //???
-  brr: number; //Amount limit increases per level
+  sv: number; //Something Value: Base cost of tech
+  bv: number; //Base Value: Used in value calculation
+  brr: number; //Research cost per level for this technology
 }
 
 export interface Config {

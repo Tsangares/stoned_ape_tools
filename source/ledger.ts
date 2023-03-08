@@ -2,73 +2,10 @@ import { Game, NP, Universe, Player, Ledger, Config } from "./game";
 import * as Crux from "./crux";
 import { get_hero, Bindable } from "./utilities";
 import * as Cache from "./event_cache";
-
-interface Event {
-  payload: Payload;
-  status: string; //read or unread
-  key: string; //Unique per event
-  group: string; //Always "game_event" unless messages
-  created: string; //Date string
-  activity: string; //Equivalent to created?
-  comment_count: number; //TODO: Needs description
-  comments: unknown; //TODO: Needs description
-  commentsLoaded: boolean; //TODO: Needs description
-}
-
-//A Payload is either a tech/money transfer, battle, afk/quit event or message.
-interface Payload {
-  template: string; //Descibes the payload type
-  tick: number; //Tick the event occured on
-  created: unknown;
-  creationTime: string;
-}
-
-interface Transfer extends Payload {
-  from_puid: number; //Player's ID who SENT
-  to_puid: number; //Player's ID who RECIEVED
-
-  giverName: string; //Sender's alias
-  giverUid: number; //alias of from_puid
-  giverColour: string; //HTML String: "<span class='playericon_font pc_3'>1</span>"
-  receiverName: string; //Reciever's alias
-  receiverUid: number; //alias of to_puid
-  receiverColour: string;
-}
-interface MoneyTransfer extends Transfer {
-  template: "money_sent";
-  amount: number;
-}
-
-interface TechTransfer extends Transfer {
-  template: "shared_technology";
-  price: number; //Cost of transfer
-  name: string; //Name of technology
-  display_name: string; //Acutal name of the technology
-  level: number; //Level of the tech
-}
-
-interface Battle extends Payload {
-  template: "combat_mk_ii";
-  attackers: Ship[]; //List of attacking ships
-  defenders: Ship[]; //List of defending ships
-  aw: number; //Attacher Weapons
-  dw: number; //Defender Weapons (After advantage)
-  loot: number; //Econ reward
-  looter: number; //uid of winner
-}
-interface Ship {}
-
-interface AFK extends Payload {
-  template: "goodbye_to_player_inactivity";
-  name: string; //HTML string
-  uid: number; //User ID
-  colour: string; //HTML color stirng
-}
-
+import {Event, TechTransfer, MoneyTransfer} from './events';
 //Get ledger info to see what is owed
 //Actually shows the panel of loading
 export function get_ledger(game: Game, crux: Crux.Crux, messages: unknown[]) {
-  let templates = game.templates;
   let npui = game.npui;
   let universe = game.universe;
   let players = universe.galaxy.players;
@@ -150,10 +87,14 @@ export function renderLedger(game: Game, crux: Crux.Crux, MouseTrap: Bindable) {
     ledgerScreen.roost(npui.screenContainer);
     npui.layoutElement(ledgerScreen);
 
-    Cache.update_event_cache(4, Cache.recieve_new_messages, console.error);
+    Cache.update_event_cache(game,crux,4, Cache.recieve_new_messages, console.error);
   });
+
+  interface ForgiveDebtEvent {
+    targetPlayer: number //The player ID to pay
+  }
   //Why not np.on("ForgiveDebt")?
-  np.onForgiveDebt = function (event: string, data: unknown) {
+  np.onForgiveDebt = function (event: string, data: ForgiveDebtEvent) {
     let targetPlayer = data.targetPlayer;
     let player = players[targetPlayer];
     let amount = player.debt * -1;
