@@ -70,7 +70,7 @@ export interface NPUI extends EventListener {
   screenContainer: Widget;
   hasmenuitem: boolean;
   sideMenu: Widget;
-  PlayerIcon(playre:Player, horizontal:boolean): Widget;
+  PlayerIcon(playre: Player, horizontal: boolean): Widget;
   NagScreen(): void;
   onHideSelectionMenu(event?: string, data?: unknown): void;
   onShowScreen(event: string, screenName: string, screenConfig: unknown): void;
@@ -85,5 +85,9 @@ export interface NPUI extends EventListener {
 export interface Crux {
   Widget(styles: string): Widget;
   Text(id: Template, styles: css): Widget;
-  Button(id: Template, event:string, response: {[key: string|number]: string|number} ): Widget
+  Button(
+    id: Template,
+    event: string,
+    response: { [key: string | number]: string | number },
+  ): Widget;
 }

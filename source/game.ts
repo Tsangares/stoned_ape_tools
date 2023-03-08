@@ -73,7 +73,7 @@ export interface Player {
   missed_turns: number;
   huid: number; //I don't know what this is
   home: Home;
-  tech: {[name: string]: Research|Technology};
+  tech: { [name: string]: Research | Technology };
   debt: number; //TODO: Set to zero!
   //war[index: number]: number
 }
@@ -82,7 +82,7 @@ export interface Hero extends Player {
   cash: number;
   researching: string;
   researching_next: string;
-  tech: {[name: string]: Research}
+  tech: { [name: string]: Research };
   scannedPlayers: number[];
   war: number[];
   stars_abandoned: number;
@@ -91,7 +91,7 @@ export interface Hero extends Player {
 
 export interface Technology {
   level: number; //Actual tech level
-  value: number; //value = level * bv + sv 
+  value: number; //value = level * bv + sv
 }
 
 export interface Research extends Technology {

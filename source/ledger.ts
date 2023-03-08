@@ -2,7 +2,7 @@ import { Game, NP, Universe, Player, Ledger, Config } from "./game";
 import * as Crux from "./crux";
 import { get_hero, Bindable } from "./utilities";
 import * as Cache from "./event_cache";
-import {Event, TechTransfer, MoneyTransfer} from './events';
+import { Event, TechTransfer, MoneyTransfer } from "./events";
 //Get ledger info to see what is owed
 //Actually shows the panel of loading
 export function get_ledger(game: Game, crux: Crux.Crux, messages: unknown[]) {
@@ -87,11 +87,17 @@ export function renderLedger(game: Game, crux: Crux.Crux, MouseTrap: Bindable) {
     ledgerScreen.roost(npui.screenContainer);
     npui.layoutElement(ledgerScreen);
 
-    Cache.update_event_cache(game,crux,4, Cache.recieve_new_messages, console.error);
+    Cache.update_event_cache(
+      game,
+      crux,
+      4,
+      Cache.recieve_new_messages,
+      console.error,
+    );
   });
 
   interface ForgiveDebtEvent {
-    targetPlayer: number //The player ID to pay
+    targetPlayer: number; //The player ID to pay
   }
   //Why not np.on("ForgiveDebt")?
   np.onForgiveDebt = function (event: string, data: ForgiveDebtEvent) {
