@@ -3,25 +3,22 @@ import { clip, lastClip } from "./hotkey";
 
 /* global define, Crux, NeptunesPride, Mousetrap, jQuery, Cookies, $ */
 
-const sat_version = "2.22";
+const sat_version = "2.25";
 
-
-function modify_custom_game(){
-  console.log("Running custom game settings modification")
-  let selector = $("#contentArea > div > div.widget.fullscreen > div.widget.rel > div:nth-child(4) > div:nth-child(15) > select")[0]
-  let textString = ""
-  for (let i=2; i<=32; ++i){
-    textString += `<option value="${i}">${i} Players</option>`
+function modify_custom_game() {
+  console.log("Running custom game settings modification");
+  let selector = $(
+    "#contentArea > div > div.widget.fullscreen > div.widget.rel > div:nth-child(4) > div:nth-child(15) > select",
+  )[0];
+  let textString = "";
+  for (let i = 2; i <= 32; ++i) {
+    textString += `<option value="${i}">${i} Players</option>`;
   }
-  console.log(textString)
-  selector.innerHTML = textString
-
+  console.log(textString);
+  selector.innerHTML = textString;
 }
 
 setTimeout(modify_custom_game, 500);
-
-
-
 
 //Custom UI ComponentsNe
 const PlayerNameIconRowLink = (player) => {
@@ -2031,7 +2028,6 @@ NeptunesPride.npui.StarInspector = function () {
 
   return starInspector;
 };
-
 
 setTimeout(Legacy_NeptunesPrideAgent, 1000);
 setTimeout(renderLedger, 2000);

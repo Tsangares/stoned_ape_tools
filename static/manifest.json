@@ -6,8 +6,7 @@
     "version": "2.25",
     "manifest_version": 3,  
     "permissions": [
-      "scripting",
-      "cookies"
+      "scripting"
     ],
     "host_permissions": [
       "https://np.ironhelmet.com/*"
