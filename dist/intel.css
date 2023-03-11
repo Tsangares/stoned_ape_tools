@@ -1,0 +1,65 @@
+/* ==UserStyle==
+@name        Neptune's Pride Agent CSS
+@description CSS fixups for NP UI
+@match       https://np.ironhelmet.com/*
+@version     2.1
+@updateURL   https://bitbucket.org/osrictheknight/iosnpagent/raw/HEAD/intel.css
+==/UserStyle== */
+
+.no_overflow {
+	overflow: visible !important;
+}
+
+/* Removed z-index because it was blocking the battle calc on stars button */ 
+div.no_overflow:first-of-type>div:first-of-type {
+	position: sticky;
+	top: 0px;
+	background-color: #1a1d44;
+	z-index: 100;
+	border-bottom: 1px solid #2C3273;
+}
+/*For the diplomacy top bar was going half under the sliding text */
+/*#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div:nth-child(1){
+	z-index: 100;
+}*/
+
+.screenshot {
+	max-width: 128px;
+	overflow: scroll;
+	transition: max-width 2s, top 2s, left 2s, width 2s, height 2s;
+}
+
+img.screenshot:hover {
+	z-index: 10000;
+	max-width: none;
+	background-color: #000000;
+}
+div.screenshot:hover {
+	max-width: none;
+	margin-right: 10%;
+	width: 90vw;
+	height: 100vh;
+	position:fixed;
+	top:0;
+	left:0;
+	border: 5px solid #00ff00;
+	z-index: 10000;
+}
+.orange-text{
+	color: #FFA500;
+}
+.red-text{
+	color: #CC2222;
+}
+.blue-text{
+	color: #0096FF;
+}
+.clickable{
+	cursor: pointer;
+}
+.fwd{
+	z-index: 100;
+}
+.small{
+	font-size: 6px;
+}

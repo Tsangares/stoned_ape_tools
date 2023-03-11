@@ -3,13 +3,17 @@ import { clip, lastClip } from "./hotkey";
 
 /* global define, Crux, NeptunesPride, Mousetrap, jQuery, Cookies, $ */
 
-const sat_version = "2.25";
+const sat_version = "2.26";
 
 function modify_custom_game() {
   console.log("Running custom game settings modification");
   let selector = $(
     "#contentArea > div > div.widget.fullscreen > div.widget.rel > div:nth-child(4) > div:nth-child(15) > select",
   )[0];
+  if (selector==undefined){
+    //Not in menu
+    return
+  }
   let textString = "";
   for (let i = 2; i <= 32; ++i) {
     textString += `<option value="${i}">${i} Players</option>`;
