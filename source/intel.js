@@ -1303,7 +1303,7 @@ function Legacy_NeptunesPrideAgent() {
         fp = s.search("\\[\\[");
         sp = s.search("\\]\\]");
         sub = s.slice(fp + 2, sp);
-        let uri = sub.replaceAll('&#x2F;','/')
+        let uri = sub.replaceAll("&#x2F;", "/");
         pattern = `[[${sub}]]`;
         if (templateData[sub] !== undefined) {
           s = s.replace(pattern, templateData[sub]);
