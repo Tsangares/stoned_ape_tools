@@ -1055,7 +1055,7 @@ function Legacy_NeptunesPrideAgent() {
     NeptunesPride.np.on("paste_research", reportResearchHook);
 
     NeptunesPride.np.on("paste_report", reportPasteHook);
-
+    //TODO: REMOVE INTEL BUTTONS AND THE NPA API 
     npui.NewMessageCommentBox = function () {
       let widget = superNewMessageCommentBox();
       let reportButton = Crux.Button("npa_paste", "paste_report", "intel").grid(
