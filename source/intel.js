@@ -3,16 +3,16 @@ import { clip, lastClip } from "./hotkey";
 
 /* global define, Crux, NeptunesPride, Mousetrap, jQuery, Cookies, $ */
 
-const sat_version = "2.26";
+const sat_version = "2.28";
 
 function modify_custom_game() {
   console.log("Running custom game settings modification");
   let selector = $(
     "#contentArea > div > div.widget.fullscreen > div.widget.rel > div:nth-child(4) > div:nth-child(15) > select",
   )[0];
-  if (selector==undefined){
+  if (selector == undefined) {
     //Not in menu
-    return
+    return;
   }
   let textString = "";
   for (let i = 2; i <= 32; ++i) {
@@ -1303,6 +1303,7 @@ function Legacy_NeptunesPrideAgent() {
         fp = s.search("\\[\\[");
         sp = s.search("\\]\\]");
         sub = s.slice(fp + 2, sp);
+        let uri = sub.replaceAll('&#x2F;','/')
         pattern = `[[${sub}]]`;
         if (templateData[sub] !== undefined) {
           s = s.replace(pattern, templateData[sub]);
@@ -1310,8 +1311,8 @@ function Legacy_NeptunesPrideAgent() {
           let apiLink = `<a onClick='Crux.crux.trigger(\"switch_user_api\", \"${sub}\")'> View as ${sub}</a>`;
           apiLink += ` or <a onClick='Crux.crux.trigger(\"merge_user_api\", \"${sub}\")'> Merge ${sub}</a>`;
           s = s.replace(pattern, apiLink);
-        } else if (image_url(sub)) {
-          s = s.replace(pattern, `<img width="100%" src='${sub}' />`);
+        } else if (image_url(uri)) {
+          s = s.replace(pattern, `<img width="100%" src='${uri}' />`);
         } else {
           s = s.replace(pattern, `(${sub})`);
         }
