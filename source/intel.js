@@ -5,7 +5,7 @@ import { renderLedger } from "./ledger";
 import { mergeUser } from "./merge";
 import { get_research_text } from "./chat";
 
-const sat_version = "2.28";
+const SAT_VERSION = "2.28.01";
 
 function modify_custom_game() {
   console.log("Running custom game settings modification");
@@ -27,7 +27,6 @@ function modify_custom_game() {
 setTimeout(modify_custom_game, 500);
 
 //TODO: Make is within scanning function
-const SAT_VERSION = "0.0";
 //Share all tech display as tech is actively trading.
 const display_tech_trading = () => {
   let npui = NeptunesPride.npui;
