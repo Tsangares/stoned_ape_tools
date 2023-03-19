@@ -3,7 +3,7 @@ function mergeUser(event, data) {
     NeptunesPride.originalPlayer = NeptunesPride.universe.player.uid;
   }
   let code = data?.split(":")[1] || otherUserCode;
-  otherUserCode = code;
+  let otherUserCode = code;
   if (otherUserCode) {
     let params = {
       game_number: game,

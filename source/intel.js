@@ -1031,19 +1031,11 @@ function Legacy_NeptunesPrideAgent() {
       return s;
     };
     let npui = NeptunesPride.npui;
-    NeptunesPride.templates["n_p_a"] = "NP Agent";
-    NeptunesPride.templates["npa_report_type"] = "Report Type:";
-    NeptunesPride.templates["npa_paste"] = "Intel";
     //Research button to quickly tell friends research
     NeptunesPride.templates["npa_research"] = "Research";
 
     let superNewMessageCommentBox = npui.NewMessageCommentBox;
 
-    let reportPasteHook = function (_e, _d) {
-      let inbox = NeptunesPride.inbox;
-      inbox.commentDrafts[inbox.selectedMessage.key] += "\n" + lastClip;
-      inbox.trigger("show_screen", "diplomacy_detail");
-    };
     let reportResearchHook = function (_e, _d) {
       let text = get_research_text(NeptunesPride);
       console.log(text);
@@ -1054,85 +1046,16 @@ function Legacy_NeptunesPrideAgent() {
 
     NeptunesPride.np.on("paste_research", reportResearchHook);
 
-    NeptunesPride.np.on("paste_report", reportPasteHook);
-    //TODO: REMOVE INTEL BUTTONS AND THE NPA API
     npui.NewMessageCommentBox = function () {
       let widget = superNewMessageCommentBox();
-      let reportButton = Crux.Button("npa_paste", "paste_report", "intel").grid(
-        10,
-        12,
-        4,
-        3,
-      );
-      reportButton.roost(widget);
       let research_button = Crux.Button(
         "npa_research",
         "paste_research",
         "research",
-      ).grid(14, 12, 6, 3);
+      ).grid(11, 12, 8, 3);
       research_button.roost(widget);
       return widget;
     };
-    const npaReports = function (_screenConfig) {
-      npui.onHideScreen(null, true);
-      npui.onHideSelectionMenu();
-
-      npui.trigger("hide_side_menu");
-      npui.trigger("reset_edit_mode");
-      var reportScreen = npui.Screen("n_p_a");
-
-      Crux.Text("", "rel pad12 txt_center col_black  section_title")
-        .rawHTML(title)
-        .roost(reportScreen);
-
-      var report = Crux.Widget("rel  col_accent").size(480, 48);
-      var output = Crux.Widget("rel");
-
-      Crux.Text("npa_report_type", "pad12").roost(report);
-      var selections = {
-        planets: "Home Planets",
-        fleets: "Fleets (short)",
-        combats: "Fleets (long)",
-        stars: "Stars",
-      };
-      Crux.DropDown("", selections, "exec_report")
-        .grid(15, 0, 15, 3)
-        .roost(report);
-
-      let text = Crux.Text("", "pad12 rel txt_selectable")
-        .size(432)
-        .pos(48)
-        .rawHTML("Choose a report from the dropdown.");
-      text.roost(output);
-
-      report.roost(reportScreen);
-      output.roost(reportScreen);
-
-      let reportHook = function (e, d) {
-        console.log("Execute report", e, d);
-        if (d === "planets") {
-          homePlanets();
-        } else if (d === "fleets") {
-          briefFleetReport();
-        } else if (d === "combats") {
-          longFleetReport();
-        } else if (d === "stars") {
-          starReport();
-        }
-        let html = lastClip.replace(/\n/g, "<br>");
-        html = NeptunesPride.inbox.hyperlinkMessage(html);
-        text.rawHTML(html);
-      };
-      reportHook(0, "planets");
-      NeptunesPride.np.on("exec_report", reportHook);
-
-      npui.activeScreen = reportScreen;
-      reportScreen.roost(npui.screenContainer);
-      npui.layoutElement(reportScreen);
-    };
-    NeptunesPride.np.on("trigger_npa", npaReports);
-    npui.SideMenuItem("icon-eye", "n_p_a", "trigger_npa").roost(npui.sideMenu);
-
     let superFormatTime = Crux.formatTime;
     let relativeTimes = 0;
     Crux.formatTime = function (ms, mins, secs) {
