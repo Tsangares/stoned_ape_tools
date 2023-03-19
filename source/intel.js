@@ -5,7 +5,7 @@ import { renderLedger } from "./ledger";
 import { mergeUser } from "./merge";
 import { get_research_text } from "./chat";
 
-const SAT_VERSION = "2.28.01";
+const SAT_VERSION = "2.28.01-git";
 
 function modify_custom_game() {
   console.log("Running custom game settings modification");
