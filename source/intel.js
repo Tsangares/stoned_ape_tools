@@ -1,11 +1,11 @@
-import { is_valid_image_url, is_valid_youtube } from "./parse_utils";
+import { is_valid_image_url, is_valid_youtube, markdown } from "./parse_utils";
 import { clip, lastClip } from "./hotkey";
 import { get_hero } from "./utilities";
 import { renderLedger } from "./ledger";
 import { mergeUser } from "./merge";
 import { get_research_text } from "./chat";
 
-const SAT_VERSION = "2.28.02-git";
+const SAT_VERSION = "2.28.03-git";
 
 //TODO: Organize typescript to an interfaces directory
 //TODO: Then make other game engine objects
