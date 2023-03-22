@@ -10,10 +10,11 @@
     "lint": "npx rome check source",
     "format": "npx rome format --write source",
     "test": "vitest run --coverage",
-    "prepare": "husky install .husky"
+    "prepare": "husky install .husky",
+    "versioning": "bin/update_minor_version"
   },
   "pre-commit": [
-    "bin/update_minor_version"
+    "versioning"
   ],
   "license": "GPLv3",
   "devDependencies": {
@@ -24,6 +25,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "dotenv-webpack": "^8.0.0",
     "husky": "^8.0.0",
+    "pre-commit": "^1.2.2",
     "rome": "^11.0.0",
     "ts-loader": "^9.4.2",
     "typescript": "^4.9.4",
