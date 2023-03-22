@@ -1,4 +1,4 @@
-import { image_url } from "./imageutils";
+import { is_valid_image_url, is_valid_youtube } from "./parse_utils";
 import { clip, lastClip } from "./hotkey";
 import { get_hero } from "./utilities";
 import { renderLedger } from "./ledger";
@@ -7,6 +7,13 @@ import { get_research_text } from "./chat";
 
 const SAT_VERSION = "2.28.02-git";
 
+//TODO: Organize typescript to an interfaces directory
+//TODO: Then make other game engine objects
+// Part of your code is re-creating the game in typescript
+// The other part is adding features
+// Then there is a segment that is overwriting existing content to add small additions.
+
+//Add custom settings when making a nwe game.
 function modify_custom_game() {
   console.log("Running custom game settings modification");
   let selector = $(
@@ -49,6 +56,7 @@ const display_tech_trading = () => {
   return tech_trade_screen;
 };
 
+//Returns all stars I suppose
 const _get_star_gis = () => {
   let stars = NeptunesPride.universe.galaxy.stars;
   let output = [];
@@ -93,6 +101,7 @@ const get_tech_trade_cost = (from, to, tech_name = null) => {
 };
 
 //Hooks to buttons for sharing and buying
+//Pretty simple hooks that can be added to a typescript file.
 const apply_hooks = () => {
   NeptunesPride.np.on("share_all_tech", (event, player) => {
     let total_cost = get_tech_trade_cost(
@@ -991,6 +1000,8 @@ function Legacy_NeptunesPrideAgent() {
         }
       }
     };
+
+    //TODO: Learn more about this hook. its run too much..
     Crux.format = function (s, templateData) {
       if (!s) {
         return "error";
@@ -1021,8 +1032,10 @@ function Legacy_NeptunesPrideAgent() {
           let apiLink = `<a onClick='Crux.crux.trigger(\"switch_user_api\", \"${sub}\")'> View as ${sub}</a>`;
           apiLink += ` or <a onClick='Crux.crux.trigger(\"merge_user_api\", \"${sub}\")'> Merge ${sub}</a>`;
           s = s.replace(pattern, apiLink);
-        } else if (image_url(uri)) {
+        } else if (is_valid_image_url(uri)) {
           s = s.replace(pattern, `<img width="100%" src='${uri}' />`);
+        } else if (is_valid_youtube(uri)) {
+          //Pass
         } else {
           s = s.replace(pattern, `(${sub})`);
         }
@@ -1537,6 +1550,14 @@ NeptunesPride.npui.StarInspector = function () {
 
   //Call super (Previous StarInspector from gamecode)
   let starInspector = superStarInspector();
+  Crux.IconButton("icon-help rel", "show_help", "stars").roost(
+    starInspector.heading,
+  );
+  Crux.IconButton(
+    "icon-doc-text rel",
+    "show_screen",
+    "combat_calculator",
+  ).roost(starInspector.heading);
 
   //Append extra function
   async function apply_fractional_ships() {
@@ -1564,8 +1585,12 @@ NeptunesPride.npui.StarInspector = function () {
   return starInspector;
 };
 
+//Change from timeout to hooks by updating the worker to hook into a game component.
+
+//Javascript call
 setTimeout(Legacy_NeptunesPrideAgent, 1000);
 setTimeout(() => {
+  //Typescript call
   renderLedger(NeptunesPride, Crux, Mousetrap);
 }, 1500);
 setTimeout(apply_hooks, 1500);

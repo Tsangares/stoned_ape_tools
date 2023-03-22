@@ -10,12 +10,15 @@
 	overflow: visible !important;
 }
 
-/* Removed z-index because it was blocking the battle calc on stars button */ 
+/*Removed z-index because it was blocking the battle calc on stars button */
 div.no_overflow:first-of-type>div:first-of-type {
 	position: sticky;
-	top: 0px; /*Increasing this z-index blocks other buttons. Needs a new solution.*/
+	top: 0px;
 	background-color: #1a1d44;
 	border-bottom: 1px solid #2C3273;
+}
+div.no_overflow:first-of-type>div:first-of-type:stuck {
+	z-index: 100;
 }
 
 /*For the diplomacy top bar was going half under the sliding text */
