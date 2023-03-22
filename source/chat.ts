@@ -1,7 +1,6 @@
 import { Game, Research, Hero } from "./game";
 import { get_hero } from "./utilities";
 import { NPUI, Widget, MessageComment } from "./crux";
-import { markdown } from "./chat";
 interface ResearchMap {
   [key: string]: string;
 }
@@ -57,7 +56,7 @@ function get_research_text(game: Game): string {
   return `${first_line}\n${second_line}\n${third_line}\n`;
 }
 
-export function MarkDownMessageComment(
+function MarkDownMessageComment(
   context: NPUI,
   text: string,
   index: number,
@@ -66,4 +65,4 @@ export function MarkDownMessageComment(
 
   return "";
 }
-export { get_research, get_research_text };
+export { get_research, get_research_text, MarkDownMessageComment};

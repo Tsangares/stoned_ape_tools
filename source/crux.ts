@@ -15,7 +15,7 @@ type css = string;
 
 export interface Widget extends EventListener {
   (styles: string): Widget;
-  format( options: {[key:string]: string} ) : Widget;
+  format(options: { [key: string]: string }): Widget;
   name: string;
   x: number;
   y: number;
@@ -81,7 +81,7 @@ export interface NPUI extends EventListener {
   onRefreshBuildInf(): void;
   onRebuildPlayerIcons(): void;
   layoutElement(element: unknown): void;
-  MessageComment(comment:string, i:number): Widget;
+  MessageComment(comment: string, i: number): Widget;
 }
 
 export interface Crux {
