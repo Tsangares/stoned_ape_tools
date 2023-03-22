@@ -5,7 +5,7 @@ import { renderLedger } from "./ledger";
 import { mergeUser } from "./merge";
 import { get_research_text } from "./chat";
 
-const SAT_VERSION = "2.28.04-git";
+const SAT_VERSION = "2.28.005-git";
 
 //TODO: Organize typescript to an interfaces directory
 //TODO: Then make other game engine objects

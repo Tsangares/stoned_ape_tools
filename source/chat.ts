@@ -65,4 +65,4 @@ function MarkDownMessageComment(
 
   return "";
 }
-export { get_research, get_research_text, MarkDownMessageComment};
+export { get_research, get_research_text, MarkDownMessageComment };

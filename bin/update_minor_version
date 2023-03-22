@@ -1,0 +1,13 @@
+#!/usr/bin/fish
+set VERSION (cat package.json | string match -r '"version": "(2\.[\d]{1,3}\.[\d]{1,3})"' -g)
+set SUPER (echo $VERSION | tr '.' ' ' | awk '{print $1}')
+set MAJOR (echo $VERSION | tr '.' ' ' | awk '{print $2}')
+set MINOR (echo $VERSION | tr '.' ' ' | awk '{print $3}')
+set MINOR (string pad -c 0 -w 3 (math $MINOR+1))
+set NEW_VERSION (echo $SUPER.$MAJOR.$MINOR)
+echo "UPDATING $VERSION to $NEW_VERSION!"
+sed -i package.json -e "s/$VERSION/$NEW_VERSION/g"
+sed -i source/intel.js -e "s/$VERSION/$NEW_VERSION/g"
+sed -i static/manifest.json -e "s/$VERSION/$NEW_VERSION/g"
+npm run build
+git add -A
