@@ -1,0 +1,20 @@
+#!/usr/bin/fish
+
+#Increment Major Version
+./bin/inc_major
+
+#Set Version
+./bin/set_version $VERSION $NEW_VERSION
+
+#Build dist
+npm run build
+#Make a zip of dist files
+cd ./dist
+zip stoned_ape_$SUPER_$MAJOR.zip *
+
+#Archive
+mv stoned_ape_$SUPER_$MAJOR.zip ../../archive/
+cd ../
+
+#Prepare git commit
+git add -A

@@ -1,0 +1,17 @@
+#!/usr/bin/fish
+
+./bin/get_version
+
+#Increment Minor Version
+./bin/inc_minor
+
+
+#Set Version
+./bin/set_version $VERSION $NEW_VERSION
+echo "VERSION: Super($SUPER) Major($MAJOR) Minor($MINOR)"
+
+#Build dist
+npm run build
+
+#Prepare git commit
+git add -A

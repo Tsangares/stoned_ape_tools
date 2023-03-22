@@ -1,0 +1,7 @@
+#!/usr/bin/fish
+
+git pull origin main
+git add -A
+git commit -m argv[1]
+git push origin main
+echo "done."

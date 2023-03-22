@@ -1,0 +1,5 @@
+#!/usr/bin/fish
+echo "Setting Version $VERSION to $NEW_VERSION!"
+sed -i package.json -e "s/$VERSION/$NEW_VERSION/g"
+sed -i source/intel.js -e "s/$VERSION/$NEW_VERSION/g"
+sed -i static/manifest.json -e "s/$VERSION/$NEW_VERSION/g"

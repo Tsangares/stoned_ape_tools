@@ -1,0 +1,7 @@
+#!/usr/bin/fish
+./bin/get_version
+set -Ux MAJOR (string pad -c 0 -w 2 (math $MAJOR+1))
+set -Ux MINOR 000
+set -Ux NEW_VERSION (echo $SUPER.$MAJOR.$MINOR)
+
+export VERSION SUPER MAJOR MINOR NEW_VERSION

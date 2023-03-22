@@ -1,0 +1,16 @@
+#!/usr/bin/fish
+echo "Updating Major Version and Zipping"
+set VERSION (cat package.json | string match -r '"version": "(2\.[\d]{1,3}\.[\d]{1,3})"' -g)
+set SUPER (echo $VERSION | tr '.' ' ' | awk '{print $1}')
+set MAJOR (echo $VERSION | tr '.' ' ' | awk '{print $2}')
+set MAJOR (string pad -c 0 -w 2 (math $MAJOR+1))
+set MINOR 001
+set NEW_VERSION (echo $SUPER.$MAJOR.$MINOR)
+./bin/set_version $VERSION $NEW_VERSION
+npm run build
+git add -A
+echo "FINISHED UPDATING VERSION NUMBER"
+cd ./dist
+zip stoned_ape_$SUPER_$MAJOR.zip *
+mv stoned_ape_$SUPER_$MAJOR.zip ../../archive/
+cd ../
