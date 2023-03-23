@@ -64,7 +64,21 @@ export interface NPUI {
   ): Widget;
   Screen(title: string, subtitle?: string): Screen;
   ledgerScreen(): Screen;
+  map: unknown;
 }
+//Maybe the canavas
+export interface MapContext {
+  font: string; //14px OpensansRegular, sans-seriff;
+  fillStyle: string; //#FF0000
+  textAlign: string; //right
+  textBaseline: string; //middle
+  fillText(text: string, x: number, y: number): void;
+}
+//NeptunesPride.npui.map
+export interface MAP {
+  context: MapContext;
+}
+
 //Properties of npui
 export interface NPUI extends EventListener {
   activeScreen: Widget;
@@ -82,6 +96,7 @@ export interface NPUI extends EventListener {
   onRebuildPlayerIcons(): void;
   layoutElement(element: unknown): void;
   MessageComment(comment: string, i: number): Widget;
+  refreshTurnManager(): void; //No idea what this does....
 }
 
 export interface Crux {

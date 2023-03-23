@@ -18,6 +18,24 @@ export interface Event {
   commentsLoaded: boolean; //TODO: Needs description
 }
 
+export interface MergeEvent extends Event {
+  type: string;
+  timeStamp: number;
+  isTrigger: number;
+  target: HTMLElement;
+  delegateTarget: HTMLElement;
+  currentTarget: unknown;
+}
+
+export interface HTMLElement {}
+
+export interface HandleObj {
+  type: string;
+  origType: string;
+  guid: number;
+  namespace: string;
+}
+
 //A Payload is either a tech/money transfer, battle, afk/quit event or message.
 export interface Payload {
   template: string; //Descibes the payload type

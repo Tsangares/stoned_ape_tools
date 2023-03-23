@@ -1,15 +1,32 @@
-function mergeUser(event, data) {
-  if (NeptunesPride.originalPlayer === undefined) {
-    NeptunesPride.originalPlayer = NeptunesPride.universe.player.uid;
+import { Game, getGame, getUniverse, Hero } from "./game";
+import { get_hero } from "./utilities";
+
+let originalPlayer: Hero = undefined;
+
+function set_original_player(): boolean {
+  if (originalPlayer === undefined) {
+    originalPlayer = get_hero(getUniverse());
+    return true;
   }
-  let code = data?.split(":")[1] || otherUserCode;
-  let otherUserCode = code;
+  return false;
+}
+//Needs access to Universe!
+export function mergeUser(event: Event, data: string) {
+  let game = NeptunesPride;
+  let universe = game.universe;
+  //This saves the actual client's player.
+  set_original_player();
+  console.log(event);
+  //Extract code
+  let code: string = data?.split(":")[1];
+  console.log(code);
   if (otherUserCode) {
     let params = {
       game_number: game,
       api_version: "0.1",
       code: otherUserCode,
     };
+    fetch();
     let eggers = jQuery.ajax({
       type: "POST",
       url: "https://np.ironhelmet.com/api",
@@ -17,6 +34,7 @@ function mergeUser(event, data) {
       data: params,
       dataType: "json",
     });
+    //TODO: BLOCK LOADING MY OWN STARS
     let universe = NeptunesPride.universe;
     let scan = eggers.responseJSON.scanning_data;
     universe.galaxy.stars = { ...scan.stars, ...universe.galaxy.stars };
@@ -30,7 +48,6 @@ function mergeUser(event, data) {
     universe.galaxy.fleets = { ...scan.fleets, ...universe.galaxy.fleets };
     NeptunesPride.np.onFullUniverse(null, universe.galaxy);
     NeptunesPride.npui.onHideScreen(null, true);
-    init();
+    init(); //INIT??????
   }
 }
-export { mergeUser };

@@ -2,8 +2,12 @@ import { Universe, Hero } from "./game";
 
 export type Event = string;
 
-export function get_hero(universe: Universe): Hero {
-  return universe.player;
+export function get_hero(universe?: Universe): Hero {
+  if (universe === undefined) {
+    return NeptunesPride.universe.player;
+  } else {
+    return universe.player;
+  }
 }
 
 export interface Bindable {
@@ -15,5 +19,3 @@ export interface EventListener {
   off(key: string, callback: (event?: string, payload?: unknown) => void): void;
   trigger(event: string, payload?: unknown): void;
 }
-
-export default { get_hero };

@@ -4,8 +4,14 @@ import { get_hero } from "./utilities";
 import { renderLedger } from "./ledger";
 import { mergeUser } from "./merge";
 import { get_research_text } from "./chat";
+import { drawOverlayString, anyStarCanSee } from "./graphics";
+import { thisGame } from "./game";
 
-const SAT_VERSION = "2.28.15-git";
+const SAT_VERSION = "2.28.16-git";
+
+if (NeptunesPride === undefined) {
+  thisGame.neptunesPride = NeptunesPride;
+}
 
 //TODO: Organize typescript to an interfaces directory
 //TODO: Then make other game engine objects
@@ -776,34 +782,6 @@ function Legacy_NeptunesPrideAgent() {
     "Generate a player summary mean to be made into a spreadsheet." +
     "<p>The clipboard should be pasted into a CSV and then imported.";
 
-  let drawOverlayString = function (context, s, x, y, fgColor) {
-    context.fillStyle = "#000000";
-    for (let smear = 1; smear < 4; ++smear) {
-      context.fillText(s, x + smear, y + smear);
-      context.fillText(s, x - smear, y + smear);
-      context.fillText(s, x - smear, y - smear);
-      context.fillText(s, x + smear, y - smear);
-    }
-    context.fillStyle = fgColor || "#00ff00";
-    context.fillText(s, x, y);
-  };
-
-  let anyStarCanSee = function (owner, fleet) {
-    let stars = NeptunesPride.universe.galaxy.stars;
-    let universe = NeptunesPride.universe;
-    let scanRange = universe.galaxy.players[owner].tech.scanning.value;
-    for (const s in stars) {
-      let star = stars[s];
-      if (star.puid == owner) {
-        let distance = universe.distance(star.x, star.y, fleet.x, fleet.y);
-        if (distance <= scanRange) {
-          return true;
-        }
-      }
-    }
-    return false;
-  };
-
   let hooksLoaded = false;
   let handicapString = function (prefix) {
     let p =
@@ -1258,7 +1236,6 @@ function Legacy_NeptunesPrideAgent() {
   document.body.addEventListener("keyup", autocompleteTrigger);
 
   console.log("SAT: Neptune's Pride Agent injection finished.");
-
   console.log("Getting hero!", get_hero(NeptunesPride.universe));
 }
 
@@ -1584,8 +1561,6 @@ NeptunesPride.npui.StarInspector = function () {
 
   return starInspector;
 };
-
-//Change from timeout to hooks by updating the worker to hook into a game component.
 
 //Javascript call
 setTimeout(Legacy_NeptunesPrideAgent, 1000);

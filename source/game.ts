@@ -3,6 +3,10 @@ import { EventListener } from "./utilities";
 
 // Reference: https://forum.ironhelmet.com/t/api-documentation-player-written/7533
 
+declare global {
+  var NeptunesPride: Game;
+}
+//This is the NeptunesPride Object
 export interface Game {
   config: Config;
   np: NP;
@@ -11,6 +15,7 @@ export interface Game {
   templates: Crux.Templates;
   version: string;
   gameNumber: string;
+  originalPlayer: number;
 }
 
 export interface NP extends EventListener {
@@ -28,14 +33,66 @@ export interface NP extends EventListener {
 export interface Galaxy {
   player_uid: number;
   players: Player[];
+  stars: Star[];
 }
-
+export interface Star {
+  //All Zero when I can't see it.
+  puid: number;
+  x: number; //Position
+  y: number;
+  n: string; //name or star
+  v: string; //"1" is visible; "0" if not.
+  e: number; //economy
+  i: number; //industry
+  s: number; //science
+  nr: number; //Natural Resources
+  r: number; //Current Resources
+  c: number; //Fractional Ship
+  st: number; //Current Ship Count
+  ga: number; //?
+  alliedDefenders: number[];
+  fleetsInOrbit: Carrier[];
+  qualifiedAlias: string; //Player Alias
+  player: Player;
+  shipsPerTick: number; //Generated per tick //NAN when invisible
+  totalDefenses: number; //Number of ships on star
+  uce: number; //??
+  ucg: number; //??
+  uci: number; //??
+  ucs: number; //??
+  ucd: number; //??
+  victoryBonus: number; // For extra winings?
+}
+export interface Carrier {
+  ouid: number;
+  puid: number; //Player ID
+  orbiting: Star | null;
+  owned: boolean; //If you own it
+  player: Player;
+  st: number; //Ship Count
+  warpSpeed: number; //?
+  w: number; //?
+  x: string;
+  y: string;
+  lx: string;
+  ly: string;
+  n: string; //Name of ship
+  loop: number; // ? In a loop 0 or 1
+  kind: string; //"fleet"
+  etaFirst: number;
+  eta: number;
+  colourBox: string;
+  hyperlinkedAlias: string;
+  orders: unknown[];
+  path: unknown[];
+}
 export interface Universe {
   galaxy: Galaxy;
   player: Hero;
   now: number;
   playerCount: number;
   selectedPlayer: Hero | Player | null;
+  distance(x_1: number, y_1: number, x_2: number, y_2: number): number; //L2 NORM
 }
 
 export interface Point {

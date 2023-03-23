@@ -3,7 +3,7 @@
   
     "name": "Stoned Ape Tools",
     "description": "Tools that only a stoned ape could use. ",
-    "version": "2.28.15",
+    "version": "2.28.16",
     "manifest_version": 3,  
     "permissions": [
       "scripting"
