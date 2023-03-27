@@ -1,6 +1,8 @@
-import { Game, Research, Hero } from "./game";
-import { get_hero } from "./utilities";
-import { NPUI, Widget, MessageComment } from "./crux";
+import { get_hero } from "./get_hero";
+import { NPUI, Widget, MessageComment } from "./interfaces/crux";
+import { GameState } from "./interfaces/game";
+import { Research } from "./interfaces/research_technology";
+
 interface ResearchMap {
   [key: string]: string;
 }
@@ -14,7 +16,7 @@ const RESEACH_MAP: ResearchMap = {
   manufacturing: "Manufacturing",
 };
 //For quick research display
-function get_research(game: Game): { [key: string]: string | number } {
+function get_research(game: GameState): { [key: string]: string | number } {
   let universe = game.universe;
   let hero = get_hero(game.universe);
   let science = hero.total_science;
@@ -48,7 +50,7 @@ function get_research(game: Game): { [key: string]: string | number } {
   };
 }
 
-function get_research_text(game: Game): string {
+function get_research_text(game: GameState): string {
   const research = get_research(game);
   let first_line = `Now: ${research["current_name"]} ${research["current_level"]} - ${research["current_eta"]} ticks.`;
   let second_line = `Next: ${research["next_name"]} ${research["next_level"]} - ${research["next_eta"]} ticks.`;

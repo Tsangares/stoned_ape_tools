@@ -1,5 +1,6 @@
-import { MapContext, MAP } from "./crux";
-import { Galaxy, Carrier, Universe } from "./game";
+import { MapContext, MAP } from "../interfaces/crux";
+import { Universe } from "../interfaces/universe";
+import { Carrier } from "../interfaces/carrier";
 
 export function drawOverlayString(
   context: MapContext,
@@ -28,7 +29,12 @@ export function anyStarCanSee(
   for (const s in stars) {
     let star = stars[s];
     if (star.puid == owner) {
-      let distance = universe.distance(star.x, star.y, fleet.x, fleet.y);
+      let distance = universe.distance(
+        star.x,
+        star.y,
+        parseFloat(fleet.x),
+        parseFloat(fleet.y),
+      );
       if (distance <= scanRange) {
         return true;
       }

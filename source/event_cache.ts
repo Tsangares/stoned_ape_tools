@@ -1,9 +1,10 @@
-import { Game, Player, Universe } from "./game";
 import { get_ledger } from "./ledger";
-import { Widget, Crux, NPUI } from "./crux";
-import { Event, MessageEvent } from "./events";
-import { get_hero } from "./utilities";
+import { Widget, Crux, NPUI } from "./interfaces/crux";
+import { Event, MessageEvent } from "./interfaces/events";
+import { get_hero } from "./get_hero";
 import { cache } from "webpack";
+import { GameState } from "./interfaces/game";
+import { Player } from "./interfaces/player";
 
 //Global cached event system.
 export let cached_events: Event[] = [];
@@ -14,12 +15,12 @@ interface Callback {
   (value: Response): Response | void;
 }
 interface EventCacheCallback {
-  (game: Game, crux: Crux, messages: MessageEvent): void;
+  (game: GameState, crux: Crux, messages: MessageEvent): void;
 }
 //Async request game events
 //game is used to get the api version and the gameNumber
 export function update_event_cache(
-  game: Game,
+  game: GameState,
   crux: Crux,
   fetchSize: number,
   success: EventCacheCallback,
@@ -74,7 +75,7 @@ export function PlayerNameIconRowLink(
 
 //Handler to recieve new messages
 export function recieve_new_messages(
-  game: Game,
+  game: GameState,
   crux: Crux,
   response: MessageEvent,
 ): void {

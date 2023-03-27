@@ -1,11 +1,22 @@
-import { Game, NP, Universe, Player, Ledger, Config } from "./game";
-import * as Crux from "./crux";
-import { get_hero, Bindable } from "./utilities";
+import { Bindable } from "./interfaces/bindable";
+import { Event, TechTransfer, MoneyTransfer } from "./interfaces/events";
+import { GameState } from "./interfaces/game";
+import { Player } from "./interfaces/player";
+import { get_hero } from "./get_hero";
+import * as Crux from "./interfaces/crux";
 import * as Cache from "./event_cache";
-import { Event, TechTransfer, MoneyTransfer } from "./events";
+
+export interface Ledger {
+  [player: number]: number;
+}
+
 //Get ledger info to see what is owed
 //Actually shows the panel of loading
-export function get_ledger(game: Game, crux: Crux.Crux, messages: unknown[]) {
+export function get_ledger(
+  game: GameState,
+  crux: Crux.Crux,
+  messages: unknown[],
+) {
   let npui = game.npui;
   let universe = game.universe;
   let players = universe.galaxy.players;
@@ -47,7 +58,11 @@ export function get_ledger(game: Game, crux: Crux.Crux, messages: unknown[]) {
   return accounts;
 }
 
-export function renderLedger(game: Game, crux: Crux.Crux, MouseTrap: Bindable) {
+export function renderLedger(
+  game: GameState,
+  crux: Crux.Crux,
+  MouseTrap: Bindable,
+) {
   //Deconstruction of different components of the game.
   let config = game.config;
   let np = game.np;

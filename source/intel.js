@@ -1,18 +1,22 @@
-import { is_valid_image_url, is_valid_youtube, markdown } from "./parse_utils";
+import { get_research_text } from "./chat";
+import { thisGame } from "./game";
+import { get_hero } from "./get_hero";
 import { clip, lastClip } from "./hotkey";
-import { get_hero } from "./utilities";
 import { renderLedger } from "./ledger";
 import { mergeUser } from "./merge";
-import { get_research_text } from "./chat";
-import { drawOverlayString, anyStarCanSee } from "./graphics";
-import { thisGame } from "./game";
+import { is_valid_image_url, is_valid_youtube } from "./parse_utils";
+import { anyStarCanSee, drawOverlayString } from "./utilities/graphics";
 
-const SAT_VERSION = "2.28.16-git";
+const SAT_VERSION = "2.28.17-git";
 
 if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
 }
 
+function post_hook() {
+  //console.log(stringify(NeptunesPride.universe.galaxy.fleets[2],null, "\t"))
+  return null;
+}
 //TODO: Organize typescript to an interfaces directory
 //TODO: Then make other game engine objects
 // Part of your code is re-creating the game in typescript
@@ -145,7 +149,6 @@ const apply_hooks = () => {
     let player = data.player;
     let tech = data.tech;
     let cost = data.cost;
-    console.log(player);
     NeptunesPride.templates[
       `confirm_tech_share_${player.uid}`
     ] = `Are you sure you want to spend $${cost} to buy ${tech} from ${player.rawAlias}? It is up to them to actually send it to you.`;
@@ -1566,6 +1569,7 @@ NeptunesPride.npui.StarInspector = function () {
 setTimeout(Legacy_NeptunesPrideAgent, 1000);
 setTimeout(() => {
   //Typescript call
+  post_hook();
   renderLedger(NeptunesPride, Crux, Mousetrap);
 }, 1500);
 setTimeout(apply_hooks, 1500);

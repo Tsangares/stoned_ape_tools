@@ -1,5 +1,5 @@
-import { Player } from "./game";
-import { EventListener } from "./utilities";
+import { EventListener } from "./events";
+import { Player } from "./player";
 
 //Weird legacy part of Jay's UI system.
 export type Template = string;
