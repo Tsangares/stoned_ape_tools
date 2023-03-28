@@ -7,7 +7,7 @@ import { mergeUser } from "./merge";
 import { is_valid_image_url, is_valid_youtube } from "./parse_utils";
 import { anyStarCanSee, drawOverlayString } from "./utilities/graphics";
 
-const SAT_VERSION = "2.28.17-git";
+const SAT_VERSION = "2.28.18-git";
 
 if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
@@ -1145,6 +1145,9 @@ function Legacy_NeptunesPrideAgent() {
 
   var otherUserCode = undefined;
   let game = NeptunesPride.gameNumber;
+
+  //This puts you into their position.
+  //How is it different?
   let switchUser = function (event, data) {
     if (NeptunesPride.originalPlayer === undefined) {
       NeptunesPride.originalPlayer = NeptunesPride.universe.player.uid;
@@ -1164,6 +1167,8 @@ function Legacy_NeptunesPrideAgent() {
         data: params,
         dataType: "json",
       });
+      //Loads the pull universe data into the function. Thats the difference.
+      //The other version loads an updated galaxy into the function
       NeptunesPride.np.onFullUniverse(null, eggers.responseJSON.scanning_data);
       NeptunesPride.npui.onHideScreen(null, true);
       NeptunesPride.np.trigger("select_player", [

@@ -48,6 +48,7 @@ export function mergeUser(event: Event, data: string) {
 //Combine data from another user
 //Callback on API ..
 //mechanic closes at 5pk,m
+//This works but now add it so it does not overtake your stars.
 export function mergeUserData(scanningData: ScanningData) {
   let galaxy = get_galaxy();
   let stars: { [index: string]: Star } = scanningData.stars;
@@ -55,27 +56,15 @@ export function mergeUserData(scanningData: ScanningData) {
   // Update stars
   for (const starId in stars) {
     const star = stars[starId];
-    if (Object.keys(galaxy.stars).indexOf(starId) !== -1) {
-      // The star already exists, do something
-      console.log("Star already exists in the galaxy");
-    } else {
-      // The star does not exist, add it to the galaxy
-      galaxy.stars[starId] = star;
-    }
+    galaxy.stars[starId] = star;
   }
 
   // Add fleets
   for (const fleetId in fleets) {
     const fleet = fleets[fleetId];
-    // Check if the fleet already exists in the galaxy
-    if (Object.keys(galaxy.fleets).indexOf(fleetId) !== -1) {
-      // The fleet already exists, do something
-      console.log("Fleet already exists in the galaxy");
-    } else {
-      // The fleet does not exist, add it to the galaxy
-      galaxy.fleets[fleetId] = fleet;
-    }
+    galaxy.fleets[fleetId] = fleet;
   }
-  //NeptunesPride.np.onFullUniverse(null, galaxy);
+  //onFullUniverse Seems to additionally load all the players.
+  NeptunesPride.np.onFullUniverse(null, galaxy);
   //NeptunesPride.npui.onHideScreen(null, true);
 }
