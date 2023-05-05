@@ -8,7 +8,7 @@ import { is_valid_image_url, is_valid_youtube } from "./parse_utils";
 import { anyStarCanSee, drawOverlayString } from "./utilities/graphics";
 import { hook_npc_tick_counter } from "./utilities/npc_calc";
 
-const SAT_VERSION = "2.28.20-git";
+const SAT_VERSION = "2.28.22-git";
 
 if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
