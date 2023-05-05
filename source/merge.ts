@@ -58,7 +58,7 @@ export function mergeUserData(scanningData: ScanningData) {
     const star = stars[starId];
     galaxy.stars[starId] = star;
   }
-
+  console.log("Syncing");
   // Add fleets
   for (const fleetId in fleets) {
     const fleet = fleets[fleetId];

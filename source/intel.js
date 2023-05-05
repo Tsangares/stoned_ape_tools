@@ -6,8 +6,9 @@ import { renderLedger } from "./ledger";
 import { mergeUser } from "./merge";
 import { is_valid_image_url, is_valid_youtube } from "./parse_utils";
 import { anyStarCanSee, drawOverlayString } from "./utilities/graphics";
+import { hook_npc_tick_counter } from "./utilities/npc_calc";
 
-const SAT_VERSION = "2.28.18-git";
+const SAT_VERSION = "2.28.19-git";
 
 if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
@@ -1299,6 +1300,7 @@ const add_custom_player_panel = () => {
       .rawHTML(player.qualifiedAlias)
       .roost(playerPanel);
 
+    // Achievements
     var myAchievements;
     //U=>Toxic
     //V=>Magic
@@ -1409,6 +1411,10 @@ const add_custom_player_panel = () => {
         }
       });
     }
+
+    //NPC Calc
+    hook_npc_tick_counter(NeptunesPride, Crux);
+
     Crux.Text("you", "pad12 txt_center").grid(25, 6, 5, 3).roost(playerPanel);
 
     // Labels

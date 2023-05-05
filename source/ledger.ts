@@ -78,15 +78,18 @@ export function renderLedger(
   templates["tech_trading"] = "Trading Technology";
   templates["forgive"] = "Pay Debt";
   templates["forgive_debt"] = "Are you sure you want to forgive this debt?";
+
   if (!npui.hasmenuitem) {
     npui
       .SideMenuItem("icon-database", "ledger", "trigger_ledger")
       .roost(npui.sideMenu);
     npui.hasmenuitem = true;
   }
+
   npui.ledgerScreen = () => {
     return npui.Screen("ledger");
   };
+
   np.on("trigger_ledger", () => {
     const ledgerScreen = npui.ledgerScreen();
     let loading = crux

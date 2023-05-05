@@ -50,6 +50,10 @@ export interface Payload {
   creationTime: string;
 }
 
+export interface Goodbye extends Payload {
+  uid: number;
+}
+
 export interface Transfer extends Payload {
   from_puid: number; //Player's ID who SENT
   to_puid: number; //Player's ID who RECIEVED

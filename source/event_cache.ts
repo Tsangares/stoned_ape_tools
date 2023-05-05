@@ -15,7 +15,7 @@ interface Callback {
   (value: Response): Response | void;
 }
 interface EventCacheCallback {
-  (game: GameState, crux: Crux, messages: MessageEvent): void;
+  (game: GameState, crux: Crux): void;
 }
 //Async request game events
 //game is used to get the api version and the gameNumber
@@ -39,6 +39,7 @@ export function update_event_cache(
     version: game.version,
     game_number: game.gameNumber,
   });
+
   const headers = {
     "Content-Type": "application/x-www-form-urlencodedn",
   };
@@ -51,7 +52,11 @@ export function update_event_cache(
     body: params,
   })
     .then((response: Response) => response.json())
-    .then((response: MessageEvent) => success(game, crux, response))
+    .then((response: MessageEvent) => {
+      sync_message_cache(response); //Updates cached_events
+      //cached_events = sync_message_cache(response))
+    })
+    .then((x: unknown) => success(game, crux))
     .catch(error);
 }
 
@@ -73,15 +78,7 @@ export function PlayerNameIconRowLink(
   return playerNameIconRow;
 }
 
-//Handler to recieve new messages
-export function recieve_new_messages(
-  game: GameState,
-  crux: Crux,
-  response: MessageEvent,
-): void {
-  let universe = game.universe;
-  let npui = game.npui;
-
+export function sync_message_cache(response: MessageEvent) {
   const cacheFetchEnd = new Date();
   const elapsed = cacheFetchEnd.getTime() - cacheFetchStart.getTime();
   console.log(`Fetched ${cacheFetchSize} events in ${elapsed}ms`);
@@ -100,7 +97,7 @@ export function recieve_new_messages(
     } else if (overlapOffset < 0) {
       const size = incoming.length * 2;
       console.log(`Missing some events, double fetch to ${size}`);
-      update_event_cache(game, crux, size, recieve_new_messages, console.error);
+      //update_event_cache(game, crux, size, recieve_new_messages, console.error);
       return;
     }
 
@@ -114,12 +111,14 @@ export function recieve_new_messages(
         (e, i) => e.key !== valid[i].key,
       );
       if (invalidEntries.length) {
+        alert("!! Invalid entries found");
         console.error("!! Invalid entries found: ", invalidEntries);
       }
       console.log("*** Validation Completed ***");
     } else {
       // the response didn't contain the entire event log. Go fetch
       // a version that _does_.
+      /*
       update_event_cache(
         game,
         crux,
@@ -127,9 +126,19 @@ export function recieve_new_messages(
         recieve_new_messages,
         console.error,
       );
+      */
     }
   }
   cached_events = incoming.concat(cached_events);
+}
+export function get_cached_events() {
+  return cached_events;
+}
+
+//Handler to recieve new messages
+export function recieve_new_messages(game: GameState, crux: Crux): void {
+  let universe = game.universe;
+  let npui = game.npui;
 
   const players = get_ledger(game, crux, cached_events);
 
