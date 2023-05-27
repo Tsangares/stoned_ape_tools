@@ -5,11 +5,12 @@ const SAT_VERSION = chrome.runtime.getManifest().version;
 const add_intel_plugin = () => {
   var s = document.createElement("script");
   s.src = chrome.runtime.getURL("intel.js");
-  s.id = "intel";
+  s.setAttribute("images", chrome.runtime.getURL("images/"));
+  s.id = "ape-intel-plugin";
   s.title = `Stoned Ape Tools v${chrome.runtime.getManifest().version}`;
-
   s.onload = function () {
-    this.remove();
+    //s.trigger('ape:plugin:loaded',s.title);
+    //this.remove();
   };
   (document.head || document.documentElement).appendChild(s);
   console.log(`${s.title} background page.`);

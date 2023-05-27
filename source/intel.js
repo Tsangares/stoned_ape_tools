@@ -3,21 +3,65 @@ import { thisGame } from "./game";
 import { get_hero } from "./get_hero";
 import { clip, lastClip } from "./hotkey";
 import { renderLedger } from "./ledger";
-import { mergeUser } from "./merge";
-import { is_valid_image_url, is_valid_youtube } from "./parse_utils";
+import { mergeUser } from "./utilities/merge";
+import { is_valid_image_url, is_valid_youtube } from "./utilities/parse_utils";
 import { anyStarCanSee, drawOverlayString } from "./utilities/graphics";
 import { hook_npc_tick_counter } from "./utilities/npc_calc";
+import {
+  get_ape_badges,
+  ApeBadgeIcon,
+  groupApeBadges,
+} from "./utilities/player_badges";
 
-const SAT_VERSION = "2.28.22-git";
+const SAT_VERSION = "2.28.23-git";
 
 if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
 }
 
-function post_hook() {
-  //console.log(stringify(NeptunesPride.universe.galaxy.fleets[2],null, "\t"))
-  return null;
+String.prototype.toProperCase = function () {
+  return this.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+};
+
+/* Extra Badges */
+let ape_players = [];
+async function get_ape_players() {
+  get_ape_badges()
+    .then((players) => {
+      ape_players = players;
+    })
+    .catch((err) => console.log("ERROR: Unable to get APE players", err));
 }
+get_ape_players();
+//Override widget intefaces
+const overrideBadgeWidgets = () => {
+  NeptunesPride.npui.badgeFileNames["a"] = "ape";
+  const image_url = $("#ape-intel-plugin").attr("images");
+  NeptunesPride.npui.BadgeIcon = (filename, count, small) =>
+    ApeBadgeIcon(Crux, image_url, filename, count, small);
+};
+const overrideTemplates = () => {
+  Crux.localise = function (id) {
+    if (Crux.templates[id]) {
+      return Crux.templates[id];
+    } else {
+      return id.toProperCase();
+    }
+  };
+};
+
+$("ape-intel-plugin").ready(() => {
+  post_hook();
+  //$("#ape-intel-plugin").remove();
+});
+
+function post_hook() {
+  overrideTemplates();
+  overrideBadgeWidgets();
+}
+
 //TODO: Organize typescript to an interfaces directory
 //TODO: Then make other game engine objects
 // Part of your code is re-creating the game in typescript
@@ -1307,17 +1351,24 @@ const add_custom_player_panel = () => {
     //5=>Flombaeu
     //W=>Wizard
     if (universe.playerAchievements) {
+      console.log(ape_players);
       myAchievements = universe.playerAchievements[player.uid];
-      if (
-        player.rawAlias == "Lorentz" &&
-        "W" != myAchievements.badges.slice(0, 1)
-      ) {
-        myAchievements.badges = `W${myAchievements.badges}`;
-      } else if (
-        player.rawAlias == "A Stoned Ape" &&
-        "5" != myAchievements.badges.slice(0, 1)
-      ) {
-        myAchievements.badges = `5${myAchievements.badges}`;
+      if (ape_players?.includes(player.rawAlias)) {
+        if (myAchievements.extra_badges == undefined) {
+          myAchievements.extra_badges = true;
+          myAchievements.badges = `a${myAchievements.badges}`;
+        }
+      }
+      if (player.rawAlias == "Lorentz") {
+        if (myAchievements.dev_badge == undefined) {
+          myAchievements.dev_badge = true;
+          myAchievements.badges = `W${myAchievements.badges}`;
+        }
+      } else if (player.rawAlias == "A Stoned Ape") {
+        if (myAchievements.dev_badge == undefined) {
+          myAchievements.dev_badge = true;
+          myAchievements.badges = `5${myAchievements.badges}`;
+        }
       }
     }
     if (myAchievements) {
@@ -1582,7 +1633,7 @@ setTimeout(() => {
   //Typescript call
   post_hook();
   renderLedger(NeptunesPride, Crux, Mousetrap);
-}, 1500);
+}, 800);
 setTimeout(apply_hooks, 1500);
 
 //Test to see if PlayerPanel is there

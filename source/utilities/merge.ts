@@ -1,13 +1,13 @@
-import { Star } from "./interfaces/star";
-import { ApiData, ApiError, ScanningData } from "./utilities/api";
+import { Star } from "../interfaces/star";
+import { ApiData, ApiError, ScanningData } from "./api";
 import {
   get_galaxy,
   get_game_number,
   get_universe,
   get_visible_stars,
-} from "./utilities/get_game_state";
-import { get_api_data } from "./utilities/api";
-import { Carrier } from "./interfaces/carrier";
+} from "./get_game_state";
+import { get_api_data } from "./api";
+import { Carrier } from "../interfaces/carrier";
 
 let originalPlayer: number = undefined;
 
@@ -47,22 +47,27 @@ export function mergeUser(event: Event, data: string) {
 
 //Combine data from another user
 //Callback on API ..
-//mechanic closes at 5pk,m
+//mechanic closes at 5pm
 //This works but now add it so it does not overtake your stars.
 export function mergeUserData(scanningData: ScanningData) {
+  console.log("SAT Merging");
   let galaxy = get_galaxy();
   let stars: { [index: string]: Star } = scanningData.stars;
   let fleets: { [index: string]: Carrier } = scanningData.fleets;
   // Update stars
   for (const starId in stars) {
     const star = stars[starId];
-    galaxy.stars[starId] = star;
+    if (galaxy.stars[starId] == undefined) {
+      galaxy.stars[starId] = star;
+    }
   }
   console.log("Syncing");
   // Add fleets
   for (const fleetId in fleets) {
     const fleet = fleets[fleetId];
-    galaxy.fleets[fleetId] = fleet;
+    if (galaxy.fleets[fleetId] == undefined) {
+      galaxy.fleets[fleetId] = fleet;
+    }
   }
   //onFullUniverse Seems to additionally load all the players.
   NeptunesPride.np.onFullUniverse(null, galaxy);

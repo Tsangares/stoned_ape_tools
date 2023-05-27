@@ -1,3 +1,6 @@
+/*
+ * Helper function for Common NP elements
+ */
 import { Carrier } from "../interfaces/carrier";
 import { Galaxy } from "../interfaces/galaxy";
 import { GameState } from "../interfaces/game";

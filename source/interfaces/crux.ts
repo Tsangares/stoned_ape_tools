@@ -23,7 +23,7 @@ export interface Widget extends EventListener {
   h: number;
   mum?: Widget;
   ui: unknown;
-  rawHTML(text: string): Widget;
+  rawHTML(text: string | number): Widget;
   roost(parent: Widget): Widget;
   addChild(child: Widget): Widget;
   removeChild(child: Widget): Widget;
@@ -42,7 +42,7 @@ export interface Widget extends EventListener {
   tt(key: unknown): Widget; //Tool Tip from Templates
 }
 export interface Text extends Widget {
-  (id: Template, styles: css): Widget;
+  (id: Template, styles: css, option?: string): Widget;
 }
 export interface SideMenuItem extends Widget {
   (icon: Icon, label: Template, event: string, data: unknown): Widget;
@@ -100,8 +100,10 @@ export interface NPUI extends EventListener {
 }
 
 export interface Crux {
-  Widget(styles: string): Widget;
-  Text(id: Template, styles: css): Widget;
+  Widget(styles?: string): Widget;
+  Image(path: string, css: string): Widget;
+  Clickable(event: string, template: string): Widget;
+  Text(id: Template, styles: css, option?: string): Widget;
   Button(
     id: Template,
     event: string,

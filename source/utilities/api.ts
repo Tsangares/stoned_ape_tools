@@ -1,3 +1,6 @@
+/*
+ *  This file contains the functions for interacting with the NP API
+ */
 import { Carrier } from "../interfaces/carrier";
 import { Player } from "../interfaces/player";
 import { Star } from "../interfaces/star";
