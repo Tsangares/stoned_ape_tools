@@ -29,25 +29,26 @@ export const ApeBadgeIcon = function (
   if (small === undefined) small = false;
 
   if (small) {
-    let image_url = `/images/badges_small/${filename}`;
+    /* Small images */
+    let image_url = `/images/badges_small/${filename}.png`;
     if (filename == "ape") {
-      image_url = `${url}${filename}_small`;
+      image_url = `${url}${filename}_small.png`;
     }
-    Crux.Image(`${image_url}.png`, "abs").grid(0.25, 0.25, 2.5, 2.5).roost(ebi);
+
+    Crux.Image(image_url, "abs").grid(0.25, 0.25, 2.5, 2.5).roost(ebi);
 
     Crux.Clickable("show_screen", "buy_gift")
       .grid(0.25, 0.25, 2.5, 2.5)
       .tt(`badge_${filename}`)
       .roost(ebi);
   } else {
-    let image_url = `/images/badges/${filename}`;
+    /* Big images */
+    let image_url = `/images/badges/${filename}.png`;
     if (filename == "ape") {
-      image_url = `${url}${filename}`;
+      image_url = `${url}${filename}.png`;
     }
-    Crux.Image(`${image_url}${filename}.png`, "abs")
-      .grid(0, 0, 6, 6)
-      .tt(filename)
-      .roost(ebi);
+
+    Crux.Image(image_url, "abs").grid(0, 0, 6, 6).tt(filename).roost(ebi);
 
     Crux.Clickable("show_screen", "buy_gift")
       .grid(0, 0, 6, 6)

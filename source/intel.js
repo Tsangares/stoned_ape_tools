@@ -13,7 +13,7 @@ import {
   groupApeBadges,
 } from "./utilities/player_badges";
 
-const SAT_VERSION = "2.28.23-git";
+const SAT_VERSION = "2.28.24-git";
 
 if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
@@ -1351,7 +1351,6 @@ const add_custom_player_panel = () => {
     //5=>Flombaeu
     //W=>Wizard
     if (universe.playerAchievements) {
-      console.log(ape_players);
       myAchievements = universe.playerAchievements[player.uid];
       if (ape_players?.includes(player.rawAlias)) {
         if (myAchievements.extra_badges == undefined) {
