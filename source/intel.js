@@ -13,7 +13,7 @@ import {
   groupApeBadges,
 } from "./utilities/player_badges";
 
-const SAT_VERSION = "2.28.24-git";
+let SAT_VERSION = "git-version";
 
 if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
@@ -60,6 +60,8 @@ $("ape-intel-plugin").ready(() => {
 function post_hook() {
   overrideTemplates();
   overrideBadgeWidgets();
+  SAT_VERSION = $("#ape-intel-plugin").attr("title");
+  console.log(SAT_VERSION);
 }
 
 //TODO: Organize typescript to an interfaces directory
