@@ -54,7 +54,6 @@ export function add_npc_tick_counter(game: GameState, crux: Crux) {
 export function hook_npc_tick_counter(game: GameState, crux: Crux) {
   const selectedPlayer: Player = game.universe.selectedPlayer;
   if (selectedPlayer.ai) {
-    console.log("AI Selected");
     update_event_cache(game, crux, 4, add_npc_tick_counter, console.error);
   }
 }

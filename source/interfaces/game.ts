@@ -16,8 +16,11 @@ export interface GameState {
 }
 export interface GameState {
   inbox: unknown;
-  account: unknown;
+  account: Account;
   InterfaceScreens: unknown;
+}
+export interface Account {
+  credits: number;
 }
 
 export interface Config {

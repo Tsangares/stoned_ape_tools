@@ -4,6 +4,7 @@ const KV_REST_API_URL = "https://immune-cricket-36011.kv.vercel-storage.com";
 const KV_REST_API_READ_ONLY_TOKEN =
   "AoyrASQgNzE0M2E2NTMtMmFjNC00ZTFlLWJmNTItMGRlYWZmMmY3MTc0ZptG96elbXOjZJ7_GE7w-arYAGCaktoo25q4DXRWL7U=";
 
+const custom_badges = ["ape"];
 // Function that connects to server and retrieves list on key 'ape'
 export const get_ape_badges = async () => {
   return fetch(KV_REST_API_URL, {
@@ -64,7 +65,7 @@ export const ApeBadgeIcon = function (
 
     Crux.Text("", "txt_center txt_tiny", "abs")
       .rawHTML(count)
-      .pos(51, 64)
+      .pos(51, 68)
       .size(32, 32)
       .roost(ebi);
   }

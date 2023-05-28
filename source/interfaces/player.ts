@@ -29,6 +29,8 @@ export interface Player {
   shapeIndex?: number;
   shipsPerTick?: number;
   //war[index: number]: number
+  colourBox?: string;
+  hyperlinkedAlias?: string;
 }
 
 export interface Hero extends Player {

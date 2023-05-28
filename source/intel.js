@@ -12,6 +12,7 @@ import {
   ApeBadgeIcon,
   groupApeBadges,
 } from "./utilities/player_badges";
+import { ApeGiftItem, buyApeGiftScreen } from "./utilities/gift_screen";
 
 let SAT_VERSION = "git-version";
 
@@ -43,12 +44,34 @@ const overrideBadgeWidgets = () => {
     ApeBadgeIcon(Crux, image_url, filename, count, small);
 };
 const overrideTemplates = () => {
+  NeptunesPride.templates["gift_desc_ape"] =
+    "<h3>Ape - 420 Credit</h3><p>Is this what you call 'evolution'? Because frankly, I've seen better designs on a banana peel.</p>";
   Crux.localise = function (id) {
     if (Crux.templates[id]) {
       return Crux.templates[id];
     } else {
       return id.toProperCase();
     }
+  };
+};
+const overrideGiftItems = () => {
+  const image_url = $("#ape-intel-plugin").attr("images");
+  NeptunesPride.npui.BuyGiftScreen = () => {
+    return buyApeGiftScreen(Crux, NeptunesPride.universe, NeptunesPride.npui);
+  };
+  NeptunesPride.npui.GiftItem = (item) => {
+    return ApeGiftItem(Crux, image_url, item);
+  };
+};
+const overrideShowScreen = () => {
+  NeptunesPride.npui.onShowScreen = (event, screenName, screenConfig) => {
+    return onShowApeScreen(
+      NeptunesPride.npui,
+      NeptunesPride.universe,
+      event,
+      screenName,
+      screenConfig,
+    );
   };
 };
 
@@ -58,6 +81,8 @@ $("ape-intel-plugin").ready(() => {
 });
 
 function post_hook() {
+  overrideGiftItems();
+  //overrideShowScreen();
   overrideTemplates();
   overrideBadgeWidgets();
   SAT_VERSION = $("#ape-intel-plugin").attr("title");
@@ -1289,9 +1314,6 @@ function Legacy_NeptunesPrideAgent() {
     }
   };
   document.body.addEventListener("keyup", autocompleteTrigger);
-
-  console.log("SAT: Neptune's Pride Agent injection finished.");
-  console.log("Getting hero!", get_hero(NeptunesPride.universe));
 }
 
 const force_add_custom_player_panel = () => {

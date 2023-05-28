@@ -32,14 +32,20 @@ export interface Widget extends EventListener {
   style(styles: string): Widget;
   addStyle(styles: string): Widget;
   removeStyle(styles: string): Widget;
-  pos(x: number, y: number): Widget;
+  pos(x: number, y?: number): Widget;
   size(width: number, height: number): Widget;
   place(x: number, y: number, width: number, height: number): Widget;
   grid(x: number, y: number, row: number, col: number): Widget;
   inset(x: number): Widget;
   hide(): Widget;
   show(): Widget;
+  size(px: number): Widget;
   tt(key: unknown): Widget; //Tool Tip from Templates
+  icon: unknown;
+  body: unknown;
+  buyNowBg: Widget;
+  buyNowButton: Widget;
+  disable(): void;
 }
 export interface Text extends Widget {
   (id: Template, styles: css, option?: string): Widget;
@@ -50,12 +56,12 @@ export interface SideMenuItem extends Widget {
 
 export interface Screen extends Widget {
   (title: string, subtitle?: string): Screen;
-  addFooter(): void;
+  addFooter?(): void;
 }
 
 //Object definitions of npui
 export interface NPUI {
-  Widget(styles: string): Widget;
+  Widget(styles: string | unknown): Widget;
   SideMenuItem(
     icon: Icon,
     label: Template,
@@ -64,7 +70,37 @@ export interface NPUI {
   ): Widget;
   Screen(title: string, subtitle?: string): Screen;
   ledgerScreen(): Screen;
+  GalacticCreditBalance(): Widget;
+  GiftItem(item: BadgeItemInterface): Widget;
+  showingScreen: string;
+  screenConfig: unknown;
   map: unknown;
+  BuyGiftScreen: Screen;
+  MainMenuScreen: Screen;
+  ComposeDiplomacyScreen: Screen;
+  InboxScreen: Screen;
+  DiplomacyDetailScreen: Screen;
+  JoinGameScreen: Screen;
+  EmpireScreen: Screen;
+  LeaderboardScreen: Screen;
+  OptionsScreen: Screen;
+  TechScreen: Screen;
+  StarInspector: Screen;
+  FleetInspector: Screen;
+  EditFleetOrder: Screen;
+  BulkUpgradeScreen: Screen;
+  ShipTransferScreen: Screen;
+  NewFleetScreen: Screen;
+  StarDirectory: Screen;
+  FleetDirectory: Screen;
+  ShipDirectory: Screen;
+  CombatCalc: Screen;
+  CustomSettingsScreen: Screen;
+  ConfirmScreen: Screen;
+  HelpScreen: Screen;
+  SelectPlayerScreen: Screen;
+  BuyPremiumGiftScreen: Screen;
+  Intel: Widget;
 }
 //Maybe the canavas
 export interface MapContext {
@@ -107,11 +143,17 @@ export interface Crux {
   Button(
     id: Template,
     event: string,
-    response: { [key: string | number]: string | number },
+    response: { [key: string | number]: string | number } | BadgeItemInterface,
   ): Widget;
 }
 
 export interface MessageComment {
   addStyle(style: string): void;
   comment: Text;
+}
+
+export interface BadgeItemInterface {
+  icon: string;
+  amount: number;
+  puid?: number;
 }
