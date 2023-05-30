@@ -25,6 +25,13 @@ String.prototype.toProperCase = function () {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 };
+Object.defineProperties(Array.prototype, {
+  count: {
+    value: function (value) {
+      return this.filter((x) => x == value).length;
+    },
+  },
+});
 
 /* Extra Badges */
 let ape_players = [];
@@ -45,7 +52,7 @@ const overrideBadgeWidgets = () => {
 };
 const overrideTemplates = () => {
   NeptunesPride.templates["gift_desc_ape"] =
-    "<h3>Ape - 420 Credit</h3><p>Is this what you call 'evolution'? Because frankly, I've seen better designs on a banana peel.</p>";
+    "<h3>Ape - 420 Credit</h3><p>Is this what you call 'evolution'? Because frankly, I've seen better designs of a banana peel.</p>";
   Crux.localise = function (id) {
     if (Crux.templates[id]) {
       return Crux.templates[id];
@@ -1379,18 +1386,11 @@ const add_custom_player_panel = () => {
       if (ape_players?.includes(player.rawAlias)) {
         if (myAchievements.extra_badges == undefined) {
           myAchievements.extra_badges = true;
-          myAchievements.badges = `a${myAchievements.badges}`;
-        }
-      }
-      if (player.rawAlias == "Lorentz") {
-        if (myAchievements.dev_badge == undefined) {
-          myAchievements.dev_badge = true;
-          myAchievements.badges = `W${myAchievements.badges}`;
-        }
-      } else if (player.rawAlias == "A Stoned Ape") {
-        if (myAchievements.dev_badge == undefined) {
-          myAchievements.dev_badge = true;
-          myAchievements.badges = `5${myAchievements.badges}`;
+          ape_players.forEach((ape_name) => {
+            if (ape_name == player.rawAlias) {
+              myAchievements.badges = `a${myAchievements.badges}`;
+            }
+          });
         }
       }
     }

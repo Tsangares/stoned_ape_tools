@@ -23,18 +23,17 @@ export const buyApeGiftScreen = function (
   var i;
 
   var items: BadgeItemInterface[] = [
+    { icon: "ape", amount: 1 },
+    { icon: "toxic", amount: 10 },
+
     { icon: "trek", amount: 1 },
     { icon: "rebel", amount: 1 },
     { icon: "empire", amount: 1 },
-
-    { icon: "toxic", amount: 1 },
     { icon: "wolf", amount: 5 },
-    { icon: "wizard", amount: 1 },
 
     { icon: "pirate", amount: 5 },
     { icon: "wordsmith", amount: 2 },
     { icon: "lucky", amount: 2 },
-    { icon: "ape", amount: 999 },
     { icon: "ironborn", amount: 2 },
     { icon: "strange", amount: 2 },
 
@@ -47,7 +46,10 @@ export const buyApeGiftScreen = function (
     { icon: "science", amount: 1 },
     { icon: "nerd", amount: 1 },
     { icon: "merit", amount: 1 },
-    { icon: "honour", amount: 1 },
+  ];
+  let secret_menu = [
+    /*{ icon: "honour", amount: 1 },
+    { icon: "wizard", amount: 1 },
     { icon: "lifetime", amount: 1 },
     { icon: "tourney_win", amount: 1 },
     { icon: "tourney_join", amount: 1 },
@@ -56,9 +58,8 @@ export const buyApeGiftScreen = function (
     { icon: "bullseye", amount: 1 },
     { icon: "proteus", amount: 1 },
     { icon: "flambeau", amount: 1 },
-    { icon: "rat", amount: 1 },
+    { icon: "rat", amount: 1 },*/
   ];
-
   for (i = items.length - 1; i >= 0; i--) {
     items[i].puid = universe.selectedPlayer.uid;
     npui.GiftItem(items[i]).roost(buy);
