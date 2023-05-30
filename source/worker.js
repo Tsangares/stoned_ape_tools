@@ -13,7 +13,7 @@ const add_intel_plugin = () => {
     //this.remove();
   };
   (document.head || document.documentElement).appendChild(s);
-  console.log(`${s.title} background page.`);
+  console.log(`${s.title} worker loading...`);
 };
 var isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 if (isFirefox) {

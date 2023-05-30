@@ -89,11 +89,11 @@ $("ape-intel-plugin").ready(() => {
 
 function post_hook() {
   overrideGiftItems();
-  //overrideShowScreen();
+  //overrideShowScreen(); //Not needed unless I want to add new ones.
   overrideTemplates();
   overrideBadgeWidgets();
   SAT_VERSION = $("#ape-intel-plugin").attr("title");
-  console.log(SAT_VERSION);
+  console.log(SAT_VERSION, "Loaded");
 }
 
 //TODO: Organize typescript to an interfaces directory
@@ -293,7 +293,6 @@ const _wide_view = () => {
 function Legacy_NeptunesPrideAgent() {
   let title = document?.currentScript?.title || `SAT ${SAT_VERSION}`;
   let version = title.replace(/^.*v/, "v");
-  console.log(title);
 
   let copy = function (reportFn) {
     return function () {
