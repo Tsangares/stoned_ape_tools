@@ -12,7 +12,7 @@ import {
   ApeBadgeIcon,
   groupApeBadges,
 } from "./utilities/player_badges";
-import { ApeGiftItem, buyApeGiftScreen } from "./utilities/gift_screen";
+import { ApeGiftItem, buyApeGiftScreen } from "./utilities/gift_shop";
 
 let SAT_VERSION = "git-version";
 
@@ -53,6 +53,18 @@ const overrideBadgeWidgets = () => {
 const overrideTemplates = () => {
   NeptunesPride.templates["gift_desc_ape"] =
     "<h3>Ape - 420 Credit</h3><p>Is this what you call 'evolution'? Because frankly, I've seen better designs of a banana peel.</p>";
+  /*
+    { icon: "honour", amount: 1 },
+    { icon: "wizard", amount: 1 },
+    { icon: "lifetime", amount: 1 },
+    { icon: "tourney_win", amount: 1 },
+    { icon: "tourney_join", amount: 1 },
+    { icon: "tourney_join", amount: 1 },
+    { icon: "tourney_join", amount: 1 },
+    { icon: "bullseye", amount: 1 },
+    { icon: "proteus", amount: 1 },
+    { icon: "flambeau", amount: 1 },
+    { icon: "rat", amount: 1 },*/
   Crux.localise = function (id) {
     if (Crux.templates[id]) {
       return Crux.templates[id];

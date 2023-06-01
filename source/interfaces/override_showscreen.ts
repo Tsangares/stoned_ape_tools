@@ -1,4 +1,4 @@
-import { buyApeGiftScreen } from "../utilities/gift_screen";
+import { buyApeGiftScreen } from "../utilities/gift_shop";
 import { Crux, NPUI, Widget } from "./crux";
 import { Universe } from "./universe";
 /*
