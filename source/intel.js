@@ -51,20 +51,35 @@ const overrideBadgeWidgets = () => {
     ApeBadgeIcon(Crux, image_url, filename, count, small);
 };
 const overrideTemplates = () => {
-  NeptunesPride.templates["gift_desc_ape"] =
-    "<h3>Ape - 420 Credit</h3><p>Is this what you call 'evolution'? Because frankly, I've seen better designs of a banana peel.</p>";
-  /*
-    { icon: "honour", amount: 1 },
-    { icon: "wizard", amount: 1 },
-    { icon: "lifetime", amount: 1 },
-    { icon: "tourney_win", amount: 1 },
-    { icon: "tourney_join", amount: 1 },
-    { icon: "tourney_join", amount: 1 },
-    { icon: "tourney_join", amount: 1 },
-    { icon: "bullseye", amount: 1 },
-    { icon: "proteus", amount: 1 },
-    { icon: "flambeau", amount: 1 },
-    { icon: "rat", amount: 1 },*/
+  let ape =
+    "<h3>Ape - 420 Credits</h3><p>Is this what you call 'evolution'? Because frankly, I've seen better designs of a banana peel.</p>";
+  let wizard =
+    "<h3>Wizard Badge - ? Credits</h3><p>Awarded to members of the community that have made a significant contribution to the game. Code for a new feature or a map design we all enjoyed.</p>";
+  let rat =
+    "<h3>Lab Rat - ? Crets  </h3><p>Awarded to players who have helped test the most crazy new features and game types. Keep an eye on the forums if you would like to subject yourself to the game's experiments.</p>";
+  let bullseye =
+    "<h3>Bullseye - ? Credits  </h3><p>They really hit the target.</p>";
+  let flambeau =
+    "<h3>Flambeau - ? Credits  </h3><p>This player really lit up your life.</p>";
+  let tourney_join =
+    "<h3>Tournement Participation - ? Credits  </h3><p>Hey at least you tried.\nAwarded to each player that participates in an official tournament.</p>";
+  let tourney_win =
+    "<h3>Tournement Winner - ? Credits  </h3><p>Hey at least you won.\nAwarded to the winner of an official tournament.</p>";
+  let proteus =
+    "<h3>Proteus Victory - ? Credits  </h3><p>Awarded to players who win a game of Proteus!</p>";
+  let honour =
+    "<h3>Special Badge of Honor - ? Credits  </h3><p>Buy one get one free!\nAwarded for every gift purchased for another player. These players go above and beyond the call of duty in support of the game!</p>";
+  NeptunesPride.templates["gift_desc_ape"] = ape;
+  NeptunesPride.templates["gift_desc_wizard"] = wizard;
+  NeptunesPride.templates["gift_desc_rat"] = rat;
+  NeptunesPride.templates["gift_desc_bullseye"] = bullseye;
+  NeptunesPride.templates["gift_desc_flambeau"] = flambeau;
+  NeptunesPride.templates["gift_desc_tourney_join"] = tourney_join;
+  NeptunesPride.templates["gift_desc_tourney_win"] = tourney_win;
+  NeptunesPride.templates["gift_desc_proteus"] = proteus;
+  NeptunesPride.templates["gift_desc_honour"] = honour;
+  //NeptunesPride.templates["gift_desc_lifetime"] = lifetime
+
   Crux.localise = function (id) {
     if (Crux.templates[id]) {
       return Crux.templates[id];

@@ -23,17 +23,15 @@ export const buyApeGiftScreen = function (
   var i;
 
   var items: BadgeItemInterface[] = [
-    { icon: "honour", amount: 1 },
-    { icon: "wizard", amount: 1 },
+    { icon: "proteus", amount: 1 },
     { icon: "lifetime", amount: 1 },
     { icon: "tourney_win", amount: 1 },
     { icon: "tourney_join", amount: 1 },
-    { icon: "tourney_join", amount: 1 },
-    { icon: "tourney_join", amount: 1 },
-    { icon: "bullseye", amount: 1 },
-    { icon: "proteus", amount: 1 },
-    { icon: "flambeau", amount: 1 },
+    { icon: "honour", amount: 1 },
+    { icon: "wizard", amount: 1 },
     { icon: "rat", amount: 1 },
+    { icon: "flambeau", amount: 1 },
+    { icon: "bullseye", amount: 1 },
 
     { icon: "trek", amount: 1 },
     { icon: "rebel", amount: 1 },
