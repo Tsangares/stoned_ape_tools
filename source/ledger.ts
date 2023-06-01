@@ -5,6 +5,7 @@ import { Player } from "./interfaces/player";
 import { get_hero } from "./get_hero";
 import * as Crux from "./interfaces/crux";
 import * as Cache from "./event_cache";
+import { game, crux, universe, np, npui } from "./game_state";
 
 export interface Ledger {
   [player: number]: number;
@@ -12,11 +13,7 @@ export interface Ledger {
 
 //Get ledger info to see what is owed
 //Actually shows the panel of loading
-export function get_ledger(
-  game: GameState,
-  crux: Crux.Crux,
-  messages: unknown[],
-) {
+export function get_ledger(messages: unknown[]) {
   let npui = game.npui;
   let universe = game.universe;
   let players = universe.galaxy.players;
@@ -58,16 +55,10 @@ export function get_ledger(
   return accounts;
 }
 
-export function renderLedger(
-  game: GameState,
-  crux: Crux.Crux,
-  MouseTrap: Bindable,
-) {
+export function renderLedger(MouseTrap: Bindable) {
+  console.log(MouseTrap);
   //Deconstruction of different components of the game.
   let config = game.config;
-  let np = game.np;
-  let npui = game.npui;
-  let universe = game.universe;
   let templates = game.templates;
   let players = universe.galaxy.players;
 
@@ -105,13 +96,7 @@ export function renderLedger(
     ledgerScreen.roost(npui.screenContainer);
     npui.layoutElement(ledgerScreen);
 
-    Cache.update_event_cache(
-      game,
-      crux,
-      4,
-      Cache.recieve_new_messages,
-      console.error,
-    );
+    Cache.update_event_cache(4, Cache.recieve_new_messages, console.error);
   });
 
   interface ForgiveDebtEvent {

@@ -1,5 +1,4 @@
 import { get_research_text } from "./chat";
-import { thisGame } from "./game";
 import { get_hero } from "./get_hero";
 import { clip, lastClip } from "./hotkey";
 import { renderLedger } from "./ledger";
@@ -13,6 +12,10 @@ import {
   groupApeBadges,
 } from "./utilities/player_badges";
 import { ApeGiftItem, buyApeGiftScreen } from "./utilities/gift_screen";
+import { fetchFilteredMessages } from "./utilities/fetch_messages";
+import { set_game_state } from "./game_state";
+import { hook_star_manager } from "./utilities/star_manager";
+import { unique } from "webpack-merge";
 
 let SAT_VERSION = "git-version";
 
@@ -63,6 +66,7 @@ const overrideTemplates = () => {
 };
 const overrideGiftItems = () => {
   const image_url = $("#ape-intel-plugin").attr("images");
+  console.log(image_url);
   NeptunesPride.npui.BuyGiftScreen = () => {
     return buyApeGiftScreen(Crux, NeptunesPride.universe, NeptunesPride.npui);
   };
@@ -83,19 +87,30 @@ const overrideShowScreen = () => {
 };
 
 $("ape-intel-plugin").ready(() => {
-  post_hook();
+  //post_hook();
   //$("#ape-intel-plugin").remove();
 });
 
 function post_hook() {
+  set_game_state(NeptunesPride, Crux);
   overrideGiftItems();
   //overrideShowScreen(); //Not needed unless I want to add new ones.
   overrideTemplates();
   overrideBadgeWidgets();
   SAT_VERSION = $("#ape-intel-plugin").attr("title");
   console.log(SAT_VERSION, "Loaded");
-}
+  renderLedger(Mousetrap);
+  //Override inbox Fetch Messages
+  //NeptunesPride.inbox.fetchMessages = (filter)=>fetchFilteredMessages(NeptunesPride,Crux,NeptunesPride.inbox,filter)
 
+  //NPC Calc
+  hook_npc_tick_counter();
+  //Star Manager
+  hook_star_manager(NeptunesPride.universe);
+}
+function onGameRender() {
+  NeptunesPride.np.on("order:full_universe", post_hook);
+}
 //TODO: Organize typescript to an interfaces directory
 //TODO: Then make other game engine objects
 // Part of your code is re-creating the game in typescript
@@ -1485,9 +1500,6 @@ const add_custom_player_panel = () => {
       });
     }
 
-    //NPC Calc
-    hook_npc_tick_counter(NeptunesPride, Crux);
-
     Crux.Text("you", "pad12 txt_center").grid(25, 6, 5, 3).roost(playerPanel);
 
     // Labels
@@ -1651,11 +1663,7 @@ NeptunesPride.npui.StarInspector = function () {
 
 //Javascript call
 setTimeout(Legacy_NeptunesPrideAgent, 1000);
-setTimeout(() => {
-  //Typescript call
-  post_hook();
-  renderLedger(NeptunesPride, Crux, Mousetrap);
-}, 800);
+onGameRender(); //Wait for players to be loaded
 setTimeout(apply_hooks, 1500);
 
 //Test to see if PlayerPanel is there

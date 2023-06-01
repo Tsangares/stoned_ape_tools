@@ -5,6 +5,7 @@ import { get_hero } from "./get_hero";
 import { cache } from "webpack";
 import { GameState } from "./interfaces/game";
 import { Player } from "./interfaces/player";
+import { game, crux, npui, universe } from "./game_state";
 
 //Global cached event system.
 export let cached_events: Event[] = [];
@@ -20,8 +21,6 @@ interface EventCacheCallback {
 //Async request game events
 //game is used to get the api version and the gameNumber
 export function update_event_cache(
-  game: GameState,
-  crux: Crux,
   fetchSize: number,
   success: EventCacheCallback,
   error: Callback,
@@ -61,11 +60,7 @@ export function update_event_cache(
 }
 
 //Custom UI Components for Ledger
-export function PlayerNameIconRowLink(
-  crux: Crux,
-  npui: NPUI,
-  player: Player,
-): Widget {
+export function PlayerNameIconRowLink(player: Player): Widget {
   let playerNameIconRow = crux.Widget("rel col_black clickable").size(480, 48);
   npui.PlayerIcon(player, true).roost(playerNameIconRow);
   crux
@@ -136,11 +131,8 @@ export function get_cached_events() {
 }
 
 //Handler to recieve new messages
-export function recieve_new_messages(game: GameState, crux: Crux): void {
-  let universe = game.universe;
-  let npui = game.npui;
-
-  const players = get_ledger(game, crux, cached_events);
+export function recieve_new_messages(): void {
+  const players = get_ledger(cached_events);
 
   const ledgerScreen = npui.ledgerScreen();
 
@@ -153,11 +145,9 @@ export function recieve_new_messages(game: GameState, crux: Crux): void {
   npui.layoutElement(ledgerScreen);
 
   players.forEach((p) => {
-    let player = PlayerNameIconRowLink(
-      crux,
-      npui,
-      universe.galaxy.players[p.uid],
-    ).roost(npui.activeScreen);
+    let player = PlayerNameIconRowLink(universe.galaxy.players[p.uid]).roost(
+      npui.activeScreen,
+    );
     player.addStyle("player_cell");
     let prompt = p.debt > 0 ? "They owe" : "You owe";
     if (p.debt == 0) {

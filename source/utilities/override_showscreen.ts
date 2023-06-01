@@ -1,6 +1,11 @@
-import { buyApeGiftScreen } from "../utilities/gift_screen";
-import { Crux, NPUI, Widget } from "./crux";
-import { Universe } from "./universe";
+/*
+ * ShowScreen is a internal function that is used to display panels.
+ * Overriding show screen can make it easier to display/change certain panels.
+ */
+
+import { buyApeGiftScreen } from "./gift_screen";
+import { Crux, NPUI, Widget } from "../interfaces/crux";
+import { Universe } from "../interfaces/universe";
 /*
 const overrideGiftItems = (Crux: Crux, npui: NPUI) => {
     npui.BuyGiftScreen = () => {
