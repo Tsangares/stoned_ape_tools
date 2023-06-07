@@ -30,7 +30,7 @@
       }
     ],
     "background": {
-      "service_worker": "worker.js"
+      "scripts": ["worker.js"]
     },
   
     "icons": {
