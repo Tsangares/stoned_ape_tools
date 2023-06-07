@@ -1,6 +1,7 @@
 /* global chrome, browser */
 
-const SAT_VERSION = chrome.runtime.getManifest().version;
+//const SAT_VERSION = chrome.runtime.getManifest().version;
+console.log("Stoned Ape Tools worker loading...");
 
 const add_intel_plugin = () => {
   var s = document.createElement("script");
