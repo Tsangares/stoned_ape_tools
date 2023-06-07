@@ -2,3 +2,4 @@
 *.zip
 coverage/
 node_modules/
+bin/
