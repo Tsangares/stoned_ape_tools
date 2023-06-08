@@ -2,7 +2,7 @@
 ### Support With a Donation!
 To support Stoned Ape Tools and other Neptunes Pride programs in development, consider donating to the developer directly,
 
-<p align="center"><a href="[https://tsangares.github.io](https://ko-fi.com/lorentz)"><img alt="Donate to Stoned Ape Tools!"
+<p align="center"><a href="https://ko-fi.com/lorentz" target="_blank"><img alt="Donate to Stoned Ape Tools!"
             src="./assets/github_donate.png" /></a></p>
             
 [Donate To Lorentz: ko-fi.com/lorentz](https://ko-fi.com/lorentz)
