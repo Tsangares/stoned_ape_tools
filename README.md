@@ -1,4 +1,9 @@
 # Stoned Ape Tools
+### Support With a Donation!
+To support Stoned Ape Tools and other Neptunes Pride programs in development, consider donating to the developer directly,
+
+[Donate To Lorentz: ko-fi.com/lorentz](https://ko-fi.com/lorentz)
+
 ### Table of Contents
 - [What Tools?](#what-tools-)
   * [What are used for?](#what-are-used-for-)
