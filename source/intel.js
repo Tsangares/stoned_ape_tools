@@ -13,6 +13,8 @@ import {
   groupApeBadges,
 } from "./utilities/player_badges";
 import { ApeGiftItem, buyApeGiftScreen } from "./utilities/gift_shop";
+import { getTerritory } from "./utilities/territory";
+import { unique } from "webpack-merge";
 
 let SAT_VERSION = "git-version";
 
@@ -122,6 +124,7 @@ function post_hook() {
   //overrideShowScreen(); //Not needed unless I want to add new ones.
   overrideTemplates();
   overrideBadgeWidgets();
+  getTerritory(NeptunesPride.universe, $("canvas")[0]);
   SAT_VERSION = $("#ape-intel-plugin").attr("title");
   console.log(SAT_VERSION, "Loaded");
 }

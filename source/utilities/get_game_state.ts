@@ -23,13 +23,14 @@ export function get_visible_stars(): Star[] | undefined {
   }
   return visible_stars;
 }
-
+global NeptunesPride;
 export function get_game_number(): string {
   if (NeptunesPride === undefined) return undefined;
   return NeptunesPride.gameNumber;
 }
 
 export function get_all_stars(): { [index: string]: Star } | undefined {
+  
   if (NeptunesPride === undefined) return undefined;
   return NeptunesPride.universe.galaxy.stars;
 }
