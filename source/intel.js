@@ -28,7 +28,7 @@ String.prototype.toProperCase = function () {
 };
 
 //This should count the quantity of an array given a filter
-// TODO: Find out where this is used? 
+// TODO: Find out where this is used?
 Object.defineProperties(Array.prototype, {
   find: {
     value: function (value) {
@@ -900,7 +900,7 @@ function Legacy_NeptunesPrideAgent() {
     return p + (combatHandicap > 0 ? "+" : "") + combatHandicap;
   };
   let loadHooks = function () {
-    post_hook()
+    post_hook();
     let superDrawText = NeptunesPride.npui.map.drawText;
     NeptunesPride.npui.map.drawText = function () {
       let universe = NeptunesPride.universe;

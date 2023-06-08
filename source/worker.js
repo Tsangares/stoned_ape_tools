@@ -30,9 +30,8 @@ if (isFirefox) {
         .catch(console.log);
     }
   });
-}
-else {
-  console.log("Chrome worker running")
+} else {
+  console.log("Chrome worker running");
   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === "complete" && tab.active) {
       chrome.scripting
