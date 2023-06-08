@@ -1,8 +1,13 @@
 {
   "name": "Stoned Ape Tools",
   "description": "Tools that only a stoned ape could use. ",
-  "version": "2.29.2",
+  "version": "2.29.3",
   "manifest_version": 3,
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{1a428aba-9fe5-4388-af4a-dc57b5974284}"
+    }
+  },
   "permissions": [
     "scripting"
   ],

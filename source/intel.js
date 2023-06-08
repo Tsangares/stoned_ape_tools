@@ -20,13 +20,17 @@ if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
 }
 
+// toProperCase makes a string Title Case
 String.prototype.toProperCase = function () {
   return this.replace(/\w\S*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 };
+
+//This should count the quantity of an array given a filter
+// TODO: Find out where this is used? 
 Object.defineProperties(Array.prototype, {
-  count: {
+  find: {
     value: function (value) {
       return this.filter((x) => x == value).length;
     },
@@ -109,10 +113,9 @@ const overrideShowScreen = () => {
   };
 };
 
-$("ape-intel-plugin").ready(() => {
-  post_hook();
+/*$("ape-intel-plugin").ready(() => {
   //$("#ape-intel-plugin").remove();
-});
+});*/
 
 function post_hook() {
   overrideGiftItems();
@@ -124,7 +127,7 @@ function post_hook() {
 }
 
 //TODO: Organize typescript to an interfaces directory
-//TODO: Then make other game engine objects
+//TODO: Then make other gFame engine objects
 // Part of your code is re-creating the game in typescript
 // The other part is adding features
 // Then there is a segment that is overwriting existing content to add small additions.
@@ -897,6 +900,7 @@ function Legacy_NeptunesPrideAgent() {
     return p + (combatHandicap > 0 ? "+" : "") + combatHandicap;
   };
   let loadHooks = function () {
+    post_hook()
     let superDrawText = NeptunesPride.npui.map.drawText;
     NeptunesPride.npui.map.drawText = function () {
       let universe = NeptunesPride.universe;
@@ -1680,7 +1684,6 @@ NeptunesPride.npui.StarInspector = function () {
 setTimeout(Legacy_NeptunesPrideAgent, 1000);
 setTimeout(() => {
   //Typescript call
-  post_hook();
   renderLedger(NeptunesPride, Crux, Mousetrap);
 }, 800);
 setTimeout(apply_hooks, 1500);
