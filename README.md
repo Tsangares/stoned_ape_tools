@@ -1,7 +1,7 @@
 # Stoned Ape Tools
 ### Support
 To support Stoned Ape Tools and other Neptunes Pride programs in development, consider donating to the developer directly:
-<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Stoned Ape Tools!', '#0900ff', 'U7U3M1NJS');kofiwidget2.draw();</script> 
+[Donate To Lorentz: ko-fi.com/lorentz](https://ko-fi.com/lorentz)
 
 ### Table of Contents
 - [What Tools?](#what-tools-)
