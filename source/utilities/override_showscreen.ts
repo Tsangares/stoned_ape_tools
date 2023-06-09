@@ -3,9 +3,6 @@
  * Overriding show screen can make it easier to display/change certain panels.
  */
 
-import { buyApeGiftScreen } from "./gift_screen";
-import { Crux, NPUI, Widget } from "../interfaces/crux";
-import { Universe } from "../interfaces/universe";
 /*
 const overrideGiftItems = (Crux: Crux, npui: NPUI) => {
     npui.BuyGiftScreen = () => {
@@ -13,6 +10,8 @@ const overrideGiftItems = (Crux: Crux, npui: NPUI) => {
     }
 }
 */
+
+/*
 export const onShowApeScreen = function (
   npui: NPUI,
   universe: Universe,
@@ -53,19 +52,8 @@ export const onShowApeScreen = function (
 
   // the player is not in this game yet the only window they are allowed
   // to see is the join game window.(and a few others)
+  
   if (
-    !universe.player &&
-    screenName !== "confirm" &&
-    screenName !== "game_password" &&
-    screenName !== "custom_settings" &&
-    screenName !== "empire" &&
-    screenName !== "help"
-  ) {
-    npui.showingScreen = "join_game";
-  }
-
-  var screens: { [key: string]: Widget } = {
-    main_menu: npui.MainMenuScreen,
     compose: npui.ComposeDiplomacyScreen,
 
     inbox: npui.InboxScreen,
@@ -105,7 +93,7 @@ export const onShowApeScreen = function (
     buy_gift: npui.BuyGiftScreen,
     buy_premium_gift: npui.BuyPremiumGiftScreen,
 
-    intel: npui.Intel,
+    intel: npui.Intel
   };
 
   npui.activeScreen = screens[npui.showingScreen](screenConfig);
@@ -117,3 +105,7 @@ export const onShowApeScreen = function (
 
   jQuery(window).scrollTop(scroll);
 };
+
+
+*/
+

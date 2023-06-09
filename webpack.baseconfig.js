@@ -1,7 +1,5 @@
 const path = require('path');
 
-const CopyPlugin = require('copy-webpack-plugin');
-
 module.exports = {
   entry: {
     worker: './source/worker.js',
@@ -17,16 +15,6 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js','.jsx'],
-  },
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-    clean: true,
-  },
-  plugins: [
-    new CopyPlugin({
-      patterns: [{ from: 'static' }],
-    }),
-  ],
+    extensions: ['.ts', '.js', '.jsx'],
+  }
 };

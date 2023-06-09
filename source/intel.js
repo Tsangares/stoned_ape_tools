@@ -11,7 +11,7 @@ import {
   ApeBadgeIcon,
   groupApeBadges,
 } from "./utilities/player_badges";
-import { ApeGiftItem, buyApeGiftScreen } from "./utilities/gift_screen";
+import { ApeGiftItem, buyApeGiftScreen } from "./utilities/gift_shop";
 import { fetchFilteredMessages } from "./utilities/fetch_messages";
 import { set_game_state } from "./game_state";
 import { hook_star_manager } from "./utilities/star_manager";
@@ -23,13 +23,17 @@ if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
 }
 
+// toProperCase makes a string Title Case
 String.prototype.toProperCase = function () {
   return this.replace(/\w\S*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 };
+
+//This should count the quantity of an array given a filter
+// TODO: Find out where this is used?
 Object.defineProperties(Array.prototype, {
-  count: {
+  find: {
     value: function (value) {
       return this.filter((x) => x == value).length;
     },
@@ -54,8 +58,35 @@ const overrideBadgeWidgets = () => {
     ApeBadgeIcon(Crux, image_url, filename, count, small);
 };
 const overrideTemplates = () => {
-  NeptunesPride.templates["gift_desc_ape"] =
-    "<h3>Ape - 420 Credit</h3><p>Is this what you call 'evolution'? Because frankly, I've seen better designs of a banana peel.</p>";
+  let ape =
+    "<h3>Ape - 420 Credits</h3><p>Is this what you call 'evolution'? Because frankly, I've seen better designs of a banana peel.</p>";
+  let wizard =
+    "<h3>Wizard Badge - ? Credits</h3><p>Awarded to members of the community that have made a significant contribution to the game. Code for a new feature or a map design we all enjoyed.</p>";
+  let rat =
+    "<h3>Lab Rat - ? Crets  </h3><p>Awarded to players who have helped test the most crazy new features and game types. Keep an eye on the forums if you would like to subject yourself to the game's experiments.</p>";
+  let bullseye =
+    "<h3>Bullseye - ? Credits  </h3><p>They really hit the target.</p>";
+  let flambeau =
+    "<h3>Flambeau - ? Credits  </h3><p>This player really lit up your life.</p>";
+  let tourney_join =
+    "<h3>Tournement Participation - ? Credits  </h3><p>Hey at least you tried.\nAwarded to each player that participates in an official tournament.</p>";
+  let tourney_win =
+    "<h3>Tournement Winner - ? Credits  </h3><p>Hey at least you won.\nAwarded to the winner of an official tournament.</p>";
+  let proteus =
+    "<h3>Proteus Victory - ? Credits  </h3><p>Awarded to players who win a game of Proteus!</p>";
+  let honour =
+    "<h3>Special Badge of Honor - ? Credits  </h3><p>Buy one get one free!\nAwarded for every gift purchased for another player. These players go above and beyond the call of duty in support of the game!</p>";
+  NeptunesPride.templates["gift_desc_ape"] = ape;
+  NeptunesPride.templates["gift_desc_wizard"] = wizard;
+  NeptunesPride.templates["gift_desc_rat"] = rat;
+  NeptunesPride.templates["gift_desc_bullseye"] = bullseye;
+  NeptunesPride.templates["gift_desc_flambeau"] = flambeau;
+  NeptunesPride.templates["gift_desc_tourney_join"] = tourney_join;
+  NeptunesPride.templates["gift_desc_tourney_win"] = tourney_win;
+  NeptunesPride.templates["gift_desc_proteus"] = proteus;
+  NeptunesPride.templates["gift_desc_honour"] = honour;
+  //NeptunesPride.templates["gift_desc_lifetime"] = lifetime
+
   Crux.localise = function (id) {
     if (Crux.templates[id]) {
       return Crux.templates[id];
@@ -86,10 +117,12 @@ const overrideShowScreen = () => {
   };
 };
 
+/*
 $("ape-intel-plugin").ready(() => {
-  //post_hook();
+  post_hook();
   //$("#ape-intel-plugin").remove();
 });
+*/
 
 function post_hook() {
   set_game_state(NeptunesPride, Crux);
@@ -112,7 +145,7 @@ function onGameRender() {
   NeptunesPride.np.on("order:full_universe", post_hook);
 }
 //TODO: Organize typescript to an interfaces directory
-//TODO: Then make other game engine objects
+//TODO: Then make other gFame engine objects
 // Part of your code is re-creating the game in typescript
 // The other part is adding features
 // Then there is a segment that is overwriting existing content to add small additions.
@@ -885,6 +918,7 @@ function Legacy_NeptunesPrideAgent() {
     return p + (combatHandicap > 0 ? "+" : "") + combatHandicap;
   };
   let loadHooks = function () {
+    post_hook();
     let superDrawText = NeptunesPride.npui.map.drawText;
     NeptunesPride.npui.map.drawText = function () {
       let universe = NeptunesPride.universe;
@@ -1663,7 +1697,11 @@ NeptunesPride.npui.StarInspector = function () {
 
 //Javascript call
 setTimeout(Legacy_NeptunesPrideAgent, 1000);
-onGameRender(); //Wait for players to be loaded
+setTimeout(() => {
+  //Typescript call
+  post_hook();
+  renderLedger(NeptunesPride, Crux, Mousetrap);
+}, 800);
 setTimeout(apply_hooks, 1500);
 
 //Test to see if PlayerPanel is there

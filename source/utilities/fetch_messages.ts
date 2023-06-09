@@ -52,5 +52,6 @@ export const displayEvents = function () {
     m.payload.template == "tech_up";
   });
   console.log(tech_updates);
-  inbox.messages = tech_updates;
+  /*inbox.messages = tech_updates;*/
+  //Update not workign rn
 };
