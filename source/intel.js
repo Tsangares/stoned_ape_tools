@@ -126,6 +126,7 @@ $("ape-intel-plugin").ready(() => {
 
 function post_hook() {
   set_game_state(NeptunesPride, Crux);
+  renderLedger(Mousetrap);
   overrideGiftItems();
   //overrideShowScreen(); //Not needed unless I want to add new ones.
   overrideTemplates();
@@ -142,7 +143,7 @@ function post_hook() {
   hook_star_manager(NeptunesPride.universe);
 }
 function onGameRender() {
-  NeptunesPride.np.on("order:full_universe", post_hook);
+  //NeptunesPride.np.on("order:full_universe", post_hook);
 }
 //TODO: Organize typescript to an interfaces directory
 //TODO: Then make other gFame engine objects
@@ -918,7 +919,6 @@ function Legacy_NeptunesPrideAgent() {
     return p + (combatHandicap > 0 ? "+" : "") + combatHandicap;
   };
   let loadHooks = function () {
-    post_hook();
     let superDrawText = NeptunesPride.npui.map.drawText;
     NeptunesPride.npui.map.drawText = function () {
       let universe = NeptunesPride.universe;
@@ -1230,6 +1230,7 @@ function Legacy_NeptunesPrideAgent() {
     if (NeptunesPride.universe?.galaxy && NeptunesPride.npui.map) {
       linkFleets();
       console.log("Fleet linking complete.");
+      post_hook();
       if (!hooksLoaded) {
         loadHooks();
         console.log("HUD setup complete.");
@@ -1697,11 +1698,6 @@ NeptunesPride.npui.StarInspector = function () {
 
 //Javascript call
 setTimeout(Legacy_NeptunesPrideAgent, 1000);
-setTimeout(() => {
-  //Typescript call
-  post_hook();
-  renderLedger(NeptunesPride, Crux, Mousetrap);
-}, 800);
 setTimeout(apply_hooks, 1500);
 
 //Test to see if PlayerPanel is there
