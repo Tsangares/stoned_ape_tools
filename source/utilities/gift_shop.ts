@@ -36,7 +36,7 @@ export const buyApeGiftScreen = function (
     { icon: "ironborn", amount: 2 },
     { icon: "strange", amount: 2 },
 
-    { icon: "ape", amount: 1 },
+    { icon: "ape", amount: 999 },
 
     { icon: "cheesy", amount: 1 },
     { icon: "strategic", amount: 1 },

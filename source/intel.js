@@ -14,10 +14,12 @@ import {
 import { ApeGiftItem, buyApeGiftScreen } from "./utilities/gift_shop";
 import { fetchFilteredMessages } from "./utilities/fetch_messages";
 import { set_game_state } from "./game_state";
-import { hook_star_manager } from "./utilities/star_manager";
+import {
+  get_territory,
+  hook_star_manager,
+  show_mouse_position,
+} from "./utilities/territory";
 import { unique } from "webpack-merge";
-
-let SAT_VERSION = "git-version";
 
 if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
@@ -123,9 +125,19 @@ $("ape-intel-plugin").ready(() => {
   //$("#ape-intel-plugin").remove();
 });
 */
+function page_hook() {
+  pre_post_hook();
+  post_hook();
+}
+
+function pre_post_hook() {
+  /* PRE POST HOOK */
+  set_game_state(NeptunesPride, Crux);
+  /* POST HOOK */
+}
 
 function post_hook() {
-  set_game_state(NeptunesPride, Crux);
+  console.log("Running post hook");
   renderLedger(Mousetrap);
   overrideGiftItems();
   //overrideShowScreen(); //Not needed unless I want to add new ones.
@@ -141,6 +153,11 @@ function post_hook() {
   hook_npc_tick_counter();
   //Star Manager
   hook_star_manager(NeptunesPride.universe);
+
+  //get_territory()
+
+  //Territory draw
+  //$('canvas')[0].addEventListener('mousemove',show_mouse_position);
 }
 function onGameRender() {
   //NeptunesPride.np.on("order:full_universe", post_hook);
@@ -341,6 +358,7 @@ const _wide_view = () => {
 
 function Legacy_NeptunesPrideAgent() {
   let title = document?.currentScript?.title || `SAT ${SAT_VERSION}`;
+  //let title = "MONKEY";\\
   let version = title.replace(/^.*v/, "v");
 
   let copy = function (reportFn) {
@@ -929,10 +947,11 @@ function Legacy_NeptunesPrideAgent() {
       map.context.fillStyle = "#FF0000";
       map.context.textAlign = "right";
       map.context.textBaseline = "middle";
-      let v = version;
+      let v = $("#ape-intel-plugin").attr("title");
       if (combatHandicap !== 0) {
         v = `${handicapString()} ${v}`;
       }
+
       drawOverlayString(
         map.context,
         v,
@@ -1228,9 +1247,9 @@ function Legacy_NeptunesPrideAgent() {
 
   let init = function () {
     if (NeptunesPride.universe?.galaxy && NeptunesPride.npui.map) {
+      page_hook();
       linkFleets();
       console.log("Fleet linking complete.");
-      post_hook();
       if (!hooksLoaded) {
         loadHooks();
         console.log("HUD setup complete.");

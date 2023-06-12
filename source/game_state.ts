@@ -1,4 +1,4 @@
-import { Crux, NPUI } from "./interfaces/crux";
+import { Crux, MAP, NPUI } from "./interfaces/crux";
 import { Galaxy } from "./interfaces/galaxy";
 import { GameState } from "./interfaces/game";
 import { Inbox } from "./interfaces/inbox";
@@ -12,6 +12,7 @@ export let galaxy: Galaxy = null;
 export let npui: NPUI = null;
 export let np: NP = null;
 export let inbox: Inbox = null;
+export let map: MAP = null;
 export const set_game_state = function (_game: GameState, _Crux: Crux) {
   game = _game;
   NeptunesPride = _game;
@@ -21,4 +22,5 @@ export const set_game_state = function (_game: GameState, _Crux: Crux) {
   universe = game.universe;
   galaxy = game.universe.galaxy;
   inbox = game.inbox;
+  map = npui.map;
 };
