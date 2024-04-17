@@ -40,6 +40,7 @@ export function hook_star_manager(universe: Universe) {
 //Show mouse position on screen
 export function show_mouse_position(event: MouseEvent) {
   return;
+  /*
   const { clientX, clientY } = event;
   let canvas = map.canvas[0];
   const ctx = canvas.getContext("2d");
@@ -53,6 +54,7 @@ export function show_mouse_position(event: MouseEvent) {
   // Write the mouse coordinates on the canvas
   console.log(`MouseX: ${mouseX}, MouseY: ${mouseY}`);
   ctx.fillText(`MouseX: ${mouseX}, MouseY: ${mouseY}`, mouseX, mouseY);
+  */
 }
 
 type DPolygon = Delaunay.Polygon & {

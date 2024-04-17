@@ -21,6 +21,8 @@ import {
 } from "./utilities/territory";
 import { unique } from "webpack-merge";
 
+let SAT_VERSION = "loading";
+
 if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
 }
