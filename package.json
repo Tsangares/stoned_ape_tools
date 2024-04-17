@@ -1,6 +1,6 @@
 {
   "name": "neptunes-pride-agent",
-  "version": "2.28.35",
+  "version": "2.28.39",
   "description": "Chrome extension for Neptune's Pride players.",
   "scripts": {
     "build": "webpack --config webpack.js",
@@ -39,6 +39,7 @@
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
     "@redis/client": "^1.5.7",
+    "@turf/turf": "^6.5.0",
     "@types/marked": "^4.0.8",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",

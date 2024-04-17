@@ -74,7 +74,7 @@ export interface NPUI {
   GiftItem(item: BadgeItemInterface): Widget;
   showingScreen: string;
   screenConfig: unknown;
-  map: unknown;
+  map: MAP;
   BuyGiftScreen: Screen;
   MainMenuScreen: Screen;
   ComposeDiplomacyScreen: Screen;
@@ -113,6 +113,21 @@ export interface MapContext {
 //NeptunesPride.npui.map
 export interface MAP {
   context: MapContext;
+  canvas: {
+    0: HTMLCanvasElement;
+  };
+  scale: number;
+  viewportHeight: number;
+  viewportWidth: number;
+  sx: number; //Offset x
+  sy: number; //Offset y
+  worldToScreenX(x: number): number;
+  worldToScreenY(y: number): number;
+  worldToScreenScale(scale: number): number;
+  screenToWorldX(x: number): number;
+  screenToWorldY(y: number): number;
+  screenToWorldScale(scale: number): number;
+  on(event: string, callback?: unknown): void;
 }
 
 //Properties of npui
@@ -145,6 +160,7 @@ export interface Crux {
     event: string,
     response: { [key: string | number]: string | number } | BadgeItemInterface,
   ): Widget;
+  tickCallbacks: Array<() => void>;
 }
 
 export interface MessageComment {

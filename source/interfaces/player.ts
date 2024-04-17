@@ -24,6 +24,7 @@ export interface Player {
   //Non Api Values:
   color?: string;
   colorIndex?: number;
+  colorName?: string;
   debt?: number; //TODO: Set to zero!
   home?: Home;
   shapeIndex?: number;

@@ -1,5 +1,4 @@
 import { get_research_text } from "./chat";
-import { thisGame } from "./game";
 import { get_hero } from "./get_hero";
 import { clip, lastClip } from "./hotkey";
 import { renderLedger } from "./ledger";
@@ -13,10 +12,14 @@ import {
   groupApeBadges,
 } from "./utilities/player_badges";
 import { ApeGiftItem, buyApeGiftScreen } from "./utilities/gift_shop";
-import { getTerritory } from "./utilities/territory";
+import { fetchFilteredMessages } from "./utilities/fetch_messages";
+import { set_game_state } from "./game_state";
+import {
+  get_territory,
+  hook_star_manager,
+  show_mouse_position,
+} from "./utilities/territory";
 import { unique } from "webpack-merge";
-
-let SAT_VERSION = "git-version";
 
 if (NeptunesPride === undefined) {
   thisGame.neptunesPride = NeptunesPride;
@@ -96,6 +99,7 @@ const overrideTemplates = () => {
 };
 const overrideGiftItems = () => {
   const image_url = $("#ape-intel-plugin").attr("images");
+  console.log(image_url);
   NeptunesPride.npui.BuyGiftScreen = () => {
     return buyApeGiftScreen(Crux, NeptunesPride.universe, NeptunesPride.npui);
   };
@@ -115,11 +119,26 @@ const overrideShowScreen = () => {
   };
 };
 
-/*$("ape-intel-plugin").ready(() => {
+/*
+$("ape-intel-plugin").ready(() => {
+  post_hook();
   //$("#ape-intel-plugin").remove();
-});*/
+});
+*/
+function page_hook() {
+  pre_post_hook();
+  post_hook();
+}
+
+function pre_post_hook() {
+  /* PRE POST HOOK */
+  set_game_state(NeptunesPride, Crux);
+  /* POST HOOK */
+}
 
 function post_hook() {
+  console.log("Running post hook");
+  renderLedger(Mousetrap);
   overrideGiftItems();
   //overrideShowScreen(); //Not needed unless I want to add new ones.
   overrideTemplates();
@@ -127,8 +146,23 @@ function post_hook() {
   getTerritory(NeptunesPride.universe, $("canvas")[0]);
   SAT_VERSION = $("#ape-intel-plugin").attr("title");
   console.log(SAT_VERSION, "Loaded");
-}
+  renderLedger(Mousetrap);
+  //Override inbox Fetch Messages
+  //NeptunesPride.inbox.fetchMessages = (filter)=>fetchFilteredMessages(NeptunesPride,Crux,NeptunesPride.inbox,filter)
 
+  //NPC Calc
+  hook_npc_tick_counter();
+  //Star Manager
+  hook_star_manager(NeptunesPride.universe);
+
+  //get_territory()
+
+  //Territory draw
+  //$('canvas')[0].addEventListener('mousemove',show_mouse_position);
+}
+function onGameRender() {
+  //NeptunesPride.np.on("order:full_universe", post_hook);
+}
 //TODO: Organize typescript to an interfaces directory
 //TODO: Then make other gFame engine objects
 // Part of your code is re-creating the game in typescript
@@ -325,6 +359,7 @@ const _wide_view = () => {
 
 function Legacy_NeptunesPrideAgent() {
   let title = document?.currentScript?.title || `SAT ${SAT_VERSION}`;
+  //let title = "MONKEY";\\
   let version = title.replace(/^.*v/, "v");
 
   let copy = function (reportFn) {
@@ -903,7 +938,6 @@ function Legacy_NeptunesPrideAgent() {
     return p + (combatHandicap > 0 ? "+" : "") + combatHandicap;
   };
   let loadHooks = function () {
-    post_hook();
     let superDrawText = NeptunesPride.npui.map.drawText;
     NeptunesPride.npui.map.drawText = function () {
       let universe = NeptunesPride.universe;
@@ -914,10 +948,11 @@ function Legacy_NeptunesPrideAgent() {
       map.context.fillStyle = "#FF0000";
       map.context.textAlign = "right";
       map.context.textBaseline = "middle";
-      let v = version;
+      let v = $("#ape-intel-plugin").attr("title");
       if (combatHandicap !== 0) {
         v = `${handicapString()} ${v}`;
       }
+
       drawOverlayString(
         map.context,
         v,
@@ -1213,6 +1248,7 @@ function Legacy_NeptunesPrideAgent() {
 
   let init = function () {
     if (NeptunesPride.universe?.galaxy && NeptunesPride.npui.map) {
+      page_hook();
       linkFleets();
       console.log("Fleet linking complete.");
       if (!hooksLoaded) {
@@ -1519,9 +1555,6 @@ const add_custom_player_panel = () => {
       });
     }
 
-    //NPC Calc
-    hook_npc_tick_counter(NeptunesPride, Crux);
-
     Crux.Text("you", "pad12 txt_center").grid(25, 6, 5, 3).roost(playerPanel);
 
     // Labels
@@ -1685,10 +1718,6 @@ NeptunesPride.npui.StarInspector = function () {
 
 //Javascript call
 setTimeout(Legacy_NeptunesPrideAgent, 1000);
-setTimeout(() => {
-  //Typescript call
-  renderLedger(NeptunesPride, Crux, Mousetrap);
-}, 800);
 setTimeout(apply_hooks, 1500);
 
 //Test to see if PlayerPanel is there

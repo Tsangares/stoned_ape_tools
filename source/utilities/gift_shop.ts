@@ -22,23 +22,13 @@ export const buyApeGiftScreen = function (
 
   var i;
 
-  var items: BadgeItemInterface[] = [
-    { icon: "proteus", amount: 1 },
-    { icon: "lifetime", amount: 1 },
-    { icon: "tourney_win", amount: 1 },
-    { icon: "tourney_join", amount: 1 },
-    { icon: "honour", amount: 1 },
-    { icon: "wizard", amount: 1 },
-    { icon: "rat", amount: 1 },
-    { icon: "flambeau", amount: 1 },
-    { icon: "bullseye", amount: 1 },
-
+  var menu: BadgeItemInterface[] = [
     { icon: "trek", amount: 1 },
     { icon: "rebel", amount: 1 },
     { icon: "empire", amount: 1 },
     { icon: "wolf", amount: 5 },
 
-    { icon: "toxic", amount: 10 },
+    /*{ icon: "toxic", amount: 10 },*/
 
     { icon: "pirate", amount: 5 },
     { icon: "wordsmith", amount: 2 },
@@ -46,7 +36,7 @@ export const buyApeGiftScreen = function (
     { icon: "ironborn", amount: 2 },
     { icon: "strange", amount: 2 },
 
-    { icon: "ape", amount: 1 },
+    { icon: "ape", amount: 999 },
 
     { icon: "cheesy", amount: 1 },
     { icon: "strategic", amount: 1 },
@@ -58,9 +48,23 @@ export const buyApeGiftScreen = function (
     { icon: "nerd", amount: 1 },
     { icon: "merit", amount: 1 },
   ];
-  let secret_menu = [
-    /**/
+
+  let secret_menu: BadgeItemInterface[] = [
+    { icon: "honour", amount: 1 },
+    { icon: "wizard", amount: 1 },
+    { icon: "lifetime", amount: 1 },
+    { icon: "tourney_win", amount: 1 },
+    { icon: "tourney_join", amount: 1 },
+    { icon: "tourney_join", amount: 1 },
+    { icon: "tourney_join", amount: 1 },
+    { icon: "bullseye", amount: 1 },
+    { icon: "proteus", amount: 1 },
+    { icon: "flambeau", amount: 1 },
+    { icon: "rat", amount: 1 },
   ];
+
+  //let items: BadgeItemInterface[] = menu + secret_menu;
+  let items = menu;
   for (i = items.length - 1; i >= 0; i--) {
     items[i].puid = universe.selectedPlayer.uid;
     npui.GiftItem(items[i]).roost(buy);

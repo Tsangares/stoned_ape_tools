@@ -2,7 +2,7 @@
   "update_url": "https://clients2.google.com/service/update2/crx",
   "name": "Stoned Ape Tools",
   "description": "Tools that only a stoned ape could use. ",
-  "version": "2.29.3",
+  "version": "2.29.7",
   "manifest_version": 3,
   "permissions": [
     "scripting"

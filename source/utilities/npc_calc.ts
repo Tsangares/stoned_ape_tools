@@ -1,3 +1,7 @@
+/*
+ * Interface that overrides the automation text to let you know when the ai will move next
+ *
+ */
 import {
   get_cached_events,
   recieve_new_messages,
@@ -7,8 +11,9 @@ import { Crux } from "../interfaces/crux";
 import { Goodbye, Payload } from "../interfaces/events";
 import { GameState } from "../interfaces/game";
 import { Player } from "../interfaces/player";
+import { game, crux } from "../game_state";
 
-export function get_npc_tick(game: GameState, crux: Crux) {
+export function get_npc_tick() {
   let ai: Player = game.universe.selectedPlayer;
   let cache = get_cached_events();
   let events = cache.map((e) => e.payload);
@@ -20,8 +25,8 @@ export function get_npc_tick(game: GameState, crux: Crux) {
   return tick;
 }
 
-export function add_npc_tick_counter(game: GameState, crux: Crux) {
-  let tick = get_npc_tick(game, crux);
+export function add_npc_tick_counter() {
+  let tick = get_npc_tick();
   let title = document.querySelector<HTMLElement>(
     "#contentArea > div > div.widget.fullscreen > div:nth-child(3) > div > div:nth-child(5) > div.widget.section_title.col_black",
   );
@@ -51,9 +56,9 @@ export function add_npc_tick_counter(game: GameState, crux: Crux) {
   }
 }
 
-export function hook_npc_tick_counter(game: GameState, crux: Crux) {
+export function hook_npc_tick_counter() {
   const selectedPlayer: Player = game.universe.selectedPlayer;
   if (selectedPlayer.ai) {
-    update_event_cache(game, crux, 4, add_npc_tick_counter, console.error);
+    update_event_cache(4, add_npc_tick_counter, console.error);
   }
 }
