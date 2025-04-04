@@ -28,7 +28,7 @@ export const buyApeGiftScreen = function (
     { icon: "empire", amount: 1 },
     { icon: "wolf", amount: 5 },
 
-    /*{ icon: "toxic", amount: 10 },*/
+    { icon: "toxic", amount: 10 },
 
     { icon: "pirate", amount: 5 },
     { icon: "wordsmith", amount: 2 },

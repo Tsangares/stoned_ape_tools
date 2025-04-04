@@ -145,7 +145,7 @@ function post_hook() {
   //overrideShowScreen(); //Not needed unless I want to add new ones.
   overrideTemplates();
   overrideBadgeWidgets();
-  getTerritory(NeptunesPride.universe, $("canvas")[0]);
+  //getTerritory(NeptunesPride.universe, $("canvas")[0]);
   SAT_VERSION = $("#ape-intel-plugin").attr("title");
   console.log(SAT_VERSION, "Loaded");
   renderLedger(Mousetrap);
@@ -1105,7 +1105,7 @@ function Legacy_NeptunesPrideAgent() {
                   );
                   ticks -= 1;
                   let visColor = "#00ff00";
-                  if (anyStarCanSee(universe.selectedStar.puid, fleet)) {
+                  if (anyStarCanSee(universe, universe.selectedStar.puid, fleet)) {
                     visColor = "#888888";
                   }
                   drawOverlayString(
@@ -1672,7 +1672,7 @@ const add_custom_player_panel = () => {
           .roost(playerPanel);
       }
     }
-
+    hook_npc_tick_counter();
     return playerPanel;
   };
 };
